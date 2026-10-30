@@ -1,6 +1,6 @@
-# Refreshes the polling data from Silver Bulletin each day and commits it (Posit Connect
-# Cloud republishes the app on each push), then publishes the GitHub Pages page that
-# frames the app at a cleaner address. Also runs on every push to main and on demand.
+# Refreshes the polling data from Silver Bulletin each day, rebuilds the app to run entirely
+# in the visitor's browser (Shinylive, so traffic can't overload a server), and publishes it
+# to GitHub Pages. Also runs on every push to main (rebuild only) and on demand.
 name: Refresh data and deploy
 
 on:
@@ -26,18 +26,22 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-r@v2
-        if: github.event_name != 'push'
         with:
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
-        if: github.event_name != 'push'
         with:
           packages: |
+            any::shiny
+            any::bslib
             any::dplyr
+            any::tidyr
             any::readr
+            any::plotly
+            any::fontawesome
             any::httr
             any::readxl
+            any::shinylive
 
       # Current averages and polls daily; pollster ratings and historical polls on Sundays.
       # If Silver Bulletin is unreachable or its files change shape, keep the cached data.
@@ -46,7 +50,6 @@ jobs:
         continue-on-error: true
         run: Rscript -e 'source("R/fetch_data.R"); refresh_all(history = format(Sys.Date(), "%u") == "7")'
 
-      # This push is what makes Posit Connect Cloud republish the app with the new data.
       - name: Commit refreshed data
         if: github.event_name != 'push'
         run: |
@@ -55,8 +58,8 @@ jobs:
           git add data
           git diff --cached --quiet || (git commit -m "Refresh polling data" && git push)
 
-      - name: Build the Pages wrapper
-        run: mkdir -p _site && cp site/index.html site/og.png _site/
+      - name: Build the browser app
+        run: Rscript R/build_site.R
 
       - uses: actions/upload-pages-artifact@v3
         with:
