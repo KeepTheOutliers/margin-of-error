@@ -172,7 +172,7 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 
 /* Beside the map: per-state shift from the polls */
 .bias-panel { position: relative; padding-left: 4px; }
-.bias-overlay { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; padding: 24px;
+.bias-overlay { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; padding: 24px; pointer-events: none;
   background: rgba(251, 248, 241, .8); border-radius: 8px; text-align: center; }
 .bias-overlay .bias-note { font-size: .92rem; line-height: 1.45; color: var(--ink-2); text-decoration: none; max-width: 260px;
   background: rgba(255, 253, 248, .82); border: 1px solid rgba(228, 225, 218, .7); border-radius: 8px; padding: 10px 14px; }
@@ -193,11 +193,13 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .bias-title { font-weight: 600; font-size: .95rem; }
 .bias-axis { display: flex; justify-content: space-between; font-size: .72rem; color: var(--ink-muted);
   margin: 2px 52px 4px 30px; }
-.bias-row { display: grid; grid-template-columns: 40px 1fr 52px; align-items: center; gap: 6px; height: 12.5px; cursor: pointer; }
+.bias-row { display: grid; grid-template-columns: 26px 1fr 52px; align-items: center; gap: 6px; height: 15px; }
+.bias-row .bias-track { cursor: ew-resize; touch-action: none; }
+.bias-row .bias-track .dot { transition: transform .1s ease; }
+.bias-row:hover .bias-track .dot, .bias-row.dragging .bias-track .dot { transform: scale(1.5); }
+.bias-row.edited .bias-st { color: var(--accent); }
+.bias-row.edited .bias-track .dot { box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 3px var(--accent); }
 .bias-row:hover { background: rgba(27, 26, 23, .05); }
-.bias-row.off { opacity: .4; }
-.bias-chk { display: inline-flex; align-items: center; justify-content: center; width: 10px; height: 10px; margin-right: 4px;
-  border: 1px solid var(--ink-muted); border-radius: 2px; font-size: 8px; line-height: 1; color: var(--ink); vertical-align: -1px; }
 .bias-tools { display: flex; justify-content: space-between; align-items: baseline; font-size: .74rem; color: var(--ink-muted); margin: 2px 0 4px; }
 .bias-all a { margin-left: 10px; color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
 .bias-all a:hover { color: var(--ink); }
@@ -545,6 +547,38 @@ $(document).on('mousemove', '[data-tip]', function(e) {
   tip.style.left = x + 'px';
   tip.style.top = (e.pageY + 14) + 'px';
 });
+// Assumed-bias panel: each state's row is a slider. Drag (or click) to set that state's
+// bias, +/-10 points in half-point steps; double-click a row to reset it.
+(function() {
+  var CAP = 10;
+  var fmt = function(v) { var a = Math.abs(v); return a < 0.05 ? '0' : '+' + (Math.round(a * 10) / 10) + (v > 0 ? ' R' : ' D'); };
+  var colr = function(v) { return v > 0.04 ? '#ac4323' : (v < -0.04 ? '#316ca5' : '#8a867c'); };
+  var valAt = function(track, x) {
+    var r = track.getBoundingClientRect(), f = (x - r.left) / r.width;
+    return Math.max(-CAP, Math.min(CAP, Math.round((f - 0.5) * 2 * CAP * 2) / 2));
+  };
+  var paint = function(row, v) {
+    var p = 50 + 50 * v / CAP, c = colr(v);
+    row.find('.dot').css({ left: p + '%', background: c });
+    row.find('.line').css({ left: Math.min(50, p) + '%', width: Math.abs(p - 50) + '%', background: c });
+    row.find('.bias-v').text(fmt(v)).css('color', c);
+  };
+  $(document).on('pointerdown', '.bias-row .bias-track', function(e) {
+    var track = this, row = $(track).closest('.bias-row'), abb = row.data('abb'), v = valAt(track, e.clientX);
+    e.preventDefault(); row.addClass('dragging'); paint(row, v);
+    try { track.setPointerCapture(e.pointerId); } catch (err) {}
+    var move = function(ev) { v = valAt(track, ev.clientX); paint(row, v); };
+    var up = function() {
+      track.removeEventListener('pointermove', move); track.removeEventListener('pointerup', up); track.removeEventListener('pointercancel', up);
+      row.removeClass('dragging');
+      Shiny.setInputValue('bias_set', { abb: abb, v: v, t: Date.now() });
+    };
+    track.addEventListener('pointermove', move); track.addEventListener('pointerup', up); track.addEventListener('pointercancel', up);
+  });
+  $(document).on('dblclick', '.bias-row', function() {
+    Shiny.setInputValue('bias_reset', { abb: $(this).data('abb'), t: Date.now() });
+  });
+})();
 // Reset the uniform shift to 0 (Reset link or double-click on the slider). Done in the
 // browser rather than with updateSliderInput, which would drop the '+2 R' labels.
 window.resetShift = function() {
@@ -703,8 +737,8 @@ build_races <- function(d, err_tbl, shift) {
     left_join(err_tbl, by = "abb") |>
     mutate(
       polled = !is.na(poll_margin),
-      # `on` = FALSE when the reader has switched the state off: polls as published there
-      proj_margin = ifelse(polled, poll_margin + ifelse(coalesce(on, TRUE), shift - err, 0), NA_real_),
+      # custom_move: a bias the reader set for this state with its slider (NA = use the scenario)
+      proj_margin = ifelse(polled, poll_margin - ifelse(is.na(custom_move), err - shift, custom_move), NA_real_),
       winner = case_when(
         !polled ~ incumbent_party,            # unpolled = safe hold
         proj_margin > 0 ~ ifelse(opp_party == "I", "I", "D"),
@@ -1205,11 +1239,11 @@ ui <- page_navbar(
                 div(class = "map-key", span(class = "sw", style = sprintf("background:%s", COL_NOT_UP)), "Not up in 2026"),
                 plotlyOutput("map", height = "420px")),
             div(class = "bias-panel",
-                conditionalPanel("input.miss_mode != 'past' && input.shift == 0",
+                conditionalPanel("input.miss_mode != 'past' && input.shift == 0 && !output.bias_is_custom",
                   div(class = "bias-overlay",
                       div(class = "bias-note",
                         tags$b("No polling error applied."), tags$br(),
-                        "Select a year or scenario to apply historical error."))),
+                        "Select a year or scenario to apply historical error, or drag a state to set its own."))),
                 div(class = "bias-title", "Assumed bias: polling average vs. result"),
                 div(class = "bias-axis", span("← toward Dem"), span("toward Rep →")),
                 uiOutput("bias_list"))
@@ -1483,16 +1517,21 @@ server <- function(input, output, session) {
     x
   })
 
-  # States the reader has switched off in the assumed-bias panel (polls as published there).
-  bias_off <- reactiveVal(character(0))
-  observeEvent(input$bias_toggle, {
-    a <- input$bias_toggle$abb
-    bias_off(if (a %in% bias_off()) setdiff(bias_off(), a) else c(bias_off(), a))
+  # Per-state biases the reader set by dragging a state's slider in the assumed-bias panel
+  # (points; > 0 = toward Republicans). They replace that state's scenario move until reset.
+  bias_custom <- reactiveVal(setNames(numeric(0), character(0)))
+  observeEvent(input$bias_set, {
+    b <- bias_custom(); b[[input$bias_set$abb]] <- as.numeric(input$bias_set$v); bias_custom(b)
   })
-  observeEvent(input$bias_all, bias_off(if (identical(input$bias_all$to, "none")) d()$polls$abb else character(0)))
-  with_off <- function(et) mutate(et, on = !abb %in% bias_off())
-  custom <- reactive(length(bias_off()) > 0 && (length(sel_cycles()) > 0 || shift_d() != 0))
-  err_tbl <- reactive(with_off(assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
+  observeEvent(input$bias_reset, {
+    a <- input$bias_reset$abb
+    bias_custom(if (identical(a, "__all__")) setNames(numeric(0), character(0)) else bias_custom()[names(bias_custom()) != a])
+  })
+  with_custom <- function(et) mutate(et, custom_move = unname(bias_custom()[abb]))
+  custom <- reactive(length(bias_custom()) > 0)
+  output$bias_is_custom <- reactive(custom())
+  outputOptions(output, "bias_is_custom", suspendWhenHidden = FALSE)
+  err_tbl <- reactive(with_custom(assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
   # Slider runs D (left, negative) to R (right, positive); the model counts toward D as positive.
   shift_d <- reactive(-input$shift)
   races <- reactive(build_races(scen(), err_tbl(), shift_d()))
@@ -1524,32 +1563,31 @@ server <- function(input, output, session) {
     cap <- 10
     r <- races() |>
       filter(polled) |>
-      mutate(move = ifelse(on, err - shift_d(), 0)) |>     # > 0 = moved toward Republicans
+      mutate(edited = !is.na(custom_move),
+             move = ifelse(edited, custom_move, err - shift_d())) |>     # > 0 = moved toward Republicans
       arrange(move)
     pos <- function(v) 50 + 50 * pmax(pmin(v, cap), -cap) / cap
-    n_off <- sum(!r$on)
+    n_set <- sum(r$edited)
     tagList(
     div(class = "bias-tools",
-        span(class = "bias-hint", if (n_off) sprintf("%d of %d states switched off", n_off, nrow(r)) else "Click a state to switch it off"),
-        span(class = "bias-all",
-             tags$a(href = "#", onclick = "Shiny.setInputValue('bias_all', {to: 'all', t: Date.now()}); return false;", "All on"),
-             tags$a(href = "#", onclick = "Shiny.setInputValue('bias_all', {to: 'none', t: Date.now()}); return false;", "All off"))),
+        span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
+             else "Drag a state's dot to set its own bias"),
+        if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
     div(class = "bias-rows",
         lapply(seq_len(nrow(r)), function(i) {
           v <- r$move[i]
           col <- dot_col(-v)
           lo <- min(pos(0), pos(v)); hi <- max(pos(0), pos(v))
-          div(class = paste("bias-row", if (!r$on[i]) "off"), role = "button", tabindex = "0",
-              onclick = sprintf("Shiny.setInputValue('bias_toggle', {abb: '%s', t: Date.now()})", r$abb[i]),
-              title = if (!r$on[i]) sprintf("%s: switched off, so polls as published. Click to switch back on.", r$state[i]) else
-                sprintf("%s: projection moved %s from the polls\n%s\n(Click to switch this state off.)", r$state[i], fmt_miss(v),
-                              miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], shift_d())),
-              span(class = "bias-st", span(class = "bias-chk", if (r$on[i]) "✓"), r$abb[i]),
+          div(class = paste("bias-row", if (r$edited[i]) "edited"), `data-abb` = r$abb[i],
+              title = if (r$edited[i]) sprintf("%s: you set this to %s. Double-click to reset.", r$state[i], fmt_miss(v)) else
+                sprintf("%s: projection moved %s from the polls\n%s\nDrag to set your own.", r$state[i], fmt_miss(v),
+                        miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], shift_d())),
+              span(class = "bias-st", r$abb[i]),
               div(class = "bias-track",
                   span(class = "mid"),
                   span(class = "line", style = sprintf("left:%.1f%%;width:%.1f%%;background:%s", lo, hi - lo, col)),
                   span(class = "dot", style = sprintf("left:%.1f%%;background:%s", pos(v), col))),
-              span(class = "bias-v", style = sprintf("color:%s", col), if (r$on[i]) fmt_miss(v) else "off"))
+              span(class = "bias-v", style = sprintf("color:%s", col), fmt_miss(v)))
         })))
   })
 
@@ -1560,7 +1598,7 @@ server <- function(input, output, session) {
     types <- if (length(sel_types())) sel_types() else c("Senate", "President")
     one_year <- identical(input$miss_mode, "past") && length(sel_cycles()) == 1
     cells <- lapply(CYCLES, function(y) {
-      r <- build_races(scen(), with_off(assumed_errors(d()$errors, d()$seats$abb, y, types)), shift_d())
+      r <- build_races(scen(), with_custom(assumed_errors(d()$errors, d()$seats$abb, y, types)), shift_d())
       # Shaded by the same control rule as the headline, including the independents switch.
       t <- seat_totals(r)
       rep <- t[["R"]]
