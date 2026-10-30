@@ -193,7 +193,15 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .bias-title { font-weight: 600; font-size: .95rem; }
 .bias-axis { display: flex; justify-content: space-between; font-size: .72rem; color: var(--ink-muted);
   margin: 2px 52px 4px 30px; }
-.bias-row { display: grid; grid-template-columns: 26px 1fr 52px; align-items: center; gap: 6px; height: 12.5px; }
+.bias-row { display: grid; grid-template-columns: 40px 1fr 52px; align-items: center; gap: 6px; height: 12.5px; cursor: pointer; }
+.bias-row:hover { background: rgba(27, 26, 23, .05); }
+.bias-row.off { opacity: .4; }
+.bias-chk { display: inline-flex; align-items: center; justify-content: center; width: 10px; height: 10px; margin-right: 4px;
+  border: 1px solid var(--ink-muted); border-radius: 2px; font-size: 8px; line-height: 1; color: var(--ink); vertical-align: -1px; }
+.bias-tools { display: flex; justify-content: space-between; align-items: baseline; font-size: .74rem; color: var(--ink-muted); margin: 2px 0 4px; }
+.bias-all a { margin-left: 10px; color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.bias-all a:hover { color: var(--ink); }
+.m-ctl .party-icon { margin-right: 7px; vertical-align: -3px; }
 .bias-st { font-size: .7rem; font-weight: 600; color: var(--ink-2); }
 .bias-track { position: relative; height: 100%; }
 .bias-track .mid { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--ink-muted); }
@@ -695,7 +703,8 @@ build_races <- function(d, err_tbl, shift) {
     left_join(err_tbl, by = "abb") |>
     mutate(
       polled = !is.na(poll_margin),
-      proj_margin = ifelse(polled, poll_margin - err + shift, NA_real_),
+      # `on` = FALSE when the reader has switched the state off: polls as published there
+      proj_margin = ifelse(polled, poll_margin + ifelse(coalesce(on, TRUE), shift - err, 0), NA_real_),
       winner = case_when(
         !polled ~ incumbent_party,            # unpolled = safe hold
         proj_margin > 0 ~ ifelse(opp_party == "I", "I", "D"),
@@ -724,6 +733,15 @@ control_side <- function(totals, ind_with_d = FALSE) {
 }
 CONTROL_LABEL <- c(d = "Democrats control", r = "Republicans control", split = "Split control")
 CONTROL_COL <- c(d = D_DARK, r = R_DARK, split = INK)
+# Font Awesome's donkey and elephant (bundled with Shiny), for the control line.
+PARTY_ICON_PATH <- vapply(c(d = "democrat", r = "republican"), function(n) {
+  sub('.*<path d="([^"]+)".*', "\\1", as.character(fontawesome::fa(n)))
+}, character(1))
+party_icon_html <- function(side, size = "1em") {
+  if (!side %in% names(PARTY_ICON_PATH)) return(NULL)
+  HTML(sprintf('<svg class="party-icon" viewBox="0 0 640 512" style="height:%s;width:auto" aria-hidden="true"><path fill="%s" d="%s"/></svg>',
+               size, CONTROL_COL[[side]], PARTY_ICON_PATH[[side]]))
+}
 
 # Races in seat order: unpolled D holds, polled races from most Democratic to
 # most Republican, then unpolled R holds. Race NEED_FOR_CONTROL is the 51st seat.
@@ -860,8 +878,14 @@ horseshoe_svg <- function(ordered, totals, ind_with_d = FALSE) {
     },
     {
       side <- control_side(totals, ind_with_d)
-      sprintf('<text class="hs-tally-ctl" x="%d" y="%d" fill="%s">%s</text>', cx, HS$ymid + 34,
-              CONTROL_COL[[side]], CONTROL_LABEL[[side]])
+      lab <- CONTROL_LABEL[[side]]
+      icon_w <- 30; half <- nchar(lab) * 4.9   # approx. half the label's width at 19px
+      shift <- if (side %in% names(PARTY_ICON_PATH)) (icon_w + 6) / 2 else 0
+      paste0(
+        if (shift > 0) sprintf('<svg x="%.1f" y="%.1f" width="%d" height="24" viewBox="0 0 640 512"><path fill="%s" d="%s"/></svg>',
+                               cx + shift - half - icon_w - 6, HS$ymid + 34 - 18, icon_w, CONTROL_COL[[side]], PARTY_ICON_PATH[[side]]),
+        sprintf('<text class="hs-tally-ctl" x="%.1f" y="%d" fill="%s">%s</text>', cx + shift, HS$ymid + 34,
+                CONTROL_COL[[side]], lab))
     },
     "</svg>"
   ))
@@ -1146,7 +1170,7 @@ ui <- page_navbar(
     tags$script(HTML(APP_JS))
   ),
   nav_panel(
-    "Bias Scenarios",
+    "Scenario Explorer",
     layout_sidebar(border = FALSE, border_radius = FALSE, bg = SURFACE,
       sidebar = scenario_sidebar,
       card(
@@ -1459,7 +1483,16 @@ server <- function(input, output, session) {
     x
   })
 
-  err_tbl <- reactive(assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types()))
+  # States the reader has switched off in the assumed-bias panel (polls as published there).
+  bias_off <- reactiveVal(character(0))
+  observeEvent(input$bias_toggle, {
+    a <- input$bias_toggle$abb
+    bias_off(if (a %in% bias_off()) setdiff(bias_off(), a) else c(bias_off(), a))
+  })
+  observeEvent(input$bias_all, bias_off(if (identical(input$bias_all$to, "none")) d()$polls$abb else character(0)))
+  with_off <- function(et) mutate(et, on = !abb %in% bias_off())
+  custom <- reactive(length(bias_off()) > 0 && (length(sel_cycles()) > 0 || shift_d() != 0))
+  err_tbl <- reactive(with_off(assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
   # Slider runs D (left, negative) to R (right, positive); the model counts toward D as positive.
   shift_d <- reactive(-input$shift)
   races <- reactive(build_races(scen(), err_tbl(), shift_d()))
@@ -1491,24 +1524,33 @@ server <- function(input, output, session) {
     cap <- 10
     r <- races() |>
       filter(polled) |>
-      mutate(move = err - shift_d()) |>     # > 0 = moved toward Republicans
+      mutate(move = ifelse(on, err - shift_d(), 0)) |>     # > 0 = moved toward Republicans
       arrange(move)
     pos <- function(v) 50 + 50 * pmax(pmin(v, cap), -cap) / cap
+    n_off <- sum(!r$on)
+    tagList(
+    div(class = "bias-tools",
+        span(class = "bias-hint", if (n_off) sprintf("%d of %d states switched off", n_off, nrow(r)) else "Click a state to switch it off"),
+        span(class = "bias-all",
+             tags$a(href = "#", onclick = "Shiny.setInputValue('bias_all', {to: 'all', t: Date.now()}); return false;", "All on"),
+             tags$a(href = "#", onclick = "Shiny.setInputValue('bias_all', {to: 'none', t: Date.now()}); return false;", "All off"))),
     div(class = "bias-rows",
         lapply(seq_len(nrow(r)), function(i) {
           v <- r$move[i]
           col <- dot_col(-v)
           lo <- min(pos(0), pos(v)); hi <- max(pos(0), pos(v))
-          div(class = "bias-row",
-              title = sprintf("%s: projection moved %s from the polls\n%s", r$state[i], fmt_miss(v),
+          div(class = paste("bias-row", if (!r$on[i]) "off"), role = "button", tabindex = "0",
+              onclick = sprintf("Shiny.setInputValue('bias_toggle', {abb: '%s', t: Date.now()})", r$abb[i]),
+              title = if (!r$on[i]) sprintf("%s: switched off, so polls as published. Click to switch back on.", r$state[i]) else
+                sprintf("%s: projection moved %s from the polls\n%s\n(Click to switch this state off.)", r$state[i], fmt_miss(v),
                               miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], shift_d())),
-              span(class = "bias-st", r$abb[i]),
+              span(class = "bias-st", span(class = "bias-chk", if (r$on[i]) "✓"), r$abb[i]),
               div(class = "bias-track",
                   span(class = "mid"),
                   span(class = "line", style = sprintf("left:%.1f%%;width:%.1f%%;background:%s", lo, hi - lo, col)),
                   span(class = "dot", style = sprintf("left:%.1f%%;background:%s", pos(v), col))),
-              span(class = "bias-v", style = sprintf("color:%s", col), fmt_miss(v)))
-        }))
+              span(class = "bias-v", style = sprintf("color:%s", col), if (r$on[i]) fmt_miss(v) else "off"))
+        })))
   })
 
   # One year at a time: the seat result if 2026's polls miss exactly as each past
@@ -1518,7 +1560,7 @@ server <- function(input, output, session) {
     types <- if (length(sel_types())) sel_types() else c("Senate", "President")
     one_year <- identical(input$miss_mode, "past") && length(sel_cycles()) == 1
     cells <- lapply(CYCLES, function(y) {
-      r <- build_races(scen(), assumed_errors(d()$errors, d()$seats$abb, y, types), shift_d())
+      r <- build_races(scen(), with_off(assumed_errors(d()$errors, d()$seats$abb, y, types)), shift_d())
       # Shaded by the same control rule as the headline, including the independents switch.
       t <- seat_totals(r)
       rep <- t[["R"]]
@@ -1564,7 +1606,7 @@ server <- function(input, output, session) {
 
   # ---- Seat views (horseshoe / ranked margins) ----
   ordered <- reactive(race_order(races()))
-  output$scenario_title <- renderUI(span(class = "t-tag scen-title-tag", paste0(scenario_tag(sel_cycles(), sel_types()),
+  output$scenario_title <- renderUI(span(class = "t-tag scen-title-tag", if (custom()) "Custom polling error" else paste0(scenario_tag(sel_cycles(), sel_types()),
     if (shift_d() != 0) paste0(", shift ", fmt_shift(shift_d())))))
   output$horseshoe <- renderUI(horseshoe_svg(ordered(), totals(), isTRUE(input$ind_with_d)))
   # Phones only (hidden by CSS on wider screens): the horseshoe's tally, shown above the swipeable chart.
@@ -1575,7 +1617,7 @@ server <- function(input, output, session) {
         div(class = "m-nums", span(style = sprintf("color:%s", D_DARK), t[["D"]]), span(class = "m-dash", "–"),
             if (t[["I"]] > 0) tagList(span(style = sprintf("color:%s", I_DARK), t[["I"]]), span(class = "m-dash", "–")),
             span(style = sprintf("color:%s", R_DARK), t[["R"]])),
-        div(class = "m-ctl", style = sprintf("color:%s", CONTROL_COL[[side]]), CONTROL_LABEL[[side]]))
+        div(class = "m-ctl", style = sprintf("color:%s", CONTROL_COL[[side]]), party_icon_html(side, "1.1em"), CONTROL_LABEL[[side]]))
   })
 
   spread <- reactive(miss_sd(d()$errors))
