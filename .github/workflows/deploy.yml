@@ -56,7 +56,7 @@ jobs:
           git diff --cached --quiet || (git commit -m "Refresh polling data" && git push)
 
       - name: Build the Pages wrapper
-        run: mkdir -p _site && cp site/index.html _site/
+        run: mkdir -p _site && cp site/index.html site/og.png _site/
 
       - uses: actions/upload-pages-artifact@v3
         with:

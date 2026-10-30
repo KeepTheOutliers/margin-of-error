@@ -1,0 +1,34 @@
+﻿<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; background: #fbf8f1; font-family: 'Newsreader', Georgia, serif; color: #1b1a17;
+    position: relative; overflow: hidden; }
+  .head { position: absolute; left: 64px; top: 56px; display: inline-flex; flex-direction: column; }
+  .title { font-size: 47px; font-weight: 700; letter-spacing: -.01em; line-height: 1; white-space: nowrap; }
+  .title .name { color: #7a5a12; }
+  .title .sep { color: #8a867c; font-weight: 300; margin: 0 .3em; }
+  .rule { display: flex; height: 7px; margin: 18px 0 16px; border-radius: 3px; overflow: hidden; }
+  .rule span { flex: 1; }
+  .sub { font-size: 25px; color: #55524b; line-height: 1.3; }
+  .hs { position: absolute; left: 51px; top: 262px; width: 1099px; height: 305px; }
+  .hook { position: absolute; left: 171px; top: 262px; width: 760px; height: 305px; display: flex; align-items: center;
+    justify-content: center; text-align: center; font-size: 34px; font-style: italic; color: #1b1a17; line-height: 1.25; }
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 26px; display: flex; justify-content: space-between;
+    font-size: 19px; color: #8a867c; }
+  .foot b { color: #55524b; font-weight: 600; }
+</style></head>
+<body>
+  <div class="head">
+    <div class="title"><span class="name">Margin of Error</span><span class="sep">|</span>The 2026 Senate Stress Test</div>
+    <div class="rule">
+      <span style="background:#1b4a76"></span><span style="background:#386ca0"></span><span style="background:#6b90b6"></span><span style="background:#a8b9cc"></span>
+      <span style="background:#ccb0a8"></span><span style="background:#b97a67"></span><span style="background:#a44a30"></span><span style="background:#792b13"></span>
+    </div>
+    <div class="sub">Today's Senate polling averages, adjusted by past state-level polling errors</div>
+  </div>
+  <img class="hs" src="og_hs.png" alt="">
+  <div class="hook">What if 2026's polls miss<br>the way they have before?</div>
+  <div class="foot"><span>keeptheoutliers.github.io/margin-of-error</span><span>Polling averages: <b>Silver Bulletin</b></span></div>
+</body></html>
