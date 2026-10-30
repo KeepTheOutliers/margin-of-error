@@ -105,7 +105,7 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .chips span { font-variant-numeric: lining-nums tabular-nums; }
 /* Header: pinned while scrolling, slab-serif title and tabs */
 :root { --slab: 'Newsreader', Georgia, serif; --page-max: 1480px; }
-.navbar { position: sticky; top: 0; z-index: 1030; background: var(--surface) !important;
+.navbar { position: sticky; top: 0; z-index: 1030; background: var(--surface) !important; padding-top: 14px !important;
   border-bottom: 1.5px solid var(--ink); padding-top: 6px; padding-bottom: 0; }
 .navbar > .container-fluid { max-width: var(--page-max); margin: 0 auto; align-items: flex-end; }
 .navbar-header { align-self: flex-start; }
@@ -1456,7 +1456,7 @@ ui <- page_navbar(
       div(class = "cr-sub", "Polling averages and poll weights, pollster ratings, historical polls")),
     div(class = "credit-code",
       div(class = "cr-line", span(class = "ds-k", "Code")),
-      a(class = "gh-link", href = "https://github.com/KeepTheOutliers/CodingProjects", target = "_blank", rel = "noopener",
+      a(class = "gh-link", href = "https://github.com/KeepTheOutliers/margin-of-error", target = "_blank", rel = "noopener",
         icon("github"), "KeepTheOutliers"))))
 )
 
