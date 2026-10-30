@@ -1,0 +1,79 @@
+# Refreshes the polling data from Silver Bulletin each day, rebuilds the app to run in
+# the browser (Shinylive), and publishes it to GitHub Pages. Also runs on every push
+# to main (rebuild only) and on demand from the Actions tab.
+name: Refresh data and deploy
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # daily, 13:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::shiny
+            any::bslib
+            any::dplyr
+            any::tidyr
+            any::readr
+            any::plotly
+            any::httr
+            any::readxl
+            any::shinylive
+
+      # Current averages and polls daily; pollster ratings and historical polls on Sundays.
+      # If Silver Bulletin is unreachable or its files change shape, keep the cached data.
+      - name: Refresh data from Silver Bulletin
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: Rscript -e 'source("R/fetch_data.R"); refresh_all(history = format(Sys.Date(), "%u") == "7")'
+
+      - name: Commit refreshed data
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || (git commit -m "Refresh polling data" && git push)
+
+      - name: Build the browser app
+        run: |
+          mkdir -p _stage
+          cp -r app.R data www _stage/
+          Rscript -e 'shinylive::export("_stage", "_site")'
+          sed -i 's|<title>Shiny App</title>|<title>Margin of Error \| The 2026 Senate Stress Test</title>|' _site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
