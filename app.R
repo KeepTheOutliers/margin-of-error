@@ -347,6 +347,7 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .hs-tally { font-size: 50px; font-weight: 600; text-anchor: middle; font-variant-numeric: lining-nums; }
 .hs-tally-ctl { font-size: 19px; font-weight: 600; text-anchor: middle; }
 .seat-note { font-size: .88rem; color: var(--ink-2); margin: 6px 0 4px; }
+.view-toggle { margin-left: auto; }
 .view-toggle .shiny-input-container { margin-bottom: 0; }
 
 /* Shared hover tooltip for any [data-tip] element (horseshoe cells) */
