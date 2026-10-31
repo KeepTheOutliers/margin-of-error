@@ -11,10 +11,16 @@ from Silver Bulletin's raw-polls archive (2010–2024). See the app's "About the
 
 ## How it runs
 
-- `app.R`: the Shiny app, hosted on [Posit Connect Cloud](https://connect.posit.cloud), which republishes it from
-  this repo on every push (`manifest.json` lists its R packages; regenerate with `rsconnect::writeManifest()` if they change).
-- `R/fetch_data.R`: pulls the latest data from Silver Bulletin into `data/`.
-- `.github/workflows/deploy.yml`: refreshes the data daily and commits it (which republishes the app), and publishes
-  `site/index.html` to GitHub Pages, a page that frames the app at the address above.
+The live site is a plain static page (HTML + JavaScript), so it loads in a second or two and can't be overloaded.
 
-Run locally: `shiny::runApp()` from this folder.
+- `R/fetch_data.R`: pulls the latest data from Silver Bulletin into `data/`.
+- `app.R`: the Shiny app. It defines the page layout and the reference logic, and runs locally with `shiny::runApp()`.
+- `R/build_static.R`: renders `app.R`'s layout to static HTML and writes `data.json` (data plus pieces that depend
+  only on the data) into `_site/`.
+- `web/app.js`: the browser-side app: scenario logic, horseshoe, map, ranked chart, sliders, history tab, list filters.
+  It mirrors the server code in `app.R`; keep the two in step.
+- `R/check_static.R`: parity check. Writes ~1,150 scenarios with R's answers so the page's `App.compute()` can be
+  compared against them in a browser.
+- `.github/workflows/deploy.yml`: refreshes the data daily, builds `_site/`, and publishes it to GitHub Pages.
+
+Build locally: `Rscript R/build_static.R`, then serve `_site/` (for example `httpuv::runStaticServer("_site")`).

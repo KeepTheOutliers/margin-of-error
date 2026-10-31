@@ -1,6 +1,6 @@
-# Refreshes the polling data from Silver Bulletin each day, rebuilds the app to run entirely
-# in the visitor's browser (Shinylive, so traffic can't overload a server), and publishes it
-# to GitHub Pages. Also runs on every push to main (rebuild only) and on demand.
+# Refreshes the polling data from Silver Bulletin each day, rebuilds the static site (plain
+# HTML + JavaScript, no R in the browser, so it loads fast and traffic cannot overload it),
+# and publishes it to GitHub Pages. Also runs on every push to main and on demand.
 name: Refresh data and deploy
 
 on:
@@ -41,7 +41,8 @@ jobs:
             any::fontawesome
             any::httr
             any::readxl
-            any::shinylive
+            any::jsonlite
+            any::htmltools
 
       # Current averages and polls daily; pollster ratings and historical polls on Sundays.
       # If Silver Bulletin is unreachable or its files change shape, keep the cached data.
@@ -58,8 +59,8 @@ jobs:
           git add data
           git diff --cached --quiet || (git commit -m "Refresh polling data" && git push)
 
-      - name: Build the browser app
-        run: Rscript R/build_site.R
+      - name: Build the static site
+        run: Rscript R/build_static.R
 
       - uses: actions/upload-pages-artifact@v3
         with:

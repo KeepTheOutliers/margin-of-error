@@ -18,6 +18,8 @@ suppressPackageStartupMessages({
 # In the browser build (Shinylive) the app runs on bundled data and cannot fetch;
 # the fetch script is only loaded when running under regular R.
 IS_BROWSER <- identical(R.version$os, "emscripten")
+# Set by R/build_static.R, which renders this UI into the static (plain JavaScript) site.
+IS_STATIC <- exists("BUILD_STATIC") && isTRUE(BUILD_STATIC)
 if (!IS_BROWSER) source("R/fetch_data.R", local = TRUE)
 # The two constants the app needs from that script, for the browser build.
 if (!exists("SEATS_NOT_UP")) SEATS_NOT_UP <- c(D = 34, R = 31)
@@ -1160,7 +1162,7 @@ scenario_sidebar <- sidebar(
                             "How are historical polling errors measured?")),
   hr(),
   div(class = "small text-muted", textOutput("freshness")),
-  if (!IS_BROWSER) actionButton("refresh", "Refresh polls", icon = icon("rotate"), class = "btn-sm btn-outline-secondary mt-2")
+  if (!IS_BROWSER && !IS_STATIC) actionButton("refresh", "Refresh polls", icon = icon("rotate"), class = "btn-sm btn-outline-secondary mt-2")
 )
 
 # Margin key: the eight tiers as one stepped bar, cut points labeled underneath.
