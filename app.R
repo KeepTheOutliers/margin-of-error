@@ -362,6 +362,28 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .lp-dek { font-size: 1.15rem; color: var(--ink-2); margin: 0 0 8px; max-width: 760px; }
 .lp-updated { font-size: .85rem; color: var(--ink-muted); }
 .lp-unpolled { margin: 16px 0 0; font-size: .88rem; color: var(--ink-2); }
+/* Early Vote tab */
+.ev-note { max-width: 920px; margin: 2px 0 20px; padding: 10px 14px; background: var(--accent-bg); border-left: 3px solid var(--accent);
+  border-radius: 6px; font-size: .9rem; line-height: 1.45; color: var(--ink-2); }
+.ev-note b { color: var(--ink); }
+.ev-cols, .ev-row { display: grid; align-items: center; gap: 16px; grid-template-columns: 170px 170px minmax(240px, 1fr) 250px 64px; }
+.ev-cols > *, .ev-row > * { min-width: 0; }
+.ev-row { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.ev-n b { display: block; font-size: 1rem; font-variant-numeric: lining-nums tabular-nums; }
+.ev-bar { position: relative; height: 22px; }
+.ev-bar .tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.ev-bar .full { position: absolute; top: -3px; bottom: -3px; width: 1.5px; margin-left: -.75px; background: var(--ink); }
+.ev-bar .fill { position: absolute; left: 0; top: 5px; height: 12px; border-radius: 0 2px 2px 0; background: var(--accent); opacity: .55; }
+.ev-pct { position: absolute; top: 2px; margin-left: 6px; font-size: .82rem; font-weight: 600; color: var(--ink); font-variant-numeric: lining-nums; }
+.ev-pbar { display: flex; height: 10px; border-radius: 2px; overflow: hidden; }
+.ev-pnum { display: flex; gap: 12px; margin-top: 3px; font-size: .78rem; color: var(--ink-2); font-variant-numeric: lining-nums; }
+.ev-none { font-style: italic; }
+.navbar .credit-row .cr-ev { margin-top: 3px; }
+@media (max-width: 767.98px) {
+  .ev-cols { display: none; }
+  .ev-row { grid-template-columns: 1fr 1fr 48px; gap: 6px 10px; }
+  .ev-row .ev-bar, .ev-row .ev-party, .ev-row .ev-none { grid-column: 1 / -1; }
+}
 .lp-foot { margin: 16px 0 6px; font-size: .8rem; color: var(--ink-muted); max-width: 900px; }
 
 /* View toggle: a segmented control (restyled radioButtons) */
@@ -656,7 +678,8 @@ load_data <- function() {
     seats = read_csv("data/seats_2026.csv", show_col_types = FALSE),
     polls = read_csv("data/current_polls.csv", show_col_types = FALSE),
     race_polls = race_polls,
-    errors = read_csv("data/poll_errors.csv", show_col_types = FALSE)
+    errors = read_csv("data/poll_errors.csv", show_col_types = FALSE),
+    early = if (file.exists("data/early_vote.csv")) read_csv("data/early_vote.csv", show_col_types = FALSE)
   )
 }
 INIT <- load_data()
@@ -1120,6 +1143,73 @@ poll_row <- function(x) {
       span(class = "pr-in", title = "Carries weight in Silver Bulletin's current average", if (isTRUE(x$in_average)) "✓"))
 }
 
+# ---- Early Vote tab pieces -------------------------------------------------------
+# UF Election Lab figures per Senate state: early votes cast so far, as a share of ALL
+# 2022 votes (early and Election Day), and the registered party of early voters where
+# the state records it for most of them. Context only; nothing here feeds the scenarios.
+EV_CAP <- 1.2   # bar scale runs to 120% of 2022 turnout
+fmt_big <- function(n) ifelse(n >= 1e6, sprintf("%.1fM", n / 1e6), ifelse(n >= 1e3, sprintf("%.0fK", n / 1e3), format(n)))
+ev_party_ok <- function(x) {
+  tot <- x$dem + x$rep + x$other
+  isTRUE(x$voted > 0 && tot >= 0.95 * x$voted && (x$dem + x$rep) >= 0.5 * x$voted)
+}
+ev_header <- function() {
+  div(class = "lp-cols ev-cols",
+      span("State"), span("Early votes cast"),
+      div(class = "av-axis", lapply(c(0, 0.5, 1), function(v) {
+        pos <- 100 * v / EV_CAP
+        span(style = sprintf("left:%.1f%%;transform:%s", pos, if (v == 0) "none" else "translateX(-50%)"),
+             if (v == 1) "100% of 2022" else sprintf("%.0f%%", 100 * v))
+      })),
+      span("Registered party of early voters"), span("Updated"))
+}
+ev_row <- function(x) {
+  share <- x$voted / x$turn_2022
+  w <- 100 * min(share, EV_CAP) / EV_CAP
+  note <- sub(" \\(.*", "", coalesce(x$note, ""))
+  party <- if (ev_party_ok(x)) {
+    tot <- x$dem + x$rep + x$other
+    p <- 100 * c(x$dem, x$rep, x$other) / tot
+    div(class = "ev-party", title = "Registered party of the voters who have cast early ballots, not how they voted",
+        div(class = "ev-pbar",
+            span(style = sprintf("width:%.1f%%;background:%s", p[1], D_MID)),
+            span(style = sprintf("width:%.1f%%;background:%s", p[2], R_MID)),
+            span(style = sprintf("width:%.1f%%;background:%s", p[3], COL_NOT_UP))),
+        div(class = "ev-pnum", span(class = "hm-d", sprintf("D %.0f%%", p[1])), span(class = "hm-r", sprintf("R %.0f%%", p[2])),
+            span(sprintf("Other %.0f%%", p[3]))))
+  } else {
+    span(class = "lp-meta ev-none", title = "This state doesn't record party for most early voters", "Not recorded")
+  }
+  div(class = "ev-row",
+      div(class = "av-state", span(class = "av-name", x$state),
+          span(class = "lp-held", paste0(x$incumbent_party, "-held", if (nzchar(note)) paste0(", ", note)))),
+      div(class = "ev-n", tags$b(format(x$voted, big.mark = ",")),
+          # the split only where the state reports both parts
+          if (isTRUE(x$mail > 0 && x$inperson > 0)) span(class = "lp-meta", sprintf("%s mail, %s in person", fmt_big(x$mail), fmt_big(x$inperson)))),
+      div(class = "ev-bar", title = sprintf("%s early votes so far, %.0f%% of the %s votes cast in all of 2022",
+                                            format(x$voted, big.mark = ","), 100 * share, format(x$turn_2022, big.mark = ",")),
+          span(class = "tick", style = sprintf("left:%.1f%%", 100 * 0.5 / EV_CAP)),
+          span(class = "full", style = sprintf("left:%.1f%%", 100 / EV_CAP)),
+          span(class = "fill", style = sprintf("width:%.1f%%", w)),
+          span(class = "ev-pct", style = sprintf("left:%.1f%%", w), sprintf("%.0f%%", 100 * share))),
+      party,
+      span(class = "lp-meta", if (is.na(x$updated)) "" else fmt_short(x$updated)))
+}
+# The whole list: closest polling races first (as on Polling Averages), then the rest.
+ev_list_ui <- function(seats, polls, ev) {
+  if (is.null(ev) || !nrow(ev)) return(p(class = "lp-unpolled", "Early-vote data isn't available right now."))
+  a <- seats |> left_join(select(polls, abb, poll_margin), by = "abb") |> left_join(ev, by = "abb") |>
+    arrange(is.na(poll_margin), abs(poll_margin), state)
+  have <- filter(a, !is.na(voted))
+  missing <- filter(a, is.na(voted))
+  tagList(
+    ev_header(),
+    lapply(seq_len(nrow(have)), function(i) ev_row(have[i, ])),
+    if (nrow(missing)) p(class = "lp-unpolled", tags$b("No early-vote data reported: "),
+                         paste(missing$state, collapse = ", "), ".")
+  )
+}
+
 # ---- UI -----------------------------------------------------------------------
 theme <- bs_theme(
   version = 5, bg = SURFACE, fg = INK, primary = INK,
@@ -1347,6 +1437,28 @@ ui <- page_navbar(
     )
   ),
   nav_panel(
+    "Early Vote",
+    div(class = "lp-head",
+        h1(class = "lp-title", "Early Vote"),
+        p(class = "lp-dek", "Ballots already cast in each 2026 Senate state, by mail and in person, with each state's ",
+          "total 2022 turnout for scale."),
+        div(class = "lp-updated", "Early vote data: ",
+            a(href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", rel = "noopener", "UF Election Lab", .noWS = "after"),
+            ". ", textOutput("ev_updated", inline = TRUE))),
+    div(class = "ev-note",
+        tags$b("Turnout, not vote choice."), " These are ballots cast, not counted results. The party column is voters' ",
+        "registration, not how they voted, and only appears where a state records it. Republicans increasingly vote on ",
+        "Election Day, so an early Democratic edge is common and says little on its own. This tab is context only: it ",
+        "doesn't feed the scenarios."),
+    div(
+      uiOutput("ev_list"),
+      p(class = "lp-foot",
+        "Closest polling races first. The bar shows early votes so far as a share of all votes cast in the state in 2022 ",
+        "(early and Election Day); the mark is 100%. Figures are the UF Election Lab's, compiled from state and county ",
+        "election offices; states update on different schedules (see Updated).")
+    )
+  ),
+  nav_panel(
     "About the Data",
     card(
       card_body(
@@ -1443,7 +1555,9 @@ ui <- page_navbar(
           tags$li(a("Silver Bulletin pollster ratings", href = "https://www.natesilver.net/p/pollster-ratings-silver-bulletin", target = "_blank", .noWS = "after"),
                   ": pollster grades and house effects, and the raw-polls archive behind the historical misses."),
           tags$li(a("The New York Times poll database", href = "https://www.nytimes.com/interactive/polls/senate-polls-2026.html", target = "_blank", .noWS = "after"),
-                  ": the original source of most of the 2026 polls in Silver Bulletin's averages.")
+                  ": the original source of most of the 2026 polls in Silver Bulletin's averages."),
+          tags$li(a("UF Election Lab, 2026 early vote", href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", .noWS = "after"),
+                  ": early votes cast by state, early voters' party registration, and 2022 turnout (the Early Vote tab).")
         )
       )
     )
@@ -1456,7 +1570,9 @@ ui <- page_navbar(
           span(class = "ds-k", "Polling data & averages"),
           a(class = "sb-link", href = "https://www.natesilver.net/p/nate-silver-2026-midterm-election-senate-model", target = "_blank", rel = "noopener",
             img(class = "sb-icon", src = "silver-bulletin.png", alt = ""), span("Silver Bulletin"))),
-      div(class = "cr-sub", "Polling averages and poll weights, pollster ratings, historical polls")),
+      div(class = "cr-sub", "Polling averages and poll weights, pollster ratings, historical polls"),
+      div(class = "cr-line cr-ev", span(class = "ds-k", "Early vote"),
+          a(href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", rel = "noopener", "UF Election Lab"))),
     div(class = "credit-code",
       div(class = "cr-line", span(class = "ds-k", "Code")),
       a(class = "gh-link", href = "https://github.com/KeepTheOutliers/margin-of-error", target = "_blank", rel = "noopener",
@@ -2021,6 +2137,11 @@ server <- function(input, output, session) {
                                          selected = isolate(input$lp_pollster) %||% "all"))
   output$lp_updated <- renderText(paste("Updated", format(as.POSIXct(d()$polls$fetched_at[1]), "%b %d, %Y at %H:%M")))
   output$avg_updated <- renderText(paste("Updated", format(as.POSIXct(d()$polls$fetched_at[1]), "%b %d, %Y at %H:%M")))
+  output$ev_list <- renderUI(ev_list_ui(d()$seats, d()$polls, d()$early))
+  output$ev_updated <- renderText({
+    u <- d()$early$updated
+    if (is.null(u) || all(is.na(u))) "" else paste0("States reporting through ", fmt_short(max(u, na.rm = TRUE)), ".")
+  })
 
   output$avg_list <- renderUI({
     a <- d()$seats |> left_join(d()$polls, by = "abb")

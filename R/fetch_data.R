@@ -222,6 +222,26 @@ fetch_poll_errors <- function() {
     arrange(cycle, race_type, abb)
 }
 
+# ---- Early vote: UF Election Lab ---------------------------------------------
+# One row per state from the UF Election Lab's 2026 early-vote tracker (the CSV
+# its own page loads): ballots cast so far (mail returned + in-person early), the
+# registered party of early voters where the state records it, and total 2022
+# turnout (all votes, early and Election Day) as the baseline.
+EV_URL <- "https://election.lab.ufl.edu/data-downloads/earlyvote/2026/US.csv"
+
+fetch_early_vote <- function() {
+  res <- httr::GET(EV_URL, httr::user_agent(UA), httr::timeout(60))
+  httr::stop_for_status(res)
+  ev <- read_csv(I(httr::content(res, as = "text", encoding = "UTF-8")), show_col_types = FALSE)
+  need <- c("state_abbv", "voted_all", "accept_all", "inperson_all", "turn_2022", "voted_dem", "voted_rep", "voted_none", "last_update")
+  if (!all(need %in% names(ev))) stop("UF Election Lab's early-vote file has changed shape; keeping cached data.")
+  ev |>
+    transmute(abb = state_abbv, voted = voted_all, mail = accept_all, inperson = inperson_all, turn_2022,
+              dem = voted_dem, rep = voted_rep, other = voted_none,
+              updated = as.Date(last_update, format = "%m/%d/%Y"), source = data_source) |>
+    filter(abb %in% seats_2026$abb)
+}
+
 # ---- Pollster ratings: Silver Bulletin --------------------------------------
 # House effect / bias: positive = leans Democratic, negative = leans Republican.
 fetch_pollster_ratings <- function() {
@@ -303,6 +323,9 @@ refresh_all <- function(data_dir = DATA_DIR, history = TRUE) {
   polls <- mutate(current$polls, sb_grade = ratings$sb_grade[hit], sb_house = ratings$sb_house[hit])
   write_csv(current$avg, file.path(data_dir, "current_polls.csv"))
   write_csv(polls, file.path(data_dir, "race_polls.csv"))
+  # Early vote: a failure here keeps the cached file rather than stopping the refresh.
+  tryCatch(write_csv(fetch_early_vote(), file.path(data_dir, "early_vote.csv")),
+           error = function(e) message("Early vote not refreshed: ", conditionMessage(e)))
   invisible(TRUE)
 }
 

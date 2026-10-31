@@ -751,6 +751,8 @@
     setText('avg_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setText('lp_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setHtml('hm_tiles', D.hm_tiles);
+    setHtml('ev_list', D.ev_html || '');
+    setText('ev_updated', D.ev_updated || '');
     Object.keys(D.about).forEach(function (k) { setText(k, D.about[k]); });
     var s = sd(D.errors.map(function (e) { return e.error; }));
     var within = D.errors.filter(function (e) { return Math.abs(e.error) <= VIOLIN_Z * s; }).length / D.errors.length;

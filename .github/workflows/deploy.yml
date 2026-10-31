@@ -5,7 +5,7 @@ name: Refresh data and deploy
 
 on:
   schedule:
-    - cron: "0 13 * * *"   # daily, 13:00 UTC
+    - cron: "0 1,7,13,19 * * *"   # every 6 hours through Election Day (early vote moves fast); daily is "0 13 * * *"
   workflow_dispatch:
   push:
     branches: [main]

@@ -115,7 +115,9 @@ out <- list(
   pollsters = sort(unique(d$race_polls$pollster)),
   hm_tiles = pre$hm_tiles,
   natl_bias = pre$natl_bias,
-  about = pre[c("about_unpolled", "about_inds", "about_bias", "about_cover")]
+  about = pre[c("about_unpolled", "about_inds", "about_bias", "about_cover")],
+  ev_html = as.character(env$ev_list_ui(d$seats, d$polls, d$early)),
+  ev_updated = if (is.null(d$early)) "" else paste0("States reporting through ", env$fmt_short(max(d$early$updated, na.rm = TRUE)), ".")
 )
 write_json(out, "_site/data.json", auto_unbox = TRUE, na = "null", null = "null", digits = NA, dataframe = "rows", json_verbatim = TRUE)
 

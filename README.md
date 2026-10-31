@@ -13,7 +13,7 @@ from Silver Bulletin's raw-polls archive (2010–2024). See the app's "About the
 
 The live site is a plain static page (HTML + JavaScript), so it loads in a second or two and can't be overloaded.
 
-- `R/fetch_data.R`: pulls the latest data from Silver Bulletin into `data/`.
+- `R/fetch_data.R`: pulls the latest data from Silver Bulletin (polls, averages, ratings, history) and the UF Election Lab (early vote) into `data/`.
 - `app.R`: the Shiny app. It defines the page layout and the reference logic, and runs locally with `shiny::runApp()`.
 - `R/build_static.R`: renders `app.R`'s layout to static HTML and writes `data.json` (data plus pieces that depend
   only on the data) into `_site/`.
