@@ -1,16 +1,17 @@
 abb,pollster,poll_url,date,sample_n,population,moe,opp_pct,rep_pct,margin,weight,partisan,in_average,sb_grade,sb_house
-AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2116291676176331181,2026-10-29,1326,LV,NA,47.7,45.9,1.8000000000000043,2.86,NA,TRUE,A/B,3.04979166666666
-AK,Data for Progress,https://www.dataforprogress.org/blog/2026/10/20/every-statewide-race-in-alaska-is-close-as-7-in-10-voters-worry-about-affording-gas-and-food,2026-10-16,684,LV,NA,48,45,3,0.81,NA,TRUE,C+,-0.0550089517396322
-AK,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_alaska_senate,2026-10-15,775,LV,NA,44,42,2,0.91,R,TRUE,B+,-1.27542237806204
-AK,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,48.2,42.6,5.600000000000001,1.07,NA,TRUE,B+,-0.906355467388921
-AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2107851752464884167,2026-10-03,1512,LV,NA,47,45,2,0.23,NA,TRUE,A/B,3.04979166666666
-AK,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-alaska-poll-crosstabs.html,2026-10-01,504,LV,NA,50.1,43.1,7,0.53,NA,TRUE,A,0.79250584390928
-AK,Quantus Insights,https://quantusinsights.org/f/quantus-insights-survey-sullivan-peltola-deadlocked-in-alaska,2026-09-30,758,LV,NA,46.5,46.8,-0.29999999999999716,0.46,NA,TRUE,B/C,-2.01331072071203
-AK,Trafalgar Group,https://www.thetrafalgargroup.org/news/ak-sen-general-0925/,2026-09-24,1079,LV,NA,45.5,46.8,-1.2999999999999972,0.4,R,TRUE,B,-3.55614435061882
-AK,co/efficient,https://battlegrounds.coefficient.org/ak/,2026-09-17,799,LV,NA,46,48,-2,0.26,NA,TRUE,B,-2.53691676427889
-AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2102418467635011721,2026-09-12,1352,LV,NA,48.4,43.8,4.600000000000001,0.03,NA,TRUE,A/B,3.04979166666666
-AK,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-alaska/,2026-09-11,800,LV,NA,48,42,6,0.18,NA,TRUE,B/C,-1.61788461538461
-AK,Alaska Survey Research,https://x.com/the_real_asr/status/2093483993954144564,2026-08-23,1495,LV,NA,50.6,49.4,1.2000000000000028,0.01,NA,TRUE,A/B,3.04979166666666
+AK,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-10-30,610,LV,NA,47.6,46.2,1.3999999999999986,2.09,NA,TRUE,A,0.79250584390928
+AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2116291676176331181,2026-10-29,1326,LV,NA,47.7,45.9,1.8000000000000043,2.21,NA,TRUE,A/B,3.04979166666666
+AK,Data for Progress,https://www.dataforprogress.org/blog/2026/10/20/every-statewide-race-in-alaska-is-close-as-7-in-10-voters-worry-about-affording-gas-and-food,2026-10-16,684,LV,NA,48,45,3,0.63,NA,TRUE,C+,-0.0550089517396322
+AK,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_alaska_senate,2026-10-15,775,LV,NA,44,42,2,0.71,R,TRUE,B+,-1.27542237806204
+AK,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,48.2,42.6,5.600000000000001,0.83,NA,TRUE,B+,-0.906355467388921
+AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2107851752464884167,2026-10-03,1512,LV,NA,47,45,2,0.18,NA,TRUE,A/B,3.04979166666666
+AK,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-alaska-poll-crosstabs.html,2026-10-01,504,LV,NA,50.1,43.1,7,0.11,NA,TRUE,A,0.79250584390928
+AK,Quantus Insights,https://quantusinsights.org/f/quantus-insights-survey-sullivan-peltola-deadlocked-in-alaska,2026-09-30,758,LV,NA,46.5,46.8,-0.29999999999999716,0.35,NA,TRUE,B/C,-2.01331072071203
+AK,Trafalgar Group,https://www.thetrafalgargroup.org/news/ak-sen-general-0925/,2026-09-24,1079,LV,NA,45.5,46.8,-1.2999999999999972,0.31,R,TRUE,B,-3.55614435061882
+AK,co/efficient,https://battlegrounds.coefficient.org/ak/,2026-09-17,799,LV,NA,46,48,-2,0.2,NA,TRUE,B,-2.53691676427889
+AK,Alaska Survey Research,https://x.com/The_Real_ASR/status/2102418467635011721,2026-09-12,1352,LV,NA,48.4,43.8,4.600000000000001,0.02,NA,TRUE,A/B,3.04979166666666
+AK,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-alaska/,2026-09-11,800,LV,NA,48,42,6,0.14,NA,TRUE,B/C,-1.61788461538461
+AK,Alaska Survey Research,https://x.com/the_real_asr/status/2093483993954144564,2026-08-23,1495,LV,NA,50.6,49.4,1.2000000000000028,0,NA,FALSE,A/B,3.04979166666666
 AK,Alaska Survey Research,https://bsky.app/profile/alaskasurvey.bsky.social/post/3mstcarsnc32q,2026-08-05,1371,LV,NA,50.8,49.2,1.5999999999999943,0,NA,FALSE,A/B,3.04979166666666
 AK,Data for Progress,https://www.dataforprogress.org/blog/2026/8/17/as-alaskas-affordability-crisis-deepens-peltola-leads-in-senate-race,2026-08-04,592,LV,NA,48,42,6,0,NA,FALSE,C+,-0.0550089517396322
 AK,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/07/01/polls/times-siena-alaska-poll-crosstabs.html,2026-06-29,593,LV,NA,45.1,47.5,-2.3999999999999986,0,NA,FALSE,A,0.79250584390928
@@ -33,7 +34,7 @@ AR,Hendrix College,https://talkbusiness.net/2026/08/poll-gov-sanders-holds-lead-
 AR,2040 Strategy Group,https://arktimes.com/arkansas-blog/2026/08/05/dem-senate-hopeful-shoffner-pulls-promising-poll-numbers-against-unlikeable-cotton,2026-07-25,586,LV,NA,43,46,-3,0.01,D,TRUE,NA,NA
 AR,GrayHouse,https://www.grayhouse.com/post/ar-senate,2026-02-09,550,LV,NA,36,58,-22,0,R,FALSE,NA,NA
 FL,Stetson University,https://www.stetson.edu/artsci/cpor/,2026-10-30,859,LV,NA,45,49,-4,1.34,NA,TRUE,B/C,-0.314494047619048
-FL,InsiderAdvantage,https://insideradvantage.com/insideradvantage-florida-survey-donalds-49-jolly-45-moody-49-nixon-43/,2026-10-29,1200,LV,NA,43,49,-6,2.12,NA,TRUE,B+,-0.906355467388921
+FL,InsiderAdvantage,https://insideradvantage.com/insideradvantage-florida-survey-donalds-49-jolly-45-moody-49-nixon-43/,2026-10-29,1200,LV,NA,42.7,48.5,-5.799999999999997,2.12,NA,TRUE,B+,-0.906355467388921
 FL,The Political Matrix/The Listener Group,https://palafoxproductions.com/new-florida-statewide-poll-for-november-election/,2026-10-28,500,LV,NA,35.8,41.8,-6,0.97,NA,TRUE,C/D,0.953442920408752
 FL,St. Pete Polls,https://floridapolitics.com/archives/827489-final-st-pete-polls-ashley-moody-holds-49-to-45-over-angie-nixon-with-a-cushion-that-shrinks-if-republicans-stay-home/,2026-10-27,916,LV,NA,44.7,49,-4.299999999999997,1.08,NA,TRUE,C+,-1.01966422052692
 FL,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/28/polls/times-siena-fl-poll-toplines.html,2026-10-25,813,LV,NA,44.3,50.3,-6,1.57,NA,TRUE,A,0.79250584390928
@@ -71,32 +72,34 @@ GA,Wick,https://wick.io/research-georgia-election-survey-june-2026,2026-06-30,11
 GA,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-early-look-georgia-senate-race,2026-06-27,1002,RV,NA,56,43,13,0.01,NA,TRUE,A-,0.86399011724611
 GA,Echelon Insights,https://netchoice.org/new-72-of-americans-want-regulators-to-focus-on-lowering-prices-ahead-of-midterms-not-punishing-success/,2026-04-09,407,LV,NA,51,44,7,0,NA,FALSE,A-,-0.986831502685815
 GA,Emerson College,https://emersoncollegepolling.com/georgia-2026-poll-senator-ossoff-starts-re-election-near-50-and-outpaces-gop-field/,2026-03-02,1000,LV,NA,47.7,43.3,4.400000000000006,0,NA,FALSE,A,-1.33555011131772
-IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-10-28,1020,LV,NA,46,48,-2,0.93,NA,TRUE,B,-2.53691676427889
-IA,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,403,LV,NA,45,43,2,1.33,NA,TRUE,A-,-0.986831502685815
-IA,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,45.5,47,-1.5,1.69,NA,TRUE,B+,-0.906355467388921
-IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-10-19,863,LV,NA,45,48,-3,0.57,NA,TRUE,B,-2.53691676427889
-IA,Trafalgar Group,https://www.thetrafalgargroup.org/news/ia-senate-gen-1017/,2026-10-15,1094,LV,NA,44.2,45.9,-1.6999999999999957,0.95,R,TRUE,B,-3.55614435061882
-IA,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,602,LV,NA,46,44,2,0.68,NA,TRUE,B/C,-5.80624999999999
-IA,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ia_20261006_lv.pdf,2026-10-12,2245,LV,NA,47,46,1,0.91,NA,TRUE,B,0.523056121566762
-IA,National Public Affairs,https://backend.natpublicaffairs.com/media/Iowa_General_Election_Memo_101526.3.pdf,2026-10-12,678,LV,NA,45.5,47.5,-2,0.26,R,TRUE,B/C,-0.741666666666666
-IA,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-october-2026/,2026-10-11,1100,LV,NA,48,45,3,0.97,NA,TRUE,A-,0.430437819211227
-IA,Emerson College,https://emersoncollegepolling.com/iowa-2026-poll-u-s-senate-race-tightens-sand-maintains-edge-for-governor/,2026-10-06,650,LV,NA,45,46.6,-1.6000000000000014,0.72,NA,TRUE,A,-1.33555011131772
-IA,SSRS,https://edition.cnn.com/2026/10/08/politics/cnn-polls-ohio-iowa-senate-governor-midterms,2026-10-05,801,LV,NA,43,45,-2,0.43,NA,TRUE,C+,2.257644323424
-IA,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-7-2026-Iowa-Governor-and-US-Senate-and-Bellwether,2026-10-04,500,LV,NA,48,43.6,4.399999999999999,0.56,NA,TRUE,A-,1.29392767726935
-IA,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-iowa-poll-crosstabs.html,2026-10-01,606,LV,NA,47,47.8,-0.7999999999999972,0.48,NA,TRUE,A,0.79250584390928
-IA,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_iowa_senate,2026-09-30,1048,LV,NA,47,43,4,0.33,R,TRUE,B+,-1.27542237806204
-IA,Quantus Insights,https://quantusinsights.org/f/quantus-insights-hinson-holds-narrow-edge-in-iowa-senate-race,2026-09-29,738,LV,NA,47.7,49.9,-2.1999999999999957,0.2,NA,TRUE,B/C,-2.01331072071203
-IA,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-turek-hinson-close-iowa-senate-race,2026-09-28,1008,LV,NA,49,47,2,0.51,NA,TRUE,A-,0.86399011724611
-IA,InsiderAdvantage,https://insideradvantage.com/ia-topline-tabs/,2026-09-23,1200,LV,NA,47.4,45.7,1.6999999999999957,0.1,NA,TRUE,B+,-0.906355467388921
-IA,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-september-2026/,2026-09-20,1050,RV,NA,50,42,8,0.11,NA,TRUE,A-,0.430437819211227
-IA,Trafalgar Group,https://www.thetrafalgargroup.org/news/ia-senate-0918/,2026-09-18,1089,LV,NA,42.1,44,-1.8999999999999986,0.07,R,TRUE,B,-3.55614435061882
-IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-09-16,831,LV,NA,42,46,-4,0.03,NA,TRUE,B,-2.53691676427889
-IA,Cygnal,https://itrfoundation.org/new-poll-iowa-voters-support-supermajority-requirement-to-raise-income-taxes/,2026-09-11,500,LV,NA,42.9,42.9,0,0.16,R,TRUE,A,-0.585278025523779
-IA,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_iowa_senate_september_8_10_2026,2026-09-10,1031,LV,NA,45,40,5,0.05,R,TRUE,B+,-1.27542237806204
-IA,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/iowa_election_20260903.pdf,2026-09-08,2084,LV,NA,46,43,3,0.04,NA,TRUE,B,0.523056121566762
-IA,Emerson College,https://emersoncollegepolling.com/iowa-2026-poll-hinson-leads-turek/,2026-09-01,750,LV,NA,45,49.5,-4.5,0.03,NA,TRUE,A,-1.33555011131772
-IA,Global Strategy Group,https://www.semafor.com/article/09/09/2026/democratic-turek-holds-narrow-lead-in-iowa-senate-race-internal-polling-shows,2026-08-31,800,LV,NA,46,42,4,0.09,D,TRUE,B/C,4.73785013431013
-IA,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,323,LV,NA,48,41,7,0.06,NA,TRUE,NA,NA
+IA,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,705,LV,NA,47.6,46.9,0.7000000000000028,2.23,NA,TRUE,A,0.79250584390928
+IA,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ia_20261026_lv.pdf,2026-10-29,2020,LV,NA,50,49,1,1.82,NA,TRUE,B,0.523056121566762
+IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-10-28,1020,LV,NA,46,48,-2,0.73,NA,TRUE,B,-2.53691676427889
+IA,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,403,LV,NA,45,43,2,1.01,NA,TRUE,A-,-0.986831502685815
+IA,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,45.5,47,-1.5,1.3,NA,TRUE,B+,-0.906355467388921
+IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-10-19,863,LV,NA,45,48,-3,0.42,NA,TRUE,B,-2.53691676427889
+IA,Trafalgar Group,https://www.thetrafalgargroup.org/news/ia-senate-gen-1017/,2026-10-15,1094,LV,NA,44.2,45.9,-1.6999999999999957,0.71,R,TRUE,B,-3.55614435061882
+IA,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,602,LV,NA,46,44,2,0.5,NA,TRUE,B/C,-5.80624999999999
+IA,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ia_20261006_lv.pdf,2026-10-12,2245,LV,NA,47,46,1,0.25,NA,TRUE,B,0.523056121566762
+IA,National Public Affairs,https://backend.natpublicaffairs.com/media/Iowa_General_Election_Memo_101526.3.pdf,2026-10-12,678,LV,NA,45.5,47.5,-2,0.19,R,TRUE,B/C,-0.741666666666666
+IA,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-october-2026/,2026-10-11,1100,LV,NA,48,45,3,0.71,NA,TRUE,A-,0.430437819211227
+IA,Emerson College,https://emersoncollegepolling.com/iowa-2026-poll-u-s-senate-race-tightens-sand-maintains-edge-for-governor/,2026-10-06,650,LV,NA,45,46.6,-1.6000000000000014,0.52,NA,TRUE,A,-1.33555011131772
+IA,SSRS,https://edition.cnn.com/2026/10/08/politics/cnn-polls-ohio-iowa-senate-governor-midterms,2026-10-05,801,LV,NA,43,45,-2,0.31,NA,TRUE,C+,2.257644323424
+IA,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-7-2026-Iowa-Governor-and-US-Senate-and-Bellwether,2026-10-04,500,LV,NA,48,43.6,4.399999999999999,0.4,NA,TRUE,A-,1.29392767726935
+IA,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-iowa-poll-crosstabs.html,2026-10-01,606,LV,NA,47,47.8,-0.7999999999999972,0.07,NA,TRUE,A,0.79250584390928
+IA,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_iowa_senate,2026-09-30,1048,LV,NA,47,43,4,0.23,R,TRUE,B+,-1.27542237806204
+IA,Quantus Insights,https://quantusinsights.org/f/quantus-insights-hinson-holds-narrow-edge-in-iowa-senate-race,2026-09-29,738,LV,NA,47.7,49.9,-2.1999999999999957,0.14,NA,TRUE,B/C,-2.01331072071203
+IA,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-turek-hinson-close-iowa-senate-race,2026-09-28,1008,LV,NA,49,47,2,0.36,NA,TRUE,A-,0.86399011724611
+IA,InsiderAdvantage,https://insideradvantage.com/ia-topline-tabs/,2026-09-23,1200,LV,NA,47.4,45.7,1.6999999999999957,0.07,NA,TRUE,B+,-0.906355467388921
+IA,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-september-2026/,2026-09-20,1050,RV,NA,50,42,8,0.07,NA,TRUE,A-,0.430437819211227
+IA,Trafalgar Group,https://www.thetrafalgargroup.org/news/ia-senate-0918/,2026-09-18,1089,LV,NA,42.1,44,-1.8999999999999986,0.05,R,TRUE,B,-3.55614435061882
+IA,co/efficient,https://battlegrounds.coefficient.org/ia/,2026-09-16,831,LV,NA,42,46,-4,0.02,NA,TRUE,B,-2.53691676427889
+IA,Cygnal,https://itrfoundation.org/new-poll-iowa-voters-support-supermajority-requirement-to-raise-income-taxes/,2026-09-11,500,LV,NA,42.9,42.9,0,0.11,R,TRUE,A,-0.585278025523779
+IA,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_iowa_senate_september_8_10_2026,2026-09-10,1031,LV,NA,45,40,5,0.03,R,TRUE,B+,-1.27542237806204
+IA,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/iowa_election_20260903.pdf,2026-09-08,2084,LV,NA,46,43,3,0.01,NA,TRUE,B,0.523056121566762
+IA,Emerson College,https://emersoncollegepolling.com/iowa-2026-poll-hinson-leads-turek/,2026-09-01,750,LV,NA,45,49.5,-4.5,0.02,NA,TRUE,A,-1.33555011131772
+IA,Global Strategy Group,https://www.semafor.com/article/09/09/2026/democratic-turek-holds-narrow-lead-in-iowa-senate-race-internal-polling-shows,2026-08-31,800,LV,NA,46,42,4,0.06,D,TRUE,B/C,4.73785013431013
+IA,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,323,LV,NA,48,41,7,0.04,NA,TRUE,NA,NA
 IA,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-August-26-2026-Iowa-Governor-and-US-Senate-General-Election,2026-08-23,500,LV,NA,40.8,45.4,-4.600000000000001,0.01,NA,TRUE,A-,1.29392767726935
 IA,Emerson College,https://emersoncollegepolling.com/iowa-2026-poll/,2026-08-04,712,LV,NA,45,47.5,-2.5,0,NA,FALSE,A,-1.33555011131772
 IA,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-close-senate-contest-brewing-iowa,2026-06-27,1003,RV,NA,50,46,4,0,NA,FALSE,A-,0.86399011724611
@@ -115,25 +118,28 @@ ID,The Bullfinch Group,https://www.thebullfinchgroup.com/post/for-immediate-rele
 ID,Change Research,https://static1.squarespace.com/static/69781c4082a86d0a267710a0/t/6a74dd64f53c5d50f999296c/1786043748443/Release_Polling+Results_Final_8.6.26.pdf,2026-07-30,NA,LV,NA,21,45,-24,0.02,IND,TRUE,C+,0.765173131194218
 ID,The Bullfinch Group,https://www.thebullfinchgroup.com/post/for-immediate-release-independent-todd-achilles-surges-on-informed-ballot,2026-06-01,774,RV,NA,36,40,-4,0,IND,FALSE,NA,NA
 ID,Public Policy Polling,https://x.com/Achilles4Idaho/status/2034815770279199205/photo/1,2026-03-17,639,RV,NA,34,48,-14,0,IND,FALSE,B+,1.00650685175496
-KS,Emerson College,https://emersoncollegepolling.com/october-2026-kansas-poll-hamilton-maintains-edge-over-marshall/,2026-10-28,800,LV,NA,49.5,47.1,2.3999999999999986,2.15,NA,TRUE,A,-1.33555011131772
-KS,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-26,838,LV,NA,49,45,4,1.15,NA,TRUE,C+,2.257644323424
-KS,The Washington Post,https://www.washingtonpost.com/tablet/2026/10/30/oct-22-26-2026-washington-post-schar-school-kansas-poll/,2026-10-26,801,LV,NA,53,43.5,9.5,1.03,NA,TRUE,A+,1.0245775693316
-KS,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,46.6,47.7,-1.1000000000000014,0.78,NA,TRUE,B+,-0.906355467388921
-KS,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,47.5,46.7,0.7999999999999972,0.53,NA,TRUE,B+,-0.906355467388921
-KS,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ks_20260921_lv.pdf,2026-10-04,2253,LV,NA,48,45,3,0.5,NA,TRUE,B,0.523056121566762
-KS,GBAO,https://x.com/sambbenson/status/2107792740259914148,2026-10-04,600,LV,NA,47.5,42.5,5,0.19,D,TRUE,B/C,3.16762829524119
-KS,Trafalgar Group,https://www.thetrafalgargroup.org/news/ks-senate-general-1001/,2026-10-01,1095,LV,NA,44.4,43.5,0.8999999999999986,0.43,R,TRUE,B,-3.55614435061882
-KS,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-kansas-poll-crosstabs.html,2026-09-30,605,LV,NA,45.6,45.7,-0.10000000000000142,0.19,NA,TRUE,A,0.79250584390928
-KS,Global Strategy Group,https://www.washingtonsun.com/newsletters/they-love-stonks,2026-09-16,800,LV,NA,48,45,3,0.08,D,TRUE,B/C,4.73785013431013
-KS,Emerson College,https://emersoncollegepolling.com/kansas-2026/,2026-09-16,750,LV,NA,44.8,43.3,1.5,0.04,NA,TRUE,A,-1.33555011131772
-KS,co/efficient,https://battlegrounds.coefficient.org/ks/,2026-09-10,915,LV,NA,44,49,-5,0.14,NA,TRUE,B,-2.53691676427889
+KS,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,736,LV,NA,49,43.9,5.100000000000001,2.32,NA,TRUE,A,0.79250584390928
+KS,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ks_20261026_lv.pdf,2026-10-29,2092,LV,NA,50,49,1,1.93,NA,TRUE,B,0.523056121566762
+KS,Emerson College,https://emersoncollegepolling.com/october-2026-kansas-poll-hamilton-maintains-edge-over-marshall/,2026-10-28,800,LV,NA,49.5,47.1,2.3999999999999986,1.89,NA,TRUE,A,-1.33555011131772
+KS,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-26,838,LV,NA,49,45,4,1,NA,TRUE,C+,2.257644323424
+KS,The Washington Post,https://www.washingtonpost.com/tablet/2026/10/30/oct-22-26-2026-washington-post-schar-school-kansas-poll/,2026-10-26,801,LV,NA,53,43.5,9.5,0.89,NA,TRUE,A+,1.0245775693316
+KS,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,46.6,47.7,-1.1000000000000014,0.66,NA,TRUE,B+,-0.906355467388921
+KS,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,47.5,46.7,0.7999999999999972,0.44,NA,TRUE,B+,-0.906355467388921
+KS,GBAO,https://x.com/sambbenson/status/2107792740259914148,2026-10-04,600,LV,NA,47.5,42.5,5,0.16,D,TRUE,B/C,3.16762829524119
+KS,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ks_20260921_lv.pdf,2026-10-04,2253,LV,NA,48,45,3,0.1,NA,TRUE,B,0.523056121566762
+KS,Trafalgar Group,https://www.thetrafalgargroup.org/news/ks-senate-general-1001/,2026-10-01,1095,LV,NA,44.4,43.5,0.8999999999999986,0.35,R,TRUE,B,-3.55614435061882
+KS,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-kansas-poll-crosstabs.html,2026-09-30,605,LV,NA,45.6,45.7,-0.10000000000000142,0.03,NA,TRUE,A,0.79250584390928
+KS,Global Strategy Group,https://www.washingtonsun.com/newsletters/they-love-stonks,2026-09-16,800,LV,NA,48,45,3,0.06,D,TRUE,B/C,4.73785013431013
+KS,Emerson College,https://emersoncollegepolling.com/kansas-2026/,2026-09-16,750,LV,NA,44.8,43.3,1.5,0.03,NA,TRUE,A,-1.33555011131772
+KS,co/efficient,https://battlegrounds.coefficient.org/ks/,2026-09-10,915,LV,NA,44,49,-5,0.11,NA,TRUE,B,-2.53691676427889
 KS,Global Strategy Group,https://www.the-downballot.com/p/morning-digest-massachusetts-could,2026-08-16,800,LV,NA,44,43,1,0.01,D,TRUE,B/C,4.73785013431013
 KS,Public Policy Polling,https://static01.nyt.com/newsgraphics/documenttools/b727068b48546990/3bda8f92-full.pdf,2026-08-08,NA,RV,NA,45,46,-1,0.02,D,TRUE,B+,1.00650685175496
 KS,GBAO,https://www.politico.com/newsletters/playbook-pm/2026/08/07/the-gops-new-economic-anchor-01029005,2026-07-13,600,LV,NA,43,47,-4,0,D,FALSE,B/C,3.16762829524119
 KS,Tavern Research,https://mailchi.mp/noahforkansas/041726icymi?e=eabd966005,2026-01-28,1013,LV,NA,48.5,51.5,-3,0,NA,FALSE,NA,NA
-LA,Garin-Hart-Yang Research Group,https://www.perdidostreet.news/p/new-poll-shows-toss-up-in-louisiana-senate-contest-as-turnout-in-early-vote-buoys-democrats-hopes-of,2026-10-29,502,LV,NA,45,45,0,1.4,D,TRUE,A-,4.26434213249713
-LA,Garin-Hart-Yang Research Group,https://bsky.app/profile/deecherrywriter.bsky.social/post/3mw7hmiyunc2g,2026-09-19,500,LV,NA,44,48,-4,0.51,D,TRUE,A-,4.26434213249713
-LA,Public Policy Polling,https://bayouprogressive.com/2026/08/new-poll-puts-jamie-davis-four-points-behind-julia-letlow-as-1-in-5-voters-remain-undecided/,2026-07-22,518,RV,NA,37,41,-4,0.29,D,TRUE,B+,1.00650685175496
+LA,Lincoln Park Strategies,https://www.instagram.com/p/DfNPHJBIZMH/,2026-10-31,NA,LV,NA,47,47,0,1.14,D,TRUE,NA,NA
+LA,Garin-Hart-Yang Research Group,https://www.perdidostreet.news/p/new-poll-shows-toss-up-in-louisiana-senate-contest-as-turnout-in-early-vote-buoys-democrats-hopes-of,2026-10-29,502,LV,NA,45,45,0,1.73,D,TRUE,A-,4.26434213249713
+LA,Garin-Hart-Yang Research Group,https://bsky.app/profile/deecherrywriter.bsky.social/post/3mw7hmiyunc2g,2026-09-19,500,LV,NA,44,48,-4,0.03,D,TRUE,A-,4.26434213249713
+LA,Public Policy Polling,https://bayouprogressive.com/2026/08/new-poll-puts-jamie-davis-four-points-behind-julia-letlow-as-1-in-5-voters-remain-undecided/,2026-07-22,518,RV,NA,37,41,-4,0.01,D,TRUE,B+,1.00650685175496
 MA,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/massachusetts#collapse-October-20-2026-Massachusetts-Governor-and-US-Senate-Statewide-and-Bellwether-with-The-Boston-Globe,2026-10-18,500,LV,NA,60,31.8,28.2,1.59,NA,TRUE,A-,1.29392767726935
 MA,University of Massachusetts Lowell,https://www.uml.edu/news/press-releases/2026/102826-new-england-polls.aspx,2026-10-18,850,LV,NA,55,26,29,1.58,NA,TRUE,A-,0.481933416323602
 MA,YouGov,https://www.umass.edu/poll/about/reports/2026-10-massachusetts-public-opinion-poll#toc-methodology,2026-10-12,800,RV,NA,56,29,27,0.94,NA,TRUE,B,0.523056121566762
@@ -147,78 +153,83 @@ MA,University of New Hampshire,https://scholars.unh.edu/survey_center_polls/945/
 MA,University of New Hampshire,https://scholars.unh.edu/survey_center_polls/931/,2026-02-16,616,LV,NA,56,27,29,0,NA,FALSE,B-,2.0729257393987
 MA,Cygnal,https://www.politico.com/newsletters/massachusetts-playbook/2026/02/19/senate-adds-healeys-higher-ed-bill-to-the-agenda-00787852,2026-01-25,800,LV,NA,54,30,24,0,R,FALSE,A,-0.585278025523779
 MA,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/massachusetts#collapse-November-25-2025-Massachusetts-Statewide-Issues-with-The-Boston-Globe,2025-11-23,500,RV,NA,54,31,23,0,NA,FALSE,A-,1.29392767726935
-ME,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-27,652,LV,NA,50,45,5,1.4,NA,TRUE,C+,-0.0550089517396322
-ME,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-26,783,LV,NA,49,45,4,1.18,NA,TRUE,C+,2.257644323424
-ME,Marist College,https://maristpoll.marist.edu/polls/the-midterm-elections-in-maine-october-2026/,2026-10-25,1449,LV,NA,49,47,2,2.12,NA,TRUE,A-,0.430437819211227
-ME,Trafalgar Group,https://www.thetrafalgargroup.org/news/me-senate-gen-1025/,2026-10-23,1077,LV,NA,46.5,47,-0.5,1.34,R,TRUE,B,-3.55614435061882
-ME,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,413,LV,NA,51,44,7,1.25,NA,TRUE,A-,-0.986831502685815
-ME,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-nail-biter-maine-senate-race,2026-10-20,1514,LV,NA,49,49,0,1.71,NA,TRUE,A-,0.86399011724611
-ME,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,49.3,46.8,2.5,0.97,NA,TRUE,B+,-0.906355467388921
-ME,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-14-2026-Maine-US-Senate-and-Governor-Statewide-and-Bellwether,2026-10-11,500,LV,NA,49,47,2,0.77,NA,TRUE,A-,1.29392767726935
-ME,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_maine_senate,2026-10-08,804,LV,NA,49,47,2,0.45,R,TRUE,B+,-1.27542237806204
-ME,The Washington Post,https://www.washingtonpost.com/politics/2026/10/09/poll-democrat-troy-jackson-narrowly-leads-susan-collins-maine-senate-race/?pwapi_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWFzb24iOiJnaWZ0IiwibmJmIjoxNzkxNTE4NDAwLCJpc3MiOiJzdWJzY3JpcHRpb25zIiwiZXhwIjoxNzkyOTAwNzk5LCJpYXQiOjE3OTE1MTg0MDAsImp0aSI6IjE4NjJkMzQ0LWQ0ZmMtNGIyMy05NzAwLTgwNWU1YTNjMWZlNCIsInVybCI6Imh0dHBzOi8vd3d3Lndhc2hpbmd0b25wb3N0LmNvbS9wb2xpdGljcy8yMDI2LzEwLzA5L3BvbGwtZGVtb2NyYXQtdHJveS1qYWNrc29uLW5hcnJvd2x5LWxlYWRzLXN1c2FuLWNvbGxpbnMtbWFpbmUtc2VuYXRlLXJhY2UvIn0.2_6lAaaYMcbP0y7_Ioe4GYgRcQnYJkY6IAE55nzmhAs,2026-10-05,800,LV,NA,50,46,4,0.71,NA,TRUE,A+,1.0245775693316
-ME,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-maine-october-2026/,2026-10-04,1505,RV,NA,51,47,4,0.22,NA,TRUE,A-,0.430437819211227
-ME,YouGov,https://www.cbsnews.com/news/maine-senate-poll-2026-10-02/,2026-10-01,1136,LV,NA,50,50,0,0.37,NA,TRUE,B,0.523056121566762
-ME,Trafalgar Group,https://www.thetrafalgargroup.org/news/me-senate-gen-1002/,2026-10-01,1091,LV,NA,46.2,45.9,0.30000000000000426,0.16,R,TRUE,B,-3.55614435061882
-ME,co/efficient,https://battlegrounds.coefficient.org/me/,2026-09-30,1240,LV,NA,46,48,-2,0.46,NA,TRUE,B,-2.53691676427889
-ME,Maine People's Resource Center,https://drive.google.com/file/d/1nVC9doKmSak5hQ8ajaaKftWiXSEZf-Us/view?link_id=0&can_id=43449815c7c9cdc13604b107d8c0a515&source=email-polling-jackson-leads-collins-mainers-demand-childcare-ai-regulation&email_referrer=email_3433131&email_subject=polling-jackson-leads-collins-mainers-demand-childcare-ai-regulation,2026-09-29,684,LV,NA,49.3,46.5,2.799999999999997,0.34,NA,TRUE,B/C,-0.995833333333332
-ME,InsiderAdvantage,https://insideradvantage.com/me-top-line-tabs/,2026-09-23,1200,LV,NA,46.4,45.6,0.7999999999999972,0.13,NA,TRUE,B+,-0.906355467388921
-ME,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/09/24/polls/times-siena-poll-me-crosstabs.html,2026-09-22,619,LV,NA,45.9,48.7,-2.8000000000000043,0.3,NA,TRUE,A,0.79250584390928
-ME,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-maine/,2026-09-22,982,LV,NA,50,47,3,0.26,NA,TRUE,B/C,-1.61788461538461
-ME,University of New Hampshire,https://scholars.unh.edu/survey_center_polls/1007/,2026-09-21,1301,LV,NA,51,47,4,0.24,NA,TRUE,B-,2.0729257393987
-ME,Quantus Insights,https://quantusinsights.org/f/quantus-survey-collins-and-jackson-even-in-maine-senate-race,2026-09-15,621,LV,NA,47.4,47.6,-0.20000000000000284,0.18,NA,TRUE,B/C,-2.01331072071203
-ME,University of Massachusetts Lowell,https://www.uml.edu/news/press-releases/2026/09242026-maine-poll.aspx,2026-09-14,650,LV,NA,48,43,5,0.15,NA,TRUE,A-,0.481933416323602
-ME,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_maine_senate_september_8_10_2026,2026-09-10,1033,LV,NA,46,45,1,0.04,R,TRUE,B+,-1.27542237806204
-ME,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_me_20260902.pdf,2026-09-08,1335,LV,NA,48,44,4,0.05,NA,TRUE,B,0.523056121566762
+ME,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,714,LV,NA,50.9,45,5.899999999999999,2.32,NA,TRUE,A,0.79250584390928
+ME,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_me_20261026_lv.pdf,2026-10-29,1503,LV,NA,52,47,5,1.78,NA,TRUE,B,0.523056121566762
+ME,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-27,652,LV,NA,50,45,5,1.12,NA,TRUE,C+,-0.0550089517396322
+ME,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-26,783,LV,NA,49,45,4,0.94,NA,TRUE,C+,2.257644323424
+ME,Marist College,https://maristpoll.marist.edu/polls/the-midterm-elections-in-maine-october-2026/,2026-10-25,1449,LV,NA,49,47,2,1.69,NA,TRUE,A-,0.430437819211227
+ME,Trafalgar Group,https://www.thetrafalgargroup.org/news/me-senate-gen-1025/,2026-10-23,1077,LV,NA,46.5,47,-0.5,1.07,R,TRUE,B,-3.55614435061882
+ME,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,413,LV,NA,51,44,7,0.98,NA,TRUE,A-,-0.986831502685815
+ME,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-nail-biter-maine-senate-race,2026-10-20,1514,LV,NA,49,49,0,1.33,NA,TRUE,A-,0.86399011724611
+ME,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,49.3,46.8,2.5,0.75,NA,TRUE,B+,-0.906355467388921
+ME,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-14-2026-Maine-US-Senate-and-Governor-Statewide-and-Bellwether,2026-10-11,500,LV,NA,49,47,2,0.58,NA,TRUE,A-,1.29392767726935
+ME,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_maine_senate,2026-10-08,804,LV,NA,49,47,2,0.34,R,TRUE,B+,-1.27542237806204
+ME,The Washington Post,https://www.washingtonpost.com/politics/2026/10/09/poll-democrat-troy-jackson-narrowly-leads-susan-collins-maine-senate-race/?pwapi_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWFzb24iOiJnaWZ0IiwibmJmIjoxNzkxNTE4NDAwLCJpc3MiOiJzdWJzY3JpcHRpb25zIiwiZXhwIjoxNzkyOTAwNzk5LCJpYXQiOjE3OTE1MTg0MDAsImp0aSI6IjE4NjJkMzQ0LWQ0ZmMtNGIyMy05NzAwLTgwNWU1YTNjMWZlNCIsInVybCI6Imh0dHBzOi8vd3d3Lndhc2hpbmd0b25wb3N0LmNvbS9wb2xpdGljcy8yMDI2LzEwLzA5L3BvbGwtZGVtb2NyYXQtdHJveS1qYWNrc29uLW5hcnJvd2x5LWxlYWRzLXN1c2FuLWNvbGxpbnMtbWFpbmUtc2VuYXRlLXJhY2UvIn0.2_6lAaaYMcbP0y7_Ioe4GYgRcQnYJkY6IAE55nzmhAs,2026-10-05,800,LV,NA,50,46,4,0.53,NA,TRUE,A+,1.0245775693316
+ME,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-maine-october-2026/,2026-10-04,1505,RV,NA,51,47,4,0.16,NA,TRUE,A-,0.430437819211227
+ME,Trafalgar Group,https://www.thetrafalgargroup.org/news/me-senate-gen-1002/,2026-10-01,1091,LV,NA,46.2,45.9,0.30000000000000426,0.11,R,TRUE,B,-3.55614435061882
+ME,YouGov,https://www.cbsnews.com/news/maine-senate-poll-2026-10-02/,2026-10-01,1136,LV,NA,50,50,0,0.06,NA,TRUE,B,0.523056121566762
+ME,co/efficient,https://battlegrounds.coefficient.org/me/,2026-09-30,1240,LV,NA,46,48,-2,0.34,NA,TRUE,B,-2.53691676427889
+ME,Maine People's Resource Center,https://drive.google.com/file/d/1nVC9doKmSak5hQ8ajaaKftWiXSEZf-Us/view?link_id=0&can_id=43449815c7c9cdc13604b107d8c0a515&source=email-polling-jackson-leads-collins-mainers-demand-childcare-ai-regulation&email_referrer=email_3433131&email_subject=polling-jackson-leads-collins-mainers-demand-childcare-ai-regulation,2026-09-29,684,LV,NA,49.3,46.5,2.799999999999997,0.25,NA,TRUE,B/C,-0.995833333333332
+ME,InsiderAdvantage,https://insideradvantage.com/me-top-line-tabs/,2026-09-23,1200,LV,NA,46.4,45.6,0.7999999999999972,0.09,NA,TRUE,B+,-0.906355467388921
+ME,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-maine/,2026-09-22,982,LV,NA,50,47,3,0.19,NA,TRUE,B/C,-1.61788461538461
+ME,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/09/24/polls/times-siena-poll-me-crosstabs.html,2026-09-22,619,LV,NA,45.9,48.7,-2.8000000000000043,0.03,NA,TRUE,A,0.79250584390928
+ME,University of New Hampshire,https://scholars.unh.edu/survey_center_polls/1007/,2026-09-21,1301,LV,NA,51,47,4,0.17,NA,TRUE,B-,2.0729257393987
+ME,Quantus Insights,https://quantusinsights.org/f/quantus-survey-collins-and-jackson-even-in-maine-senate-race,2026-09-15,621,LV,NA,47.4,47.6,-0.20000000000000284,0.13,NA,TRUE,B/C,-2.01331072071203
+ME,University of Massachusetts Lowell,https://www.uml.edu/news/press-releases/2026/09242026-maine-poll.aspx,2026-09-14,650,LV,NA,48,43,5,0.1,NA,TRUE,A-,0.481933416323602
+ME,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_maine_senate_september_8_10_2026,2026-09-10,1033,LV,NA,46,45,1,0.02,R,TRUE,B+,-1.27542237806204
+ME,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_me_20260902.pdf,2026-09-08,1335,LV,NA,48,44,4,0.01,NA,TRUE,B,0.523056121566762
 ME,SSRS,https://www.cnn.com/2026/09/09/politics/cnn-polls-maine-senate-michigan-senate-abdul-el-sayed-susan-collins,2026-09-06,880,LV,NA,48,45,3,0.01,NA,TRUE,C+,2.257644323424
-ME,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,327,LV,NA,50,42,8,0.05,NA,TRUE,NA,NA
+ME,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,327,LV,NA,50,42,8,0.04,NA,TRUE,NA,NA
 ME,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-new-matchup-same-result-maine-senate-race-stays-locked,2026-08-10,1000,RV,NA,48,46,2,0,NA,FALSE,A-,0.86399011724611
-ME,Garin-Hart-Yang Research Group,https://drive.google.com/file/d/1c_Oz7n375ncOkmMWPs8DJTKcBD3Gke4-/view,2026-08-01,802,LV,NA,49,45,4,0.03,D,TRUE,A-,4.26434213249713
+ME,Garin-Hart-Yang Research Group,https://drive.google.com/file/d/1c_Oz7n375ncOkmMWPs8DJTKcBD3Gke4-/view,2026-08-01,802,LV,NA,49,45,4,0.02,D,TRUE,A-,4.26434213249713
 ME,University of New Hampshire,https://scholars.unh.edu/survey_center_polls/981/,2026-07-20,1178,LV,NA,49,46,3,0,NA,FALSE,B-,2.0729257393987
-ME,Public Policy Polling,https://www.politico.com/news/2026/07/08/graham-platner-polls-replacements-senate-00990664,2026-07-07,785,RV,NA,49,44,5,0.01,D,TRUE,B+,1.00650685175496
-MI,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-27,768,LV,NA,49,42,7,1.18,NA,TRUE,C+,2.257644323424
-MI,Mitchell Research & Communications,https://www.cbsnews.com/detroit/news/el-sayed-widens-lead-rogers-michigan-senate-poll/,2026-10-27,636,LV,NA,51,44,7,1.08,NA,TRUE,C,-0.445784478156661
-MI,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-25,622,LV,NA,50,46,4,1.23,NA,TRUE,C+,-0.0550089517396322
-MI,Upswing Research,https://x.com/joshorton/status/2115883461076545615,2026-10-25,505,LV,NA,50,45,5,0.93,D,TRUE,NA,NA
-MI,Michigan State University Office for Survey Research/Verasight,https://polisci.msu.edu/news-events/news/smidt-poll102926.html,2026-10-23,1383,LV,NA,51.4,42.2,9.199999999999996,0.94,NA,TRUE,NA,NA
-MI,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,47.2,46,1.2000000000000028,1.28,NA,TRUE,B+,-0.906355467388921
-MI,Glengariff Group,https://detroitnews.com/story/news/politics/2026/10/27/jocelyn-bensons-lead-over-john-james-grows-in-michigan-governor-race/92441176007/,2026-10-22,600,LV,NA,51.4,45.1,6.299999999999997,1.23,NA,TRUE,A/B,2.50718291452699
-MI,Michigan State University Institute for Public Policy and Social Research/YouGov,https://ippsr.msu.edu/news/msu-poll-shows-benson-large-lead-while-el-sayed-roger-race-tight,2026-10-19,836,LV,NA,48,45.5,2.5,0.6,NA,TRUE,B,0.523056121566762
-MI,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-michigan-october-2026/,2026-10-18,1185,LV,NA,50,48,2,1.26,NA,TRUE,A-,0.430437819211227
-MI,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_michigan_senate,2026-10-14,798,LV,NA,46,44,2,0.56,R,TRUE,B+,-1.27542237806204
-MI,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,47.8,45.5,2.299999999999997,0.39,NA,TRUE,B+,-0.906355467388921
-MI,The Tyson Group,https://www.breitbart.com/politics/2026/10/15/exclusive-poll-shows-mike-rogers-edging-out-abdul-el-sayed-in-michigan-senate-race/,2026-10-08,600,LV,NA,44,46,-2,0.3,R,TRUE,B/C,0.108508452754142
-MI,Quantus Insights,https://quantusinsights.org/f/michigan-senate-el-sayed-48-rogers-47-at-four-weeks-out,2026-10-06,744,LV,NA,48.4,47.2,1.1999999999999957,0.51,NA,TRUE,B/C,-2.01331072071203
-MI,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_mi_20260921_lv.pdf,2026-10-04,3947,LV,NA,49,48,1,0.56,NA,TRUE,B,0.523056121566762
-MI,Z to A Research,https://x.com/rbrtraining/status/2108302504446337272,2026-10-01,483,LV,NA,49,42,7,0.24,D,TRUE,NA,NA
-MI,Mitchell Research & Communications,https://www.cbsnews.com/detroit/news/michigan-voter-poll-abdul-el-sayed-mike-rogers/,2026-10-01,682,LV,NA,45.6,41.4,4.200000000000003,0.09,NA,TRUE,C,-0.445784478156661
-MI,Trafalgar Group,https://www.thetrafalgargroup.org/news/mi-senate-general-1001/,2026-09-30,1085,LV,NA,46.9,45.1,1.7999999999999972,0.36,R,TRUE,B,-3.55614435061882
-MI,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-michigan-voters-split-between-el-sayed-rogers,2026-09-28,1028,LV,NA,50,49,1,0.44,NA,TRUE,A-,0.86399011724611
-MI,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-michigan-september-2026/,2026-09-27,1235,RV,NA,51,44,7,0.14,NA,TRUE,A-,0.430437819211227
-MI,The Tyson Group,https://www.breitbart.com/politics/2026/10/15/exclusive-poll-shows-mike-rogers-edging-out-abdul-el-sayed-in-michigan-senate-race/,2026-09-27,600,LV,NA,44,43,1,0.11,R,TRUE,B/C,0.108508452754142
-MI,Guidant Polling and Strategy,https://static01.nyt.com/newsgraphics/documenttools/517739e11050c66b/43ffa3c2-full.pdf,2026-09-27,800,LV,NA,48.5,44,4.5,0.1,IND,TRUE,NA,NA
-MI,co/efficient,https://battlegrounds.coefficient.org/mi/,2026-09-23,843,LV,NA,47.5,47.5,0,0.14,NA,TRUE,B,-2.53691676427889
-MI,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/09/24/polls/times-siena-poll-mi-toplines.html,2026-09-22,605,LV,NA,49.5,44.5,5,0.28,NA,TRUE,A,0.79250584390928
-MI,GBAO,https://www.politico.com/newsletters/playbook/2026/09/28/trumps-joes-exit-the-front-row-01094720,2026-09-22,800,LV,NA,48,44,4,0.23,D,TRUE,B/C,3.16762829524119
-MI,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_michigan_senate,2026-09-22,1099,LV,NA,47,44,3,0.09,R,TRUE,B+,-1.27542237806204
-MI,Cygnal/Beacon Research,https://enjoyer.com/michigan-poll-fall-2026/,2026-09-21,600,LV,NA,45,40,5,0.2,NA,TRUE,B/C,NA
-MI,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls,2026-09-20,500,LV,NA,46.8,39.6,7.199999999999996,0.23,NA,TRUE,A-,1.29392767726935
-MI,Torchlight Strategies,https://washingtonreporter.news/exclusive-mike-rogers-leads-in-michigan-john-james-nearly-tied-poll-shows/,2026-09-19,643,LV,NA,43.1,44.4,-1.2999999999999972,0.18,R,TRUE,B/C,NA
-MI,InsiderAdvantage,https://insideradvantage.com/mi-top-line-tabs/,2026-09-17,1200,LV,NA,46.6,44.7,1.8999999999999986,0.04,NA,TRUE,B+,-0.906355467388921
-MI,Emerson College,https://emersoncollegepolling.com/michigan-2026-poll-el-sayed-and-rogers-locked-in-close-election/,2026-09-14,1000,LV,NA,48.2,45.7,2.5,0.24,NA,TRUE,A,-1.33555011131772
-MI,The Washington Post,https://www.washingtonpost.com/documents/08fa9b5e-43ac-456c-a706-4c33ec6506dc.pdf?itid=lk_inline_manual_2,2026-09-14,803,LV,NA,48,45,3,0.23,NA,TRUE,A+,1.0245775693316
-MI,Trafalgar Group,https://www.thetrafalgargroup.org/news/mi-sen-general-0910/,2026-09-09,1079,LV,NA,46.3,44.8,1.5,0.05,R,TRUE,B,-3.55614435061882
+ME,Public Policy Polling,https://www.politico.com/news/2026/07/08/graham-platner-polls-replacements-senate-00990664,2026-07-07,785,RV,NA,49,44,5,0,D,FALSE,B+,1.00650685175496
+MI,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,1011,LV,NA,52.6,41.6,11,2.47,NA,TRUE,A,0.79250584390928
+MI,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_mi_20261026_lv.pdf,2026-10-29,2093,LV,NA,51,47,4,2.04,NA,TRUE,B,0.523056121566762
+MI,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_michigan_senate,2026-10-29,745,LV,NA,49,44,5,1.17,R,TRUE,B+,-1.27542237806204
+MI,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-27,768,LV,NA,49,42,7,1.08,NA,TRUE,C+,2.257644323424
+MI,Mitchell Research & Communications,https://www.cbsnews.com/detroit/news/el-sayed-widens-lead-rogers-michigan-senate-poll/,2026-10-27,636,LV,NA,51,44,7,1,NA,TRUE,C,-0.445784478156661
+MI,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-25,622,LV,NA,50,46,4,1.12,NA,TRUE,C+,-0.0550089517396322
+MI,Upswing Research,https://x.com/joshorton/status/2115883461076545615,2026-10-25,505,LV,NA,50,45,5,0.85,D,TRUE,NA,NA
+MI,Michigan State University Office for Survey Research/Verasight,https://polisci.msu.edu/news-events/news/smidt-poll102926.html,2026-10-23,1383,LV,NA,51.4,42.2,9.199999999999996,1.06,NA,TRUE,NA,NA
+MI,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,47.2,46,1.2000000000000028,1.17,NA,TRUE,B+,-0.906355467388921
+MI,Glengariff Group,https://detroitnews.com/story/news/politics/2026/10/27/jocelyn-bensons-lead-over-john-james-grows-in-michigan-governor-race/92441176007/,2026-10-22,600,LV,NA,51.4,45.1,6.299999999999997,1.11,NA,TRUE,A/B,2.50718291452699
+MI,Michigan State University Institute for Public Policy and Social Research/YouGov,https://ippsr.msu.edu/news/msu-poll-shows-benson-large-lead-while-el-sayed-roger-race-tight,2026-10-19,836,LV,NA,48,45.5,2.5,0.52,NA,TRUE,B,0.523056121566762
+MI,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-michigan-october-2026/,2026-10-18,1185,LV,NA,50,48,2,1.13,NA,TRUE,A-,0.430437819211227
+MI,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_michigan_senate,2026-10-14,798,LV,NA,46,44,2,0.22,R,TRUE,B+,-1.27542237806204
+MI,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-alaska-ranks-choice-peltola-50-sullivan-48-kansas-hamilton-48-marshall-47-michigan-el-sayed-48-rogers-46/,2026-10-10,1200,LV,NA,47.8,45.5,2.299999999999997,0.33,NA,TRUE,B+,-0.906355467388921
+MI,The Tyson Group,https://www.breitbart.com/politics/2026/10/15/exclusive-poll-shows-mike-rogers-edging-out-abdul-el-sayed-in-michigan-senate-race/,2026-10-08,600,LV,NA,44,46,-2,0.26,R,TRUE,B/C,0.108508452754142
+MI,Quantus Insights,https://quantusinsights.org/f/michigan-senate-el-sayed-48-rogers-47-at-four-weeks-out,2026-10-06,744,LV,NA,48.4,47.2,1.1999999999999957,0.44,NA,TRUE,B/C,-2.01331072071203
+MI,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_mi_20260921_lv.pdf,2026-10-04,3947,LV,NA,49,48,1,0.12,NA,TRUE,B,0.523056121566762
+MI,Z to A Research,https://x.com/rbrtraining/status/2108302504446337272,2026-10-01,483,LV,NA,49,42,7,0.2,D,TRUE,NA,NA
+MI,Mitchell Research & Communications,https://www.cbsnews.com/detroit/news/michigan-voter-poll-abdul-el-sayed-mike-rogers/,2026-10-01,682,LV,NA,45.6,41.4,4.200000000000003,0.07,NA,TRUE,C,-0.445784478156661
+MI,Trafalgar Group,https://www.thetrafalgargroup.org/news/mi-senate-general-1001/,2026-09-30,1085,LV,NA,46.9,45.1,1.7999999999999972,0.31,R,TRUE,B,-3.55614435061882
+MI,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-michigan-voters-split-between-el-sayed-rogers,2026-09-28,1028,LV,NA,50,49,1,0.37,NA,TRUE,A-,0.86399011724611
+MI,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-michigan-september-2026/,2026-09-27,1235,RV,NA,51,44,7,0.11,NA,TRUE,A-,0.430437819211227
+MI,The Tyson Group,https://www.breitbart.com/politics/2026/10/15/exclusive-poll-shows-mike-rogers-edging-out-abdul-el-sayed-in-michigan-senate-race/,2026-09-27,600,LV,NA,44,43,1,0.09,R,TRUE,B/C,0.108508452754142
+MI,Guidant Polling and Strategy,https://static01.nyt.com/newsgraphics/documenttools/517739e11050c66b/43ffa3c2-full.pdf,2026-09-27,800,LV,NA,48.5,44,4.5,0.08,IND,TRUE,NA,NA
+MI,co/efficient,https://battlegrounds.coefficient.org/mi/,2026-09-23,843,LV,NA,47.5,47.5,0,0.11,NA,TRUE,B,-2.53691676427889
+MI,GBAO,https://www.politico.com/newsletters/playbook/2026/09/28/trumps-joes-exit-the-front-row-01094720,2026-09-22,800,LV,NA,48,44,4,0.19,D,TRUE,B/C,3.16762829524119
+MI,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/09/24/polls/times-siena-poll-mi-toplines.html,2026-09-22,605,LV,NA,49.5,44.5,5,0.04,NA,TRUE,A,0.79250584390928
+MI,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_michigan_senate,2026-09-22,1099,LV,NA,47,44,3,0.03,R,TRUE,B+,-1.27542237806204
+MI,Cygnal/Beacon Research,https://enjoyer.com/michigan-poll-fall-2026/,2026-09-21,600,LV,NA,45,40,5,0.16,NA,TRUE,B/C,NA
+MI,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls,2026-09-20,500,LV,NA,46.8,39.6,7.199999999999996,0.19,NA,TRUE,A-,1.29392767726935
+MI,Torchlight Strategies,https://washingtonreporter.news/exclusive-mike-rogers-leads-in-michigan-john-james-nearly-tied-poll-shows/,2026-09-19,643,LV,NA,43.1,44.4,-1.2999999999999972,0.15,R,TRUE,B/C,NA
+MI,InsiderAdvantage,https://insideradvantage.com/mi-top-line-tabs/,2026-09-17,1200,LV,NA,46.6,44.7,1.8999999999999986,0.03,NA,TRUE,B+,-0.906355467388921
+MI,Emerson College,https://emersoncollegepolling.com/michigan-2026-poll-el-sayed-and-rogers-locked-in-close-election/,2026-09-14,1000,LV,NA,48.2,45.7,2.5,0.19,NA,TRUE,A,-1.33555011131772
+MI,The Washington Post,https://www.washingtonpost.com/documents/08fa9b5e-43ac-456c-a706-4c33ec6506dc.pdf?itid=lk_inline_manual_2,2026-09-14,803,LV,NA,48,45,3,0.19,NA,TRUE,A+,1.0245775693316
+MI,Trafalgar Group,https://www.thetrafalgargroup.org/news/mi-sen-general-0910/,2026-09-09,1079,LV,NA,46.3,44.8,1.5,0.04,R,TRUE,B,-3.55614435061882
 MI,SSRS,https://www.cnn.com/2026/09/09/politics/cnn-polls-maine-senate-michigan-senate-abdul-el-sayed-susan-collins,2026-09-06,843,LV,NA,47,44,3,0.01,NA,TRUE,C+,2.257644323424
 MI,Glengariff Group,https://www.detroitnews.com/story/news/politics/2026/09/08/michigan-senate-poll-mike-rogers-abdul-el-sayed/91653231007/,2026-09-03,600,LV,NA,44.4,45.8,-1.3999999999999986,0.01,NA,TRUE,A/B,2.50718291452699
-MI,EPIC-MRA,https://talkingpointsmemo.com/edblog/time-to-relax-about-whether-abdul-el-sayed-can-win-michigan,2026-08-28,600,LV,NA,47,43,4,0.06,NA,TRUE,B+,0.63214940989757
-MI,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,332,LV,NA,47,42,5,0.05,NA,TRUE,NA,NA
+MI,EPIC-MRA,https://talkingpointsmemo.com/edblog/time-to-relax-about-whether-abdul-el-sayed-can-win-michigan,2026-08-28,600,LV,NA,47,43,4,0.05,NA,TRUE,B+,0.63214940989757
+MI,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,332,LV,NA,47,42,5,0.04,NA,TRUE,NA,NA
 MI,Michigan State University Institute for Public Policy and Social Research/YouGov,https://ippsr.msu.edu/news/msu-poll-shows-democrats-lead-republicans-coalesce-behind-rogers,2026-08-20,779,LV,NA,50,45,5,0,NA,FALSE,B,0.523056121566762
-MI,Susquehanna Polling & Research Inc.,https://static01.nyt.com/newsgraphics/documenttools/43c767b477fe30ae/4748b92f-full.pdf,2026-08-17,800,RV,NA,46,39,7,0.04,NA,TRUE,A-,-1.20390044328288
-MI,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-michigan/?CMP=RDRCT-PRI-POLT,2026-08-11,877,LV,NA,48,47,1,0.03,NA,TRUE,B/C,-1.61788461538461
-MI,TIPP Insights,https://tippinsights.com/league-of-american-workers-survey-michigan-2/,2026-08-10,1215,LV,NA,45.4,42.3,3.1000000000000014,0.04,R,TRUE,A,-1.41030846341996
+MI,Susquehanna Polling & Research Inc.,https://static01.nyt.com/newsgraphics/documenttools/43c767b477fe30ae/4748b92f-full.pdf,2026-08-17,800,RV,NA,46,39,7,0.03,NA,TRUE,A-,-1.20390044328288
+MI,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-michigan/?CMP=RDRCT-PRI-POLT,2026-08-11,877,LV,NA,48,47,1,0.02,NA,TRUE,B/C,-1.61788461538461
+MI,TIPP Insights,https://tippinsights.com/league-of-american-workers-survey-michigan-2/,2026-08-10,1215,LV,NA,45.4,42.3,3.1000000000000014,0.03,R,TRUE,A,-1.41030846341996
 MI,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-senate-battle-looms-michigan,2026-08-10,1006,RV,NA,47,51,-4,0,NA,FALSE,A-,0.86399011724611
 MI,GBAO,https://www.politico.com/newsletters/playbook/2026/08/15/what-burritos-tell-us-about-capitalism-01038859,2026-08-10,800,LV,NA,50,44,6,0,D,FALSE,B/C,3.16762829524119
-MI,EPIC-MRA,https://x.com/MIRSnews/status/2083770042475516025,2026-07-31,600,LV,NA,43,46,-3,0.01,NA,TRUE,B+,0.63214940989757
+MI,EPIC-MRA,https://x.com/MIRSnews/status/2083770042475516025,2026-07-31,600,LV,NA,43,46,-3,0,NA,FALSE,B+,0.63214940989757
 MI,Mitchell Research & Communications,https://static1.squarespace.com/static/5f14ae6fb2a20e01e9c6d608/t/6a6d26262f442f133d15fa49/1785538087149/MITCHELL+MI+Poll+Nov+Electio+Press+Release+7-31-2026+305PM_A.pdf,2026-07-29,672,LV,NA,45,45,0,0,NA,FALSE,C,-0.445784478156661
 MI,Glengariff Group,https://mea.org/latest-statewide-poll-7-2026/,2026-07-24,600,LV,NA,38.7,49,-10.299999999999997,0,NA,FALSE,A/B,2.50718291452699
 MI,Quantus Insights,https://quantusinsights.org/f/michigan-senate-el-sayed-leads-primary-fall-race-remains-tight,2026-06-30,947,LV,NA,45.2,44.1,1.1000000000000014,0,NA,FALSE,B/C,-2.01331072071203
@@ -232,21 +243,22 @@ MI,Glengariff Group,https://www.detroitchamber.com/chamber-poll-voters-views-on-
 MI,Emerson College,https://emersoncollegepolling.com/michigan-2026-poll-crowded-democratic-senate-primary-remains-wide-open/,2026-01-25,1000,LV,NA,42.5,42.8,-0.29999999999999716,0,NA,FALSE,A,-1.33555011131772
 MI,Glengariff Group,https://www.detroitnews.com/story/news/politics/2026/01/13/michigan-race-for-governor-polling-john-james-jocelyn-benson-mike-duggan/88134923007/,2026-01-06,600,LV,NA,41.6,48,-6.399999999999999,0,NA,FALSE,A/B,2.50718291452699
 MI,Mitchell Research & Communications,https://mirs-polls.s3.us-east-2.amazonaws.com/c7ba70f28c3812c553cbf07db509f469.pdf,2025-11-21,616,LV,NA,38,41,-3,0,NA,FALSE,C,-0.445784478156661
-MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-minnesota-statewide-races-inch-left-in-final-poll-before-election-day/,2026-10-28,714,LV,NA,48,41,7,1.94,NA,TRUE,A,-0.473880113039857
-MN,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/28/polls/times-siena-mn-poll-toplines.html,2026-10-26,752,LV,NA,54.2,40.3,13.900000000000006,1.89,NA,TRUE,A,0.79250584390928
-MN,Victory Insights,https://irp.cdn-website.com/07e08705/files/uploaded/PollReport_MN-GE-26_10-28-26.pdf,2026-10-22,1194,LV,NA,47.8,44.4,3.3999999999999986,0.92,R,TRUE,B/C,-1.37701913295784
-MN,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_minnesota_senate,2026-10-21,1182,LV,NA,48,45,3,0.96,R,TRUE,B+,-1.27542237806204
-MN,Trafalgar Group,https://www.thetrafalgargroup.org/news/mn-senate-gen-1017/,2026-10-15,1079,LV,NA,48.1,44.6,3.5,0.95,R,TRUE,B,-3.55614435061882
-MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-poll-swing-in-senate-and-ag-races-klobuchar-up-slightly-on-demuth/,2026-10-12,718,LV,NA,45,42,3,0.43,NA,TRUE,A,-0.473880113039857
-MN,Mason-Dixon Polling & Strategy,https://www.startribune.com/minnesota-poll-flanagan-tafoya-senate/601887443,2026-10-07,800,LV,NA,47,43,4,0.69,NA,TRUE,A-,-1.1216496472889
-MN,Morning Consult,https://www.thedailyagenda.com/p/morning-take-the-daily-agenda-poll,2026-10-07,1000,RV,NA,45,41,4,0.43,NA,TRUE,C+,0.863863689554084
-MN,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_minnesota_senate,2026-10-07,856,LV,NA,48,45,3,0.19,R,TRUE,B+,-1.27542237806204
-MN,Greenberg Quinlan Rosner,https://x.com/DrewSav/status/2108502733045334207,2026-10-04,800,LV,NA,51.5,43,8.5,0.29,D,TRUE,A-,3.26268971907182
-MN,InsiderAdvantage,https://insideradvantage.com/insideradvantage-survey-u-s-senate-minnesota-contest-a-one-point-race-flanagan-46-tafoya-45/,2026-09-29,1200,LV,NA,46,45,1,0.48,NA,TRUE,B+,-0.906355467388921
-MN,co/efficient,https://battlegrounds.coefficient.org/mn/,2026-09-15,833,LV,NA,43,42,1,0.2,NA,TRUE,B,-2.53691676427889
-MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-poll-governor-senate-races-tightening-days-before-early-voting-starts-in-minnesota/,2026-09-14,654,LV,NA,42,42,0,0.03,NA,TRUE,A,-0.473880113039857
-MN,Quantus Insights,https://quantusinsights.org/polling/f/new-quantus-polls-moody-leads-in-florida-flanagan-in-minnesota,2026-09-10,720,LV,NA,48.9,45.4,3.5,0.13,NA,TRUE,B/C,-2.01331072071203
-MN,TIPP Insights,https://www.dailysignal.com/2026/09/08/senator-tafoya-minnesota-polling-dead-heat/,2026-09-02,1192,LV,NA,44,41.9,2.1000000000000014,0.12,R,TRUE,A,-1.41030846341996
+MN,InsiderAdvantage,https://insideradvantage.com/insideradvantage-final-minnesota-senate-survey-flanagan-49-tafoya-46/,2026-10-30,1200,LV,NA,49.3,46.4,2.8999999999999986,2.15,NA,TRUE,B+,-0.906355467388921
+MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-minnesota-statewide-races-inch-left-in-final-poll-before-election-day/,2026-10-28,714,LV,NA,48,41,7,1.66,NA,TRUE,A,-0.473880113039857
+MN,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/28/polls/times-siena-mn-poll-toplines.html,2026-10-26,752,LV,NA,54.2,40.3,13.900000000000006,1.6,NA,TRUE,A,0.79250584390928
+MN,Victory Insights,https://irp.cdn-website.com/07e08705/files/uploaded/PollReport_MN-GE-26_10-28-26.pdf,2026-10-22,1194,LV,NA,47.8,44.4,3.3999999999999986,0.77,R,TRUE,B/C,-1.37701913295784
+MN,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_minnesota_senate,2026-10-21,1182,LV,NA,48,45,3,0.81,R,TRUE,B+,-1.27542237806204
+MN,Trafalgar Group,https://www.thetrafalgargroup.org/news/mn-senate-gen-1017/,2026-10-15,1079,LV,NA,48.1,44.6,3.5,0.78,R,TRUE,B,-3.55614435061882
+MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-poll-swing-in-senate-and-ag-races-klobuchar-up-slightly-on-demuth/,2026-10-12,718,LV,NA,45,42,3,0.34,NA,TRUE,A,-0.473880113039857
+MN,Mason-Dixon Polling & Strategy,https://www.startribune.com/minnesota-poll-flanagan-tafoya-senate/601887443,2026-10-07,800,LV,NA,47,43,4,0.56,NA,TRUE,A-,-1.1216496472889
+MN,Morning Consult,https://www.thedailyagenda.com/p/morning-take-the-daily-agenda-poll,2026-10-07,1000,RV,NA,45,41,4,0.35,NA,TRUE,C+,0.863863689554084
+MN,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_minnesota_senate,2026-10-07,856,LV,NA,48,45,3,0.15,R,TRUE,B+,-1.27542237806204
+MN,Greenberg Quinlan Rosner,https://x.com/DrewSav/status/2108502733045334207,2026-10-04,800,LV,NA,51.5,43,8.5,0.23,D,TRUE,A-,3.26268971907182
+MN,InsiderAdvantage,https://insideradvantage.com/insideradvantage-survey-u-s-senate-minnesota-contest-a-one-point-race-flanagan-46-tafoya-45/,2026-09-29,1200,LV,NA,46,45,1,0.08,NA,TRUE,B+,-0.906355467388921
+MN,co/efficient,https://battlegrounds.coefficient.org/mn/,2026-09-15,833,LV,NA,43,42,1,0.15,NA,TRUE,B,-2.53691676427889
+MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-poll-governor-senate-races-tightening-days-before-early-voting-starts-in-minnesota/,2026-09-14,654,LV,NA,42,42,0,0.02,NA,TRUE,A,-0.473880113039857
+MN,Quantus Insights,https://quantusinsights.org/polling/f/new-quantus-polls-moody-leads-in-florida-flanagan-in-minnesota,2026-09-10,720,LV,NA,48.9,45.4,3.5,0.1,NA,TRUE,B/C,-2.01331072071203
+MN,TIPP Insights,https://www.dailysignal.com/2026/09/08/senator-tafoya-minnesota-polling-dead-heat/,2026-09-02,1192,LV,NA,44,41.9,2.1000000000000014,0.08,R,TRUE,A,-1.41030846341996
 MN,SurveyUSA,https://kstp.com/kstp-news/top-news/kstp-surveyusa-poll-early-frontrunners-in-governor-and-senate-races-ag-a-toss-up/,2026-08-17,661,LV,NA,46,41,5,0,NA,FALSE,A,-0.473880113039857
 MN,Impact Research,https://x.com/NenoNicolosio/status/2062572053346111489?s=20,2026-05-28,808,LV,NA,51,44,7,0,D,FALSE,B/C,5.44370337995338
 MN,Emerson College,https://emersoncollegepolling.com/minnesota-2026-poll-democrats-lead-gop-as-voters-cite-threats-to-democracy/,2026-02-08,1000,LV,NA,47.1,40.6,6.5,0,NA,FALSE,A,-1.33555011131772
@@ -269,26 +281,28 @@ MT,The Bullfinch Group,https://independentcentervoice.com/insights/july-2026-sta
 MT,Garin-Hart-Yang Research Group,https://www.mtfreedompac.org/press-releases,2026-06-24,800,LV,NA,25,47,-22,0,D,FALSE,A-,4.26434213249713
 MT,GrayHouse,https://www.insideelections.com/news/article/montana-senate-new-poll-confirms-gop-edge,2026-06-24,500,LV,NA,17,41,-24,0,NA,FALSE,NA,NA
 MT,Public Opinion Strategies,https://www.semafor.com/article/06/18/2026/divided-montana-senate-field-helps-republicans,2026-06-11,500,LV,NA,20,44,-24,0,R,FALSE,A,-4.14281915819612
-NC,Quantus Insights,https://quantusinsights.org/f/north-carolina-senate-cooper-holds-a-9-point-lead-over-whatley,2026-10-25,722,LV,NA,52.1,43.2,8.899999999999999,0.81,NA,TRUE,B/C,-2.01331072071203
-NC,High Point University,https://www.highpoint.edu/blog/2026/10/hpu-yougov-poll-north-carolina-likely-voters-weigh-in-on-u-s-senate-race-and-more/,2026-10-20,620,LV,NA,54,40,14,0.68,NA,TRUE,B/C,1.80078733031674
-NC,Harper Polling,https://www.carolinajournal.com/polls/,2026-10-20,600,LV,NA,50.5,40.5,10,0.61,NA,TRUE,B/C,-0.73974627867676
-NC,SurveyUSA,https://www.wral.com/news/nccapitol/wral-nc-us-senate-poll-cooper-whatley-tillis-trump-stein-approval-midterm-october-2026/,2026-10-11,643,LV,NA,54,40,14,0.94,NA,TRUE,A,-0.473880113039857
-NC,Trafalgar Group,https://www.thetrafalgargroup.org/news/nc-senate-gen-1011/,2026-10-10,1091,LV,NA,48.8,40.9,7.899999999999999,0.78,R,TRUE,B,-3.55614435061882
-NC,YouGov,https://eloncdn.blob.core.windows.net/eu3/sites/819/2026/10/Elon-Poll-news-release-10-20-26.pdf,2026-10-08,560,LV,NA,54,43,11,0.38,NA,TRUE,B,0.523056121566762
-NC,Change Research,https://docs.google.com/document/d/1nVWsUhnA6dAlqOgHS2j2K6kFoJLJFjQbkN8KAXhyK0s/edit?tab=t.0,2026-10-07,829,LV,NA,50,40,10,0.38,D,TRUE,C+,0.765173131194218
-NC,East Carolina University,https://surveyresearch-ecu.reportablenews.com/pr/ecu-poll-cooper-s-lead-holds-at-7-points,2026-10-03,810,LV,NA,50,43,7,0.53,NA,TRUE,B/C,0.139630566521527
-NC,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_north_carolina_senate,2026-09-22,1047,LV,NA,48,41,7,0.29,R,TRUE,B+,-1.27542237806204
-NC,Quantus Insights,https://quantusinsights.org/f/roy-cooper-leads-michael-whatley-by-five-in-north-carolina,2026-09-22,686,LV,NA,48.4,43.3,5.100000000000001,0.06,NA,TRUE,B/C,-2.01331072071203
-NC,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-north-carolina/,2026-09-20,1115,LV,NA,53,42,11,0.28,NA,TRUE,B/C,-1.61788461538461
-NC,Opinion Diagnostics,https://www.commoncause.org/north-carolina/press/2026_poll_1/,2026-09-20,857,LV,NA,51.7,43.5,8.200000000000003,0.24,NA,TRUE,NA,NA
-NC,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_nc_20260915.pdf,2026-09-18,3626,LV,NA,53.5,41,12.5,0.16,NA,TRUE,B,0.523056121566762
-NC,InsiderAdvantage,https://insideradvantage.com/nc-top-line-tabs/,2026-09-17,1200,LV,NA,48.4,42.5,5.899999999999999,0.31,NA,TRUE,B+,-0.906355467388921
-NC,High Point University,https://www.highpoint.edu/blog/2026/09/hpu-poll-127-north-carolina-likely-voters-weigh-in-on-u-s-senate-race-and-more/,2026-09-16,706,LV,NA,50,42,8,0.04,NA,TRUE,B/C,1.80078733031674
-NC,YouGov,https://www.catawba.edu/news/all-news/2026/yougov-39/,2026-09-15,885,LV,NA,48,37,11,0.05,NA,TRUE,B,0.523056121566762
-NC,Harper Polling,https://www.carolinajournal.com/polls/september-2026-roy-coopers-lead-grows-to-15-points-in-nc-senate-race/,2026-09-15,608,LV,NA,49.2,34.1,15.100000000000001,0.04,NA,TRUE,B/C,-0.73974627867676
-NC,Trafalgar Group,https://www.thetrafalgargroup.org/wp-content/uploads/2026/09/NC-Gen-Sen-Poll-Full-Report-0911.pdf,2026-09-10,1084,LV,NA,48.2,42.3,5.900000000000006,0.05,R,TRUE,B,-3.55614435061882
-NC,East Carolina University,https://surveyresearch-ecu.reportablenews.com/pr/ecu-poll-cooper-leads-whatley-by-7-points,2026-09-03,675,LV,NA,51.7,43.6,8.100000000000001,0.03,NA,TRUE,B/C,0.139630566521527
-NC,YouGov,https://eloncdn.blob.core.windows.net/eu3/sites/819/2026/09/Elon-University-Poll-NR-9-10-26.pdf,2026-08-31,565,LV,NA,49,38,11,0.01,NA,TRUE,B,0.523056121566762
+NC,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_nc_20261026_lv.pdf,2026-10-29,2130,LV,NA,55,44,11,1.9,NA,TRUE,B,0.523056121566762
+NC,East Carolina University,https://surveyresearch-ecu.reportablenews.com/pr/ecu-poll-cooper-leads-whatley-by-9-points-as-election-day-nears,2026-10-29,1041,LV,NA,54,44.9,9.100000000000001,1.76,NA,TRUE,B/C,0.139630566521527
+NC,Quantus Insights,https://quantusinsights.org/f/north-carolina-senate-cooper-holds-a-9-point-lead-over-whatley,2026-10-25,722,LV,NA,52.1,43.2,8.899999999999999,0.61,NA,TRUE,B/C,-2.01331072071203
+NC,High Point University,https://www.highpoint.edu/blog/2026/10/hpu-yougov-poll-north-carolina-likely-voters-weigh-in-on-u-s-senate-race-and-more/,2026-10-20,620,LV,NA,54,40,14,0.52,NA,TRUE,B/C,1.80078733031674
+NC,Harper Polling,https://www.carolinajournal.com/polls/,2026-10-20,600,LV,NA,50.5,40.5,10,0.47,NA,TRUE,B/C,-0.73974627867676
+NC,SurveyUSA,https://www.wral.com/news/nccapitol/wral-nc-us-senate-poll-cooper-whatley-tillis-trump-stein-approval-midterm-october-2026/,2026-10-11,643,LV,NA,54,40,14,0.71,NA,TRUE,A,-0.473880113039857
+NC,Trafalgar Group,https://www.thetrafalgargroup.org/news/nc-senate-gen-1011/,2026-10-10,1091,LV,NA,48.8,40.9,7.899999999999999,0.59,R,TRUE,B,-3.55614435061882
+NC,YouGov,https://eloncdn.blob.core.windows.net/eu3/sites/819/2026/10/Elon-Poll-news-release-10-20-26.pdf,2026-10-08,560,LV,NA,54,43,11,0.1,NA,TRUE,B,0.523056121566762
+NC,Change Research,https://docs.google.com/document/d/1nVWsUhnA6dAlqOgHS2j2K6kFoJLJFjQbkN8KAXhyK0s/edit?tab=t.0,2026-10-07,829,LV,NA,50,40,10,0.29,D,TRUE,C+,0.765173131194218
+NC,East Carolina University,https://surveyresearch-ecu.reportablenews.com/pr/ecu-poll-cooper-s-lead-holds-at-7-points,2026-10-03,810,LV,NA,50,43,7,0.12,NA,TRUE,B/C,0.139630566521527
+NC,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_north_carolina_senate,2026-09-22,1047,LV,NA,48,41,7,0.22,R,TRUE,B+,-1.27542237806204
+NC,Quantus Insights,https://quantusinsights.org/f/roy-cooper-leads-michael-whatley-by-five-in-north-carolina,2026-09-22,686,LV,NA,48.4,43.3,5.100000000000001,0.05,NA,TRUE,B/C,-2.01331072071203
+NC,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-north-carolina/,2026-09-20,1115,LV,NA,53,42,11,0.21,NA,TRUE,B/C,-1.61788461538461
+NC,Opinion Diagnostics,https://www.commoncause.org/north-carolina/press/2026_poll_1/,2026-09-20,857,LV,NA,51.7,43.5,8.200000000000003,0.18,NA,TRUE,NA,NA
+NC,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_nc_20260915.pdf,2026-09-18,3626,LV,NA,53.5,41,12.5,0.04,NA,TRUE,B,0.523056121566762
+NC,InsiderAdvantage,https://insideradvantage.com/nc-top-line-tabs/,2026-09-17,1200,LV,NA,48.4,42.5,5.899999999999999,0.24,NA,TRUE,B+,-0.906355467388921
+NC,High Point University,https://www.highpoint.edu/blog/2026/09/hpu-poll-127-north-carolina-likely-voters-weigh-in-on-u-s-senate-race-and-more/,2026-09-16,706,LV,NA,50,42,8,0.03,NA,TRUE,B/C,1.80078733031674
+NC,Harper Polling,https://www.carolinajournal.com/polls/september-2026-roy-coopers-lead-grows-to-15-points-in-nc-senate-race/,2026-09-15,608,LV,NA,49.2,34.1,15.100000000000001,0.03,NA,TRUE,B/C,-0.73974627867676
+NC,YouGov,https://www.catawba.edu/news/all-news/2026/yougov-39/,2026-09-15,885,LV,NA,48,37,11,0.01,NA,TRUE,B,0.523056121566762
+NC,Trafalgar Group,https://www.thetrafalgargroup.org/wp-content/uploads/2026/09/NC-Gen-Sen-Poll-Full-Report-0911.pdf,2026-09-10,1084,LV,NA,48.2,42.3,5.900000000000006,0.04,R,TRUE,B,-3.55614435061882
+NC,East Carolina University,https://surveyresearch-ecu.reportablenews.com/pr/ecu-poll-cooper-leads-whatley-by-7-points,2026-09-03,675,LV,NA,51.7,43.6,8.100000000000001,0.01,NA,TRUE,B/C,0.139630566521527
+NC,YouGov,https://eloncdn.blob.core.windows.net/eu3/sites/819/2026/09/Elon-University-Poll-NR-9-10-26.pdf,2026-08-31,565,LV,NA,49,38,11,0,NA,FALSE,B,0.523056121566762
 NC,High Point University,https://www.highpoint.edu/blog/2026/08/hpu-poll-126-majority-of-north-carolina-voters-say-country-headed-in-wrong-direction/,2026-08-12,660,LV,NA,50,45,5,0,NA,FALSE,B/C,1.80078733031674
 NC,Harper Polling,https://www.carolinajournal.com/polls/august-2026-coopers-lead-over-whatley-grows-to-12-5-points/,2026-08-10,600,LV,NA,51.5,39,12.5,0,NA,FALSE,B/C,-0.73974627867676
 NC,Change Research,https://carolinaforward.org/news/the-august-2026-carolina-forward-poll/,2026-08-06,915,LV,NA,50,42.9,7.100000000000001,0,D,FALSE,C+,0.765173131194218
@@ -296,7 +310,7 @@ NC,Change Research,https://garypearcenc.substack.com/p/cooper-up-by-9-trump-stil
 NC,YouGov,https://eloncdn.blob.core.windows.net/eu3/sites/819/2026/08/Elon-Poll-1-fall-2026-NR-V3-8-12-26.pdf,2026-07-31,466,LV,NA,53,42,11,0,NA,FALSE,B,0.523056121566762
 NC,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-democratic-enthusiasm-shapes-north-carolina-senate-race,2026-07-27,1005,RV,NA,53,44,9,0.02,NA,TRUE,A-,0.86399011724611
 NC,Public Policy Polling,https://www.publicpolicypolling.com/polls/cooper-leads-but-whatley-has-a-path/,2026-07-11,759,RV,NA,48,44,4,0.01,NA,TRUE,B+,1.00650685175496
-NC,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/07/01/polls/times-siena-north-carolina-poll-crosstabs.html,2026-06-27,601,LV,NA,50,43.2,6.799999999999997,0.01,NA,TRUE,A,0.79250584390928
+NC,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/07/01/polls/times-siena-north-carolina-poll-crosstabs.html,2026-06-27,601,LV,NA,50,43.2,6.799999999999997,0,NA,FALSE,A,0.79250584390928
 NC,YouGov,https://www.catawba.edu/news/all-news/2026/yougovsurvey27/,2026-06-10,905,LV,NA,47.7,34,13.700000000000003,0,NA,FALSE,B,0.523056121566762
 NC,Harper Polling,https://www.carolinajournal.com/polls/may-2026-coopers-lead-over-whatley-in-senate-race-widens/,2026-05-11,600,LV,NA,49.8,38.7,11.099999999999994,0,NA,FALSE,B/C,-0.73974627867676
 NC,Change Research,https://carolinaforward.org/blog/the-may-2026-carolina-forward-poll/,2026-05-08,957,LV,NA,49.3,42.4,6.899999999999999,0,D,FALSE,C+,0.765173131194218
@@ -311,16 +325,18 @@ NC,Change Research,https://changeresearch.com/north-carolina-voters-february-202
 NC,TIPP Insights,https://www.dailysignal.com/2026/01/19/exclusive-economy-remains-gops-biggest-vulnerability-in-north-carolina-new-poll-shows/,2026-01-15,1512,RV,NA,48.4,24.2,24.2,0,R,FALSE,A,-1.41030846341996
 NC,Change Research,https://carolinaforward.org/blog/the-january-carolina-forward-poll/,2026-01-07,1105,LV,NA,47,42,5,0,D,FALSE,C+,0.765173131194218
 NC,Harper Polling,https://www.carolinajournal.com/polls/november-2025-cooper-maintains-lead-in-senate-race/,2025-11-10,600,LV,NA,47.3,38.6,8.699999999999996,0,NA,FALSE,B/C,-0.73974627867676
-NE,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/31/polls/times-siena-ne-poll-toplines.html,2026-10-29,809,LV,NA,43,48.7,-5.700000000000003,2.31,NA,TRUE,A,0.79250584390928
-NE,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,407,LV,NA,46,47,-1,1.2,NA,TRUE,A-,-0.986831502685815
-NE,GBAO,https://docsend.com/view/hhiqc5yfcc548rdz,2026-10-22,800,LV,NA,46,45,1,1.09,IND,TRUE,B/C,3.16762829524119
-NE,Impact Research,https://www.the-downballot.com/p/morning-digest-keisha-lance-bottoms,2026-10-20,600,LV,NA,47.5,49.5,-2,0.93,IND,TRUE,B/C,5.44370337995338
-NE,Concord Public Opinion Partners,https://concordpublicopinionpartners.org/polls/nebraska-ge-2026,2026-10-18,500,LV,NA,48,41,7,1.05,D,TRUE,A/B,3.98523809523809
-NE,National Public Affairs,https://backend.natpublicaffairs.com/media/NE_Tracker_R2_Trend_Memo_102226.7.pdf,2026-10-18,598,LV,NA,45,48,-3,0.25,R,TRUE,B/C,-0.741666666666666
-NE,National Public Affairs,https://backend.natpublicaffairs.com/media/Nebraska_General_Election_Memo_100926.pdf,2026-10-05,800,LV,NA,44.5,47.5,-3,0.08,R,TRUE,B/C,-0.741666666666666
-NE,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ne_20260921_lv.pdf,2026-10-03,1808,LV,NA,48,47,1,0.51,NA,TRUE,B,0.523056121566762
-NE,co/efficient,https://battlegrounds.coefficient.org/ne/,2026-09-30,1113,LV,NA,42,45.5,-3.5,0.22,NA,TRUE,B,-2.53691676427889
-NE,SurveyUSA,https://results.surveyusa.com/client/PollReport.aspx?g=d94236a7-5861-4b7f-9d81-d5a81ab786cc,2026-09-13,503,LV,NA,46,42,4,0.18,NA,TRUE,A,-0.473880113039857
+NE,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/31/polls/times-siena-ne-poll-toplines.html,2026-10-29,809,LV,NA,43,48.7,-5.700000000000003,2.12,NA,TRUE,A,0.79250584390928
+NE,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ne_20261026_lv.pdf,2026-10-29,1979,LV,NA,49,49,0,2.11,NA,TRUE,B,0.523056121566762
+NE,National Public Affairs,https://backend.natpublicaffairs.com/media/Nebraska_General_Election_Memo_103126.2.pdf,2026-10-29,800,LV,NA,46.5,48.5,-2,0.38,R,TRUE,B/C,-0.741666666666666
+NE,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,407,LV,NA,46,47,-1,1.1,NA,TRUE,A-,-0.986831502685815
+NE,GBAO,https://docsend.com/view/hhiqc5yfcc548rdz,2026-10-22,800,LV,NA,46,45,1,1,IND,TRUE,B/C,3.16762829524119
+NE,Impact Research,https://www.the-downballot.com/p/morning-digest-keisha-lance-bottoms,2026-10-20,600,LV,NA,47.5,49.5,-2,0.85,IND,TRUE,B/C,5.44370337995338
+NE,Concord Public Opinion Partners,https://concordpublicopinionpartners.org/polls/nebraska-ge-2026,2026-10-18,500,LV,NA,48,41,7,0.97,D,TRUE,A/B,3.98523809523809
+NE,National Public Affairs,https://backend.natpublicaffairs.com/media/NE_Tracker_R2_Trend_Memo_102226.7.pdf,2026-10-18,598,LV,NA,45,48,-3,0.12,R,TRUE,B/C,-0.741666666666666
+NE,National Public Affairs,https://backend.natpublicaffairs.com/media/Nebraska_General_Election_Memo_100926.pdf,2026-10-05,800,LV,NA,44.5,47.5,-3,0.04,R,TRUE,B/C,-0.741666666666666
+NE,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_ne_20260921_lv.pdf,2026-10-03,1808,LV,NA,48,47,1,0.12,NA,TRUE,B,0.523056121566762
+NE,co/efficient,https://battlegrounds.coefficient.org/ne/,2026-09-30,1113,LV,NA,42,45.5,-3.5,0.2,NA,TRUE,B,-2.53691676427889
+NE,SurveyUSA,https://results.surveyusa.com/client/PollReport.aspx?g=d94236a7-5861-4b7f-9d81-d5a81ab786cc,2026-09-13,503,LV,NA,46,42,4,0.16,NA,TRUE,A,-0.473880113039857
 NE,GBAO,https://www.washingtonsun.com/newsletters/panic-week,2026-09-08,800,LV,NA,47,46,1,0.02,IND,TRUE,B/C,3.16762829524119
 NE,Impact Research,https://omaha.com/news/state-regional/government-politics/article_666083f7-4e07-45ae-a534-adbb42b64734.html#tncms-source=login,2026-08-13,600,LV,NA,47,47,0,0,IND,FALSE,B/C,5.44370337995338
 NE,GBAO,https://www.washingtonsun.com/newsletters/panic-week,2026-07-26,800,LV,NA,47,47,0,0,IND,FALSE,B/C,3.16762829524119
@@ -356,31 +372,35 @@ NH,Saint Anselm College,https://www.anselm.edu/about/anselmian-hub/news/new-poll
 NM,Research & Polling Inc.,https://www.abqjournal.com/news/journal-poll-haaland-maintains-lead-over-hull-as-new-mexicos-race-for-governor-nears-homestretch/3139307,2026-10-09,1125,LV,NA,53,37,16,2.09,NA,TRUE,A+,0.6328955453149
 NM,SurveyUSA,https://www.kob.com/new-mexico/kob-poll-finds-haaland-leading-hull-by-6-points-in-head-to-head-race/,2026-09-30,567,LV,NA,54,36,18,1.16,NA,TRUE,A,-0.473880113039857
 NM,Research & Polling Inc.,https://www.abqjournal.com/news/journal-poll-haaland-leads-hull-by-closer-than-expected-margin-in-new-mexicos-race-for-governor/3111874,2026-08-28,516,LV,NA,53,38,15,0.07,NA,TRUE,A+,0.6328955453149
-OH,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-28-2026-Ohio-Governor-and-US-Senate-with-USA-TODAY-Network-Ohio,2026-10-26,500,LV,NA,46.6,43.8,2.8000000000000043,1.71,NA,TRUE,A-,1.29392767726935
-OH,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,508,LV,NA,47,47,0,1.45,NA,TRUE,A-,-0.986831502685815
-OH,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,46.7,44.4,2.3000000000000043,1.57,NA,TRUE,B+,-0.906355467388921
-OH,Verasight,https://votehub.com/2026/10/22/votehub-verasight-poll-surveys-ohios-u-s-senate-and-gubernatorial-races/,2026-10-20,531,LV,NA,47.5,43.6,3.8999999999999986,0.65,NA,TRUE,NA,NA
-OH,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-gender-gap-pocketbook-pain-shape-ohio-senate-race,2026-10-19,1592,LV,NA,52,47,5,1.75,NA,TRUE,A-,0.86399011724611
-OH,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-ohio-october-2026/,2026-10-18,1176,LV,NA,48,44,4,1.43,NA,TRUE,A-,0.430437819211227
-OH,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_ohio_senate,2026-10-14,901,LV,NA,47,49,-2,0.65,R,TRUE,B+,-1.27542237806204
-OH,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,959,LV,NA,49,43,6,0.75,NA,TRUE,B/C,-5.80624999999999
-OH,Bowling Green State University Democracy and Public Policy Research Network/YouGov,https://scholarworks.bgsu.edu/cgi/viewcontent.cgi?article=1030&context=depo,2026-10-09,1000,LV,NA,48,42,6,0.5,NA,TRUE,B,0.523056121566762
-OH,co/efficient,https://battlegrounds.coefficient.org/oh/,2026-10-06,925,LV,NA,44,45,-1,0.33,NA,TRUE,B,-2.53691676427889
-OH,SSRS,https://edition.cnn.com/2026/10/08/politics/cnn-polls-ohio-iowa-senate-governor-midterms,2026-10-05,760,LV,NA,49,43,6,0.42,NA,TRUE,C+,2.257644323424
-OH,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-ohio-poll-crosstabs.html,2026-10-01,616,LV,NA,48.8,46.1,2.6999999999999957,0.48,NA,TRUE,A,0.79250584390928
-OH,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_oh_20260921_lv.pdf,2026-09-30,3777,LV,NA,49,45,4,0.45,NA,TRUE,B,0.523056121566762
-OH,InsiderAdvantage,https://insideradvantage.com/insideradvantage-ohio-senate-race-narrows-to-brown-up-by-one/,2026-09-29,1200,LV,NA,43.8,42.5,1.2999999999999972,0.17,NA,TRUE,B+,-0.906355467388921
-OH,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-ohio-september-2026/,2026-09-27,1298,RV,NA,51,43,8,0.16,NA,TRUE,A-,0.430437819211227
-OH,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-September-29-2026-Ohio-Governor-and-US-Senate-with-USA-TODAY-Network-Ohio,2026-09-27,500,LV,NA,46.6,44,2.6000000000000014,0.1,NA,TRUE,A-,1.29392767726935
-OH,Quantus Insights,https://quantusinsights.org/polling/f/brown-and-husted-deadlocked-in-ohio-senate-race,2026-09-23,695,LV,NA,47.4,47,0.3999999999999986,0.14,NA,TRUE,B/C,-2.01331072071203
-OH,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_ohio_senate,2026-09-23,1115,LV,NA,46,43,3,0.1,R,TRUE,B+,-1.27542237806204
-OH,Trafalgar Group,https://www.thetrafalgargroup.org/news/oh-senate-0917/,2026-09-16,1085,LV,NA,45.4,41.5,3.8999999999999986,0.24,R,TRUE,B,-3.55614435061882
-OH,YouGov,https://drive.google.com/file/d/16DCSUQaBOGTTk0u3flp6q0uwC6AO8euZ/view,2026-09-10,1000,LV,NA,48,45,3,0.05,NA,TRUE,B,0.523056121566762
-OH,InsiderAdvantage,https://insideradvantage.com/top-line-tabs-ohio/,2026-09-09,1200,LV,NA,47.3,41.9,5.399999999999999,0.03,NA,TRUE,B+,-0.906355467388921
-OH,Concord Public Opinion Partners,https://concordpublicopinionpartners.org/polls/ohio-ge-2026,2026-08-31,504,LV,NA,50,40,10,0.1,D,TRUE,A/B,3.98523809523809
-OH,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,306,LV,NA,46,41,5,0.06,NA,TRUE,NA,NA
+OH,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,717,LV,NA,49.3,43.7,5.599999999999994,2.16,NA,TRUE,A,0.79250584390928
+OH,InsiderAdvantage,https://insideradvantage.com/final-insideradvantage-ohio-survey-brown-49-husted-47-acton-49-ramaswamy-46/,2026-10-30,1200,LV,NA,48.8,47,1.7999999999999972,1.68,NA,TRUE,B+,-0.906355467388921
+OH,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_oh_20261026_lv.pdf,2026-10-29,2090,LV,NA,50,48,2,1.89,NA,TRUE,B,0.523056121566762
+OH,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-October-28-2026-Ohio-Governor-and-US-Senate-with-USA-TODAY-Network-Ohio,2026-10-26,500,LV,NA,46.6,43.8,2.8000000000000043,1.28,NA,TRUE,A-,1.29392767726935
+OH,Concord Public Opinion Partners,https://concordpublicopinionpartners.org/polls/ohio-ge-2026-oct,2026-10-24,469,LV,NA,46,42,4,1.16,D,TRUE,A/B,3.98523809523809
+OH,Echelon Insights,https://netchoice.org/netchoice-echelon-insights-poll-voters-rank-ai-regulation-far-behind-cost-of-living-want-one-national-ai-standard/,2026-10-23,508,LV,NA,47,47,0,1.06,NA,TRUE,A-,-0.986831502685815
+OH,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-mi-el-sayed-47-rogers-46-ia-hinson-47-turek-45-oh-brown-47-husted-44/,2026-10-22,1200,LV,NA,46.7,44.4,2.3000000000000043,0.7,NA,TRUE,B+,-0.906355467388921
+OH,Verasight,https://votehub.com/2026/10/22/votehub-verasight-poll-surveys-ohios-u-s-senate-and-gubernatorial-races/,2026-10-20,531,LV,NA,47.5,43.6,3.8999999999999986,0.56,NA,TRUE,NA,NA
+OH,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-gender-gap-pocketbook-pain-shape-ohio-senate-race,2026-10-19,1592,LV,NA,52,47,5,1.28,NA,TRUE,A-,0.86399011724611
+OH,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-ohio-october-2026/,2026-10-18,1176,LV,NA,48,44,4,1.04,NA,TRUE,A-,0.430437819211227
+OH,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_ohio_senate,2026-10-14,901,LV,NA,47,49,-2,0.47,R,TRUE,B+,-1.27542237806204
+OH,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,959,LV,NA,49,43,6,0.54,NA,TRUE,B/C,-5.80624999999999
+OH,Bowling Green State University Democracy and Public Policy Research Network/YouGov,https://scholarworks.bgsu.edu/cgi/viewcontent.cgi?article=1030&context=depo,2026-10-09,1000,LV,NA,48,42,6,0.35,NA,TRUE,B,0.523056121566762
+OH,co/efficient,https://battlegrounds.coefficient.org/oh/,2026-10-06,925,LV,NA,44,45,-1,0.23,NA,TRUE,B,-2.53691676427889
+OH,SSRS,https://edition.cnn.com/2026/10/08/politics/cnn-polls-ohio-iowa-senate-governor-midterms,2026-10-05,760,LV,NA,49,43,6,0.29,NA,TRUE,C+,2.257644323424
+OH,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-ohio-poll-crosstabs.html,2026-10-01,616,LV,NA,48.8,46.1,2.6999999999999957,0.07,NA,TRUE,A,0.79250584390928
+OH,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_oh_20260921_lv.pdf,2026-09-30,3777,LV,NA,49,45,4,0.07,NA,TRUE,B,0.523056121566762
+OH,InsiderAdvantage,https://insideradvantage.com/insideradvantage-ohio-senate-race-narrows-to-brown-up-by-one/,2026-09-29,1200,LV,NA,43.8,42.5,1.2999999999999972,0.07,NA,TRUE,B+,-0.906355467388921
+OH,Marist College,https://maristpoll.marist.edu/polls/midterm-elections-in-ohio-september-2026/,2026-09-27,1298,RV,NA,51,43,8,0.1,NA,TRUE,A-,0.430437819211227
+OH,Suffolk University,https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/other-states#collapse-September-29-2026-Ohio-Governor-and-US-Senate-with-USA-TODAY-Network-Ohio,2026-09-27,500,LV,NA,46.6,44,2.6000000000000014,0.06,NA,TRUE,A-,1.29392767726935
+OH,Quantus Insights,https://quantusinsights.org/polling/f/brown-and-husted-deadlocked-in-ohio-senate-race,2026-09-23,695,LV,NA,47.4,47,0.3999999999999986,0.09,NA,TRUE,B/C,-2.01331072071203
+OH,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_ohio_senate,2026-09-23,1115,LV,NA,46,43,3,0.07,R,TRUE,B+,-1.27542237806204
+OH,Trafalgar Group,https://www.thetrafalgargroup.org/news/oh-senate-0917/,2026-09-16,1085,LV,NA,45.4,41.5,3.8999999999999986,0.16,R,TRUE,B,-3.55614435061882
+OH,YouGov,https://drive.google.com/file/d/16DCSUQaBOGTTk0u3flp6q0uwC6AO8euZ/view,2026-09-10,1000,LV,NA,48,45,3,0.01,NA,TRUE,B,0.523056121566762
+OH,InsiderAdvantage,https://insideradvantage.com/top-line-tabs-ohio/,2026-09-09,1200,LV,NA,47.3,41.9,5.399999999999999,0.01,NA,TRUE,B+,-0.906355467388921
+OH,Concord Public Opinion Partners,https://concordpublicopinionpartners.org/polls/ohio-ge-2026,2026-08-31,504,LV,NA,50,40,10,0.01,D,TRUE,A/B,3.98523809523809
+OH,Abacus Data,https://abacusdata.ca/the-trade-war-next-door-what-american-voters-think-about-tariffs-canada-and-the-battle-for-the-u-s-senate/,2026-08-28,306,LV,NA,46,41,5,0.04,NA,TRUE,NA,NA
 OH,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-economic-anxiety-candidate-concerns-define-ohio-senate-race,2026-08-10,1008,RV,NA,53,45,8,0,NA,FALSE,A-,0.86399011724611
-OH,Tulchin Research,https://www.the-downballot.com/p/morning-digest-sponsored-by-the-michigan-a7b,2026-08-04,600,LV,NA,47,43,4,0.02,D,TRUE,B/C,5.40561538461538
+OH,Tulchin Research,https://www.the-downballot.com/p/morning-digest-sponsored-by-the-michigan-a7b,2026-08-04,600,LV,NA,47,43,4,0.01,D,TRUE,B/C,5.40561538461538
 OH,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/07/01/polls/times-siena-ohio-poll-crosstabs.html,2026-06-28,601,LV,NA,47,49.8,-2.799999999999997,0,NA,FALSE,A,0.79250584390928
 OH,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/pri/topics/voter-research/politics/2026-midterm-election-poll-ohio/,2026-06-16,800,LV,NA,48,45,3,0,NA,FALSE,B/C,-1.61788461538461
 OH,Tulchin Research,https://x.com/PollTracker2024/status/2067244200886665423,2026-06-04,600,LV,NA,46,42,4,0,D,FALSE,B/C,5.40561538461538
@@ -424,48 +444,50 @@ SD,Public Opinion Strategies,https://townhall.com/news/amy-curtis/2026/08/05/dem
 SD,Public Policy Polling,https://hub.nationaljournal.com/trump-dusts-off-conspiracy-playbook,2026-05-30,726,RV,NA,40,44,-4,0,IND,FALSE,B+,1.00650685175496
 SD,Public Policy Polling,https://hub.nationaljournal.com/a-midterm-emergency?ecid=ACsprvu6bA8AsAXvrf0Vmi-32K_hjHCSumN0vz9t66Lia9K_O2FS-A_ILxCNQ4E6vpTsg39vkcc6&utm_campaign=36387909-%5BNJ%5D%202026%20Wake%20Up%20Call&utm_source=hs_email&utm_medium=email&utm_content=406051685&_hsenc=p2ANqtz--IelxAim4tn1q-6yORR1qEOC1f9HRaFC1aqF_J5xZRj8n9aQAGwnJCzCH0rPCyxwblmyq20-uX32G7X7psoG0a7zrwTovY1L1PZizG4voT4PX5w_w,2026-02-18,685,RV,NA,35,47,-12,0,IND,FALSE,B+,1.00650685175496
 SD,Public Policy Polling,https://hub.nationaljournal.com/trump-dusts-off-conspiracy-playbook,2025-11-14,814,RV,NA,31,44,-13,0,IND,FALSE,B+,1.00650685175496
-TX,Kreate Strategies,https://kstrat.net/press/texas-2026-senate-governor-talarico-leads-paxton-october,2026-10-30,900,LV,NA,48,45,3,1.77,NA,TRUE,NA,NA
-TX,Quantus Insights,https://quantusinsights.org/polling/f/texas-survey-paxton-up-one-abbott-ahead-by-five,2026-10-28,1207,LV,NA,48.4,49.4,-1,1.52,NA,TRUE,B/C,-2.01331072071203
-TX,A2 Insights,https://drive.google.com/file/d/1UACnmnM84Dd1hU0l6iqHNgXkyh5oCelO/view,2026-10-27,631,LV,NA,50.2,47.2,3,1.24,NA,TRUE,B/C,-0.916071428571427
-TX,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-27,923,LV,NA,49,43,6,1.23,NA,TRUE,C+,2.257644323424
-TX,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-26,712,LV,NA,49,45,4,1.29,NA,TRUE,C+,-0.0550089517396322
-TX,YouGov,https://254labs.io/news/2026-10-tx,2026-10-26,1000,LV,NA,51,43,8,0.88,NA,TRUE,B,0.523056121566762
-TX,Barbara Jordan Public Policy Research and Survey Center,https://static1.squarespace.com/static/67aa7aa3e284b002cd6a420e/t/6ae28aaadbf6636957aa51e7/1793231530759/TSUStatewideOct2026.pdf,2026-10-25,2000,LV,NA,49,47,2,1.3,NA,TRUE,NA,NA
-TX,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_texas_senate,2026-10-21,965,LV,NA,45,45,0,0.92,R,TRUE,B+,-1.27542237806204
-TX,YouGov,https://www.univision.com/noticias/politica/poll-univision-texas-latinos,2026-10-21,1000,RV,NA,50,45,5,0.34,NA,TRUE,B,0.523056121566762
-TX,Verasight,https://cdn.votehub.com/pdfs/VoteHub_Verasight_Oct_2026_Texas_Report_D8A925D0.pdf,2026-10-20,601,LV,NA,47.6,45.2,2.3999999999999986,0.55,NA,TRUE,NA,NA
-TX,Emerson College,https://emersoncollegepolling.com/texas-2026-poll-toss-up/,2026-10-19,1000,LV,NA,49.4,47.8,1.6000000000000014,1.31,NA,TRUE,A,-1.33555011131772
-TX,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-texas-senate-race-galloping-toward-photo-finish,2026-10-19,1398,LV,NA,49,49,0,1.3,NA,TRUE,A-,0.86399011724611
-TX,Slingshot Strategies,https://texaspublicopinionresearch.substack.com/p/october-poll-in-texas-general-election,2026-10-18,969,LV,NA,51,47,4,0.77,NA,TRUE,B/C,3.8090909090909
-TX,YouGov,https://www.cbsnews.com/news/texas-senate-talarico-paxton-poll/,2026-10-16,1458,LV,NA,51,49,2,0.29,NA,TRUE,B,0.523056121566762
-TX,"Cor Services, Inc.",https://www.dailysignal.com/2026/10/23/texas-poll-election-integrity-proof-citizenship-support/,2026-10-15,1409,LV,NA,44,40,4,0.52,R,TRUE,NA,NA
-TX,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,48.1,48.5,-0.3999999999999986,0.9,NA,TRUE,B+,-0.906355467388921
-TX,University of Houston,https://www.uh.edu/hobby/texas2026/index.php,2026-10-14,2000,LV,NA,48,46,2,0.78,NA,TRUE,B/C,NA
-TX,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,934,LV,NA,49,44,5,0.61,NA,TRUE,B/C,-5.80624999999999
-TX,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-texas-october-2026/,2026-10-11,1196,LV,NA,47,45,2,0.8,NA,TRUE,A-,0.430437819211227
-TX,Quantus Insights,https://quantusinsights.org/f/texas-senate-paxton-and-talarico-in-a-near-tie,2026-10-11,854,LV,NA,46.7,47.2,-0.5,0.22,NA,TRUE,B/C,-2.01331072071203
-TX,Trafalgar Group,https://www.thetrafalgargroup.org/news/tx-senate-gen-1009/,2026-10-08,1086,LV,NA,47.1,43.6,3.5,0.51,R,TRUE,B,-3.55614435061882
-TX,ReconMR/Siena Research Institute,https://reconmr.com/wp-content/uploads/2026/10/TXP004-October-Press-Release.pdf,2026-10-08,617,LV,NA,48,44,4,0.39,NA,TRUE,NA,NA
-TX,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_tx_20260921_lv.pdf,2026-10-05,3623,LV,NA,50,44,6,0.15,NA,TRUE,B,0.523056121566762
-TX,YouGov,https://texaspolitics.utexas.edu/blog/latest-ut-texas-politics-poll-finds-historic-levels-of-competition-in-texas-midterm-elections,2026-10-05,861,LV,NA,50,47,3,0.07,NA,TRUE,B,0.523056121566762
-TX,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-texas-poll-crosstabs.html,2026-09-30,615,LV,NA,50.8,45.1,5.699999999999996,0.35,NA,TRUE,A,0.79250584390928
-TX,University of Massachusetts Lowell,https://www.uml.edu/news/press-releases/2026/10092026-texas-poll.aspx,2026-09-28,850,LV,NA,45,45,0,0.3,NA,TRUE,A-,0.481933416323602
-TX,Guidant Polling and Strategy,https://static01.nyt.com/newsgraphics/documenttools/b31cf2744465b8b7/1a8b655b-full.pdf,2026-09-28,800,LV,NA,47,44,3,0.17,IND,TRUE,NA,NA
-TX,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-its-lone-star-senate-showdown-between-talarico-paxton,2026-09-28,881,LV,NA,51,49,2,0.13,NA,TRUE,A-,0.86399011724611
-TX,Pulse Decision Science,https://www.elpasotimes.com/story/news/politics/elections/2026/10/01/talarico-trails-paxton-in-conservative-texas-us-senate-race-poll/92022294007/,2026-09-27,800,LV,NA,45,48,-3,0.19,R,TRUE,NA,NA
-TX,Stratus Intelligence,https://www.politico.com/newsletters/playbook/2026/09/28/trumps-joes-exit-the-front-row-01094720,2026-09-24,865,LV,NA,48,48,0,0.17,R,TRUE,NA,NA
-TX,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_texas_senate_september_28_29_2026,2026-09-23,1115,LV,NA,46,45,1,0.06,R,TRUE,B+,-1.27542237806204
-TX,Slingshot Strategies,https://texaspublicopinionresearch.substack.com/p/new-poll-in-texas-general-election-662,2026-09-22,1007,LV,NA,49,44,5,0.06,NA,TRUE,B/C,3.8090909090909
-TX,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-texas-september-2026/,2026-09-20,1139,RV,NA,50,44,6,0.08,NA,TRUE,A-,0.430437819211227
+TX,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/11/01/polls/times-siena-poll-crosstabs.html,2026-11-01,1215,LV,NA,50.2,43.1,7.100000000000001,2.77,NA,TRUE,A,0.79250584390928
+TX,Kreate Strategies,https://kstrat.net/press/texas-2026-senate-governor-talarico-leads-paxton-october,2026-10-30,900,LV,NA,48,45,3,1.56,NA,TRUE,NA,NA
+TX,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_tx_20261026_lv.pdf,2026-10-29,2141,LV,NA,51,47,4,1.18,NA,TRUE,B,0.523056121566762
+TX,Quantus Insights,https://quantusinsights.org/polling/f/texas-survey-paxton-up-one-abbott-ahead-by-five,2026-10-28,1207,LV,NA,48.4,49.4,-1,1.34,NA,TRUE,B/C,-2.01331072071203
+TX,A2 Insights,https://drive.google.com/file/d/1UACnmnM84Dd1hU0l6iqHNgXkyh5oCelO/view,2026-10-27,631,LV,NA,50.2,47.2,3,1.09,NA,TRUE,B/C,-0.916071428571427
+TX,SSRS,https://edition.cnn.com/2026/10/29/politics/cnn-polls-michigan-maine-texas-kansas-senate-races-midterms-vis,2026-10-27,923,LV,NA,49,43,6,1.09,NA,TRUE,C+,2.257644323424
+TX,Data for Progress,https://www.dataforprogress.org/blog/2026/10/30/democratic-senate-candidates-lead-in-maine-michigan-and-texas,2026-10-26,712,LV,NA,49,45,4,1.14,NA,TRUE,C+,-0.0550089517396322
+TX,YouGov,https://254labs.io/news/2026-10-tx,2026-10-26,1000,LV,NA,51,43,8,0.56,NA,TRUE,B,0.523056121566762
+TX,Barbara Jordan Public Policy Research and Survey Center,https://static1.squarespace.com/static/67aa7aa3e284b002cd6a420e/t/6ae28aaadbf6636957aa51e7/1793231530759/TSUStatewideOct2026.pdf,2026-10-25,2000,LV,NA,49,47,2,1.15,NA,TRUE,NA,NA
+TX,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/elections/election_2026/election_2026_texas_senate,2026-10-21,965,LV,NA,45,45,0,0.81,R,TRUE,B+,-1.27542237806204
+TX,YouGov,https://www.univision.com/noticias/politica/poll-univision-texas-latinos,2026-10-21,1000,RV,NA,50,45,5,0.22,NA,TRUE,B,0.523056121566762
+TX,Verasight,https://cdn.votehub.com/pdfs/VoteHub_Verasight_Oct_2026_Texas_Report_D8A925D0.pdf,2026-10-20,601,LV,NA,47.6,45.2,2.3999999999999986,0.58,NA,TRUE,NA,NA
+TX,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-texas-senate-race-galloping-toward-photo-finish,2026-10-19,1398,LV,NA,49,49,0,1.15,NA,TRUE,A-,0.86399011724611
+TX,Emerson College,https://emersoncollegepolling.com/texas-2026-poll-toss-up/,2026-10-19,1000,LV,NA,49.4,47.8,1.6000000000000014,1.15,NA,TRUE,A,-1.33555011131772
+TX,Slingshot Strategies,https://texaspublicopinionresearch.substack.com/p/october-poll-in-texas-general-election,2026-10-18,969,LV,NA,51,47,4,0.68,NA,TRUE,B/C,3.8090909090909
+TX,YouGov,https://www.cbsnews.com/news/texas-senate-talarico-paxton-poll/,2026-10-16,1458,LV,NA,51,49,2,0.18,NA,TRUE,B,0.523056121566762
+TX,"Cor Services, Inc.",https://www.dailysignal.com/2026/10/23/texas-poll-election-integrity-proof-citizenship-support/,2026-10-15,1409,LV,NA,44,40,4,0.46,R,TRUE,NA,NA
+TX,InsiderAdvantage,https://insideradvantage.com/insideradvantage-senate-surveys-texas-paxton-49-talarico-48-kansas-marshall-48-hamilton-47-maine-jackson-49-collins-47/,2026-10-14,1200,LV,NA,48.1,48.5,-0.3999999999999986,0.79,NA,TRUE,B+,-0.906355467388921
+TX,University of Houston,https://www.uh.edu/hobby/texas2026/index.php,2026-10-14,2000,LV,NA,48,46,2,0.69,NA,TRUE,B/C,NA
+TX,New River Strategies/GS Strategy Group,https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/senate-battleground-district-project-october,2026-10-13,934,LV,NA,49,44,5,0.53,NA,TRUE,B/C,-5.80624999999999
+TX,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-texas-october-2026/,2026-10-11,1196,LV,NA,47,45,2,0.7,NA,TRUE,A-,0.430437819211227
+TX,Quantus Insights,https://quantusinsights.org/f/texas-senate-paxton-and-talarico-in-a-near-tie,2026-10-11,854,LV,NA,46.7,47.2,-0.5,0.19,NA,TRUE,B/C,-2.01331072071203
+TX,Trafalgar Group,https://www.thetrafalgargroup.org/news/tx-senate-gen-1009/,2026-10-08,1086,LV,NA,47.1,43.6,3.5,0.45,R,TRUE,B,-3.55614435061882
+TX,ReconMR/Siena Research Institute,https://reconmr.com/wp-content/uploads/2026/10/TXP004-October-Press-Release.pdf,2026-10-08,617,LV,NA,48,44,4,0.43,NA,TRUE,NA,NA
+TX,YouGov,https://d3nkl3psvxxpe9.cloudfront.net/documents/ttw_tx_20260921_lv.pdf,2026-10-05,3623,LV,NA,50,44,6,0.1,NA,TRUE,B,0.523056121566762
+TX,YouGov,https://texaspolitics.utexas.edu/blog/latest-ut-texas-politics-poll-finds-historic-levels-of-competition-in-texas-midterm-elections,2026-10-05,861,LV,NA,50,47,3,0.04,NA,TRUE,B,0.523056121566762
+TX,The New York Times/Siena College,https://www.nytimes.com/interactive/2026/10/03/polls/times-siena-texas-poll-crosstabs.html,2026-09-30,615,LV,NA,50.8,45.1,5.699999999999996,0.06,NA,TRUE,A,0.79250584390928
+TX,University of Massachusetts Lowell,https://www.uml.edu/news/press-releases/2026/10092026-texas-poll.aspx,2026-09-28,850,LV,NA,45,45,0,0.27,NA,TRUE,A-,0.481933416323602
+TX,Guidant Polling and Strategy,https://static01.nyt.com/newsgraphics/documenttools/b31cf2744465b8b7/1a8b655b-full.pdf,2026-09-28,800,LV,NA,47,44,3,0.15,IND,TRUE,NA,NA
+TX,Beacon Research/Shaw & Co. Research,https://www.foxnews.com/politics/fox-news-poll-its-lone-star-senate-showdown-between-talarico-paxton,2026-09-28,881,LV,NA,51,49,2,0.11,NA,TRUE,A-,0.86399011724611
+TX,Pulse Decision Science,https://www.elpasotimes.com/story/news/politics/elections/2026/10/01/talarico-trails-paxton-in-conservative-texas-us-senate-race-poll/92022294007/,2026-09-27,800,LV,NA,45,48,-3,0.17,R,TRUE,NA,NA
+TX,Stratus Intelligence,https://www.politico.com/newsletters/playbook/2026/09/28/trumps-joes-exit-the-front-row-01094720,2026-09-24,865,LV,NA,48,48,0,0.15,R,TRUE,NA,NA
+TX,Rasmussen Reports,https://www.rasmussenreports.com/public_content/politics/public_surveys/toplines_texas_senate_september_28_29_2026,2026-09-23,1115,LV,NA,46,45,1,0.05,R,TRUE,B+,-1.27542237806204
+TX,Slingshot Strategies,https://texaspublicopinionresearch.substack.com/p/new-poll-in-texas-general-election-662,2026-09-22,1007,LV,NA,49,44,5,0.05,NA,TRUE,B/C,3.8090909090909
+TX,Marist College,https://maristpoll.marist.edu/polls/2026-midterm-elections-in-texas-september-2026/,2026-09-20,1139,RV,NA,50,44,6,0.07,NA,TRUE,A-,0.430437819211227
 TX,Barbara Jordan Public Policy Research and Survey Center,https://static1.squarespace.com/static/67aa7aa3e284b002cd6a420e/t/6ab15cb39e4cc420b9ef07f5/1790008500236/TSUSept2026_TXStatewideRaces.pdf,2026-09-19,1800,LV,NA,47,46,1,0.03,NA,TRUE,NA,NA
-TX,Trafalgar Group,https://www.thetrafalgargroup.org/news/tx-general-0918/,2026-09-17,1079,LV,NA,46.4,45.2,1.1999999999999957,0.06,R,TRUE,B,-3.55614435061882
-TX,Emerson College,https://emersoncollegepolling.com/texas-2026-poll-talarico-and-paxton-in-dead-heat-abbott-maintains-edge/,2026-09-14,1000,LV,NA,47.3,46.3,1,0.04,NA,TRUE,A,-1.33555011131772
+TX,Trafalgar Group,https://www.thetrafalgargroup.org/news/tx-general-0918/,2026-09-17,1079,LV,NA,46.4,45.2,1.1999999999999957,0.05,R,TRUE,B,-3.55614435061882
+TX,Emerson College,https://emersoncollegepolling.com/texas-2026-poll-talarico-and-paxton-in-dead-heat-abbott-maintains-edge/,2026-09-14,1000,LV,NA,47.3,46.3,1,0.03,NA,TRUE,A,-1.33555011131772
 TX,ReconMR/Siena Research Institute,https://sri.siena.edu/2026/09/17/hinojosa-now-leads-abbott-by-4-points-talarico-widens-lead-to-6-points/,2026-09-11,614,LV,NA,49,43,6,0.03,NA,TRUE,NA,NA
-TX,Mason-Dixon Polling & Strategy,https://s3.documentcloud.org/documents/28623723/tx926allvoterresults.pdf,2026-09-10,625,LV,NA,46,43,3,0.13,NA,TRUE,A-,-1.1216496472889
-TX,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-texas-talarico-47-paxton-46-south-carolina-graham-45-andrews-43-ohio-brown-47-husted-42/,2026-09-09,1200,LV,NA,47.1,45.6,1.5,0.03,NA,TRUE,B+,-0.906355467388921
+TX,Mason-Dixon Polling & Strategy,https://s3.documentcloud.org/documents/28623723/tx926allvoterresults.pdf,2026-09-10,625,LV,NA,46,43,3,0.12,NA,TRUE,A-,-1.1216496472889
+TX,InsiderAdvantage,https://insideradvantage.com/insideradvantage-u-s-senate-surveys-texas-talarico-47-paxton-46-south-carolina-graham-45-andrews-43-ohio-brown-47-husted-42/,2026-09-09,1200,LV,NA,47.1,45.6,1.5,0.02,NA,TRUE,B+,-0.906355467388921
 TX,YouGov,https://www.univision.com/noticias/politica/poll-univision-texas-2026,2026-09-04,1000,RV,NA,48,43,5,0,NA,FALSE,B,0.523056121566762
-TX,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/press/releases/2026-09-10-new-aarp-texas-poll-highly-motivated-older-voters-could-shape-close-senate-governor-races/,2026-09-01,895,LV,NA,48,44,4,0.07,NA,TRUE,B/C,-1.61788461538461
-TX,Overton Insights,https://overtoninsights.com/wp-content/uploads/2026/08/Overton_Insights_Texas_Public_Policy_Foundation_Toplines_and_Demographics-2.pdf,2026-08-26,1167,LV,NA,50,50,0,0.05,NA,TRUE,NA,NA
+TX,Fabrizio Lee & Associates/Impact Research,https://www.aarp.org/press/releases/2026-09-10-new-aarp-texas-poll-highly-motivated-older-voters-could-shape-close-senate-governor-races/,2026-09-01,895,LV,NA,48,44,4,0.06,NA,TRUE,B/C,-1.61788461538461
+TX,Overton Insights,https://overtoninsights.com/wp-content/uploads/2026/08/Overton_Insights_Texas_Public_Policy_Foundation_Toplines_and_Demographics-2.pdf,2026-08-26,1167,LV,NA,50,50,0,0.06,NA,TRUE,NA,NA
 TX,Slingshot Strategies,https://texaspublicopinionresearch.substack.com/p/new-poll-in-texas-general-election,2026-08-24,1000,LV,NA,48,42,6,0,NA,FALSE,B/C,3.8090909090909
 TX,YouGov,https://texaspolitics.utexas.edu/blog/new-ut-texas-politics-project-poll-finds-talarico-leading-paxton-abbott-leading-hinojosa-continued-resistance-to-data-centers-2,2026-08-13,1200,RV,NA,42,39,3,0,NA,FALSE,B,0.523056121566762
 TX,Emerson College,https://emersoncollegepolling.com/texas-2026-poll-paxton-and-talarico/,2026-08-10,1000,LV,NA,46.2,47.2,-1,0,NA,FALSE,A,-1.33555011131772
