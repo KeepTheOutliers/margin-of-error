@@ -1293,6 +1293,10 @@ ui <- page_navbar(
   fillable = FALSE,
   header = tags$head(
     tags$link(rel = "stylesheet", href = GOOGLE_FONTS),
+    # Site icon: the seat horseshoe (www/favicon.svg; PNGs for browsers and phones that need them)
+    tags$link(rel = "icon", type = "image/svg+xml", href = "favicon.svg"),
+    tags$link(rel = "icon", type = "image/png", sizes = "32x32", href = "favicon-32.png"),
+    tags$link(rel = "apple-touch-icon", href = "apple-touch-icon.png"),
     tags$style(HTML(APP_CSS)),
     tags$script(HTML(APP_JS))
   ),

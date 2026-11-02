@@ -123,6 +123,6 @@ write_json(out, "_site/data.json", auto_unbox = TRUE, na = "null", null = "null"
 
 # ---- 3. The app and assets ------------------------------------------------------------
 file.copy("web/app.js", "_site/app.js", overwrite = TRUE)
-file.copy("www/silver-bulletin.png", "_site/silver-bulletin.png", overwrite = TRUE)
+file.copy(list.files("www", full.names = TRUE), "_site", overwrite = TRUE)   # logo and site icons
 file.copy("site/og.png", "_site/og.png", overwrite = TRUE)
 cat("Built _site/ (", round(sum(file.size(list.files("_site", recursive = TRUE, full.names = TRUE))) / 1e6, 1), "MB )\n")

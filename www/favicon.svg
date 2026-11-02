@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Margin of Error: the seat horseshoe, blue (D) to red (R), with the 50-seat line across the apex -->
+  <defs>
+    <linearGradient id="hs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a78b8"/>
+      <stop offset="0.48" stop-color="#8fb0d4"/>
+      <stop offset="0.52" stop-color="#d49a86"/>
+      <stop offset="1" stop-color="#c0532f"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="13" fill="#1b1a17"/>
+  <path d="M7 14.5 H33 A17.5 17.5 0 0 1 33 49.5 H7" fill="none" stroke="url(#hs)" stroke-width="11.5" stroke-linecap="butt"/>
+  <rect x="42.5" y="29.75" width="17" height="4.5" rx="1.2" fill="#fbf8f1"/>
+</svg>
