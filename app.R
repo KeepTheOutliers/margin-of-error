@@ -22,6 +22,8 @@ IS_BROWSER <- identical(R.version$os, "emscripten")
 IS_STATIC <- exists("BUILD_STATIC") && isTRUE(BUILD_STATIC)
 # Early Vote tab (and its credits) hidden for now; set TRUE to bring it back. The data still refreshes.
 SHOW_EARLY_VOTE <- FALSE
+# Ranked-margins (violin) view hidden for now: the toggle is hidden, so the horseshoe always shows. TRUE restores it.
+SHOW_RANKED <- FALSE
 if (!IS_BROWSER) source("R/fetch_data.R", local = TRUE)
 # The two constants the app needs from that script, for the browser build.
 if (!exists("SEATS_NOT_UP")) SEATS_NOT_UP <- c(D = 34, R = 31)
@@ -1310,7 +1312,7 @@ ui <- page_navbar(
         card_header(
           div(class = "d-flex justify-content-between align-items-center flex-wrap gap-2",
               uiOutput("scenario_title", inline = TRUE),
-              div(class = "chips view-toggle",
+              div(class = "chips view-toggle", style = if (!SHOW_RANKED) "display: none;",
                   radioButtons("seat_view", NULL, inline = TRUE,
                                choices = c("Horseshoe" = "horseshoe", "Ranked margins" = "ranked"))))
         ),
@@ -1529,7 +1531,7 @@ ui <- page_navbar(
           tags$li(tags$b("Horseshoe:"), " all 100 seats, with races ordered from most Democratic to most Republican. The line ",
                   "marks 50 seats; the shaded race is the 51st seat counted from the Democratic end, which decides control ",
                   "unless independents win seats. A ring marks a race that flips party."),
-          tags$li(tags$b("Ranked margins:"), " each race's bell curve is centered on its polling average (black tick) and ",
+          if (SHOW_RANKED) tags$li(tags$b("Ranked margins:"), " each race's bell curve is centered on its polling average (black tick) and ",
                   "extends above and below it as far as single-race polling misses have run, 2010–2024. The full shape spans ±1.96 SD of those past misses ",
                   "and the dark core the middle 50%; ", textOutput("about_cover", inline = TRUE), " The white dot is where ",
                   "the current scenario puts the race. The shapes describe past misses, not a 2026 probability, and the ",
