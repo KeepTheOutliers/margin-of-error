@@ -20,6 +20,8 @@ suppressPackageStartupMessages({
 IS_BROWSER <- identical(R.version$os, "emscripten")
 # Set by R/build_static.R, which renders this UI into the static (plain JavaScript) site.
 IS_STATIC <- exists("BUILD_STATIC") && isTRUE(BUILD_STATIC)
+# Early Vote tab (and its credits) hidden for now; set TRUE to bring it back. The data still refreshes.
+SHOW_EARLY_VOTE <- FALSE
 if (!IS_BROWSER) source("R/fetch_data.R", local = TRUE)
 # The two constants the app needs from that script, for the browser build.
 if (!exists("SEATS_NOT_UP")) SEATS_NOT_UP <- c(D = 34, R = 31)
@@ -1440,7 +1442,7 @@ ui <- page_navbar(
         "races, so R+3.6 means 3.6 points more Republican. Hover a result for candidate names.")
     )
   ),
-  nav_panel(
+  if (SHOW_EARLY_VOTE) nav_panel(
     "Early Vote",
     div(class = "lp-head",
         h1(class = "lp-title", "Early Vote"),
@@ -1560,7 +1562,7 @@ ui <- page_navbar(
                   ": pollster grades and house effects, and the raw-polls archive behind the historical misses."),
           tags$li(a("The New York Times poll database", href = "https://www.nytimes.com/interactive/polls/senate-polls-2026.html", target = "_blank", .noWS = "after"),
                   ": the original source of most of the 2026 polls in Silver Bulletin's averages."),
-          tags$li(a("UF Election Lab, 2026 early vote", href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", .noWS = "after"),
+          if (SHOW_EARLY_VOTE) tags$li(a("UF Election Lab, 2026 early vote", href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", .noWS = "after"),
                   ": early votes cast by state, early voters' party registration, and 2022 turnout (the Early Vote tab).")
         )
       )
@@ -1575,7 +1577,7 @@ ui <- page_navbar(
           a(class = "sb-link", href = "https://www.natesilver.net/p/nate-silver-2026-midterm-election-senate-model", target = "_blank", rel = "noopener",
             img(class = "sb-icon", src = "silver-bulletin.png", alt = ""), span("Silver Bulletin"))),
       div(class = "cr-sub", "Polling averages and poll weights, pollster ratings, historical polls"),
-      div(class = "cr-line cr-ev", span(class = "ds-k", "Early vote"),
+      if (SHOW_EARLY_VOTE) div(class = "cr-line cr-ev", span(class = "ds-k", "Early vote"),
           a(href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", rel = "noopener", "UF Election Lab"))),
     div(class = "credit-code",
       div(class = "cr-line", span(class = "ds-k", "Code")),
