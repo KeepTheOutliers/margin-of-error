@@ -1,9 +1,9 @@
 abb,voted,mail,inperson,turn_2022,dem,rep,other,updated,source
-AK,90570,32308,58262,267047,0,0,0,2026-11-01,https://www.elections.alaska.gov/research/statistics/#aeqstats
+AK,99424,35092,64332,267047,0,0,0,2026-11-02,https://www.elections.alaska.gov/research/statistics/#aeqstats
 AR,550338,9397,540941,914227,34754,49408,466176,2026-11-02,Arkansas Secretary of State
-CO,1591323,1567668,23655,2540666,495736,388672,706915,2026-11-01,Colorado Secretary of State
+CO,1859900,1820924,38976,2540666,563387,456327,840186,2026-11-02,Colorado Secretary of State
 DE,148738,148738,0,325632,78756,41148,28834,2026-11-02,Delaware Department of Elections
-FL,5458419,1990609,3467810,7796916,2062573,2192781,1203065,2026-11-02,https://countyfilesvbm-ev.floridados.gov/VoteByMailEarlyVotingReports/PublicStats
+FL,5464802,1996992,3467810,7796916,2065112,2194543,1205147,2026-11-02,https://countyfilesvbm-ev.floridados.gov/VoteByMailEarlyVotingReports/PublicStats
 GA,2826388,121275,2705113,3964926,0,0,0,2026-11-02,https://mvp.sos.ga.gov/s/voter-absentee-files
 ID,263250,119101,144149,595350,22518,72474,24109,2026-11-02,Idaho Secretary of State
 IL,1579728,675585,904143,4144125,0,0,0,2026-11-02,https://www.elections.il.gov/VotingAndRegistrationSystems/PreElectionCounts.aspx
@@ -23,10 +23,10 @@ NM,456726,71612,385114,714754,235527,141691,79508,2026-11-02,New Mexico Secretar
 NC,2819922,93597,2726325,3790202,1081911,737349,1000662,2026-11-02,https://dl.ncsbe.gov/?prefix=ENRS/2026_11_03/
 OH,1728899,625647,1103252,4201368,0,0,0,2026-11-02,https://data.ohiosos.gov/portal/election-dashboards
 OK,229159,42671,186488,1153284,89506,108952,30701,2026-11-02,Oklahoma State Board of Elections
-OR,1294451,1294451,0,1997689,534509,401636,358306,2026-11-02,https://sos.oregon.gov/elections/Documents/2026-general-election-unofficial-ballot-returns.pdf
-RI,116845,24837,92008,361449,50595,11304,54946,2026-10-30,Rhode Island Secretary of State
+OR,1481943,1481943,0,1997689,604825,454391,422727,2026-11-02,https://sos.oregon.gov/elections/Documents/2026-general-election-unofficial-ballot-returns.pdf
+RI,138314,26268,112046,361449,59014,13964,65336,2026-11-02,Rhode Island Secretary of State
 SC,1084542,40732,1043810,1718626,0,0,0,2026-11-02,https://scvotes.gov/elections-statistics/voter-participation/
-SD,73618,73618,0,354670,21797,39286,12535,2026-10-31,South Dakota Secretary of State
+SD,81367,81367,0,354670,23476,43754,14137,2026-11-02,South Dakota Secretary of State
 TN,1280642,0,1280642,1756397,0,0,0,2026-10-30,https://sos.tn.gov/govotetn
 TX,7736594,270349,7466245,8151590,0,0,0,2026-11-02,https://goelect.txelections.civixapps.com/ivis-evr-ui/evr
 VA,1630514,317863,1312651,3021956,0,0,0,2026-11-02,https://www.vpap.org/elections/early-voting/
