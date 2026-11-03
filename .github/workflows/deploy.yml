@@ -4,8 +4,9 @@
 name: Refresh data and deploy
 
 on:
-  schedule:
-    - cron: "0 1,7,13,19 * * *"   # every 6 hours through Election Day (early vote moves fast); daily is "0 13 * * *"
+  # Scheduled refresh turned off after the final Election Day update (Nov 3, 2026).
+  # schedule:
+  #   - cron: "0 13 * * *"
   workflow_dispatch:
   push:
     branches: [main]

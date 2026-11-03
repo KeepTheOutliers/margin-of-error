@@ -24,6 +24,10 @@ IS_STATIC <- exists("BUILD_STATIC") && isTRUE(BUILD_STATIC)
 SHOW_EARLY_VOTE <- FALSE
 # Ranked-margins (violin) view hidden for now: the toggle is hidden, so the horseshoe always shows. TRUE restores it.
 SHOW_RANKED <- FALSE
+# Banner shown above every tab; NULL hides it. (The scheduled data refresh is also off; see deploy.yml.)
+FINAL_NOTICE <- paste0(
+  "<b>Final update.</b> The polls were refreshed for the last time on Election Day, November 3, 2026. ",
+  "These are the final polling averages before the midterm results come in; the site will not update again.")
 if (!IS_BROWSER) source("R/fetch_data.R", local = TRUE)
 # The two constants the app needs from that script, for the browser build.
 if (!exists("SEATS_NOT_UP")) SEATS_NOT_UP <- c(D = 34, R = 31)
@@ -366,6 +370,12 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .lp-dek { font-size: 1.15rem; color: var(--ink-2); margin: 0 0 8px; max-width: 760px; }
 .lp-updated { font-size: .85rem; color: var(--ink-muted); }
 .lp-unpolled { margin: 16px 0 0; font-size: .88rem; color: var(--ink-2); }
+/* Site-wide final-update notice */
+.final-notice { max-width: var(--page-max); margin: 14px auto 0; padding: 9px 16px; background: var(--accent-bg);
+  border: 1px solid var(--accent-line); border-left: 4px solid var(--accent); border-radius: 6px;
+  font-size: .95rem; line-height: 1.4; color: var(--ink); }
+.final-notice b { color: var(--accent); }
+@media (max-width: 1520px) { .final-notice { margin-left: 16px; margin-right: 16px; } }
 /* Early Vote tab */
 .ev-note { max-width: 920px; margin: 2px 0 20px; padding: 10px 14px; background: var(--accent-bg); border-left: 3px solid var(--accent);
   border-radius: 6px; font-size: .9rem; line-height: 1.45; color: var(--ink-2); }
@@ -1295,7 +1305,7 @@ ui <- page_navbar(
   window_title = "Margin of Error | The 2026 Senate Stress Test",
   theme = theme,
   fillable = FALSE,
-  header = tags$head(
+  header = tagList(tags$head(
     tags$link(rel = "stylesheet", href = GOOGLE_FONTS),
     # Site icon: the seat horseshoe (www/favicon.svg; PNGs for browsers and phones that need them)
     tags$link(rel = "icon", type = "image/svg+xml", href = "favicon.svg"),
@@ -1304,6 +1314,8 @@ ui <- page_navbar(
     tags$style(HTML(APP_CSS)),
     tags$script(HTML(APP_JS))
   ),
+  # Site-wide notice above every tab (FINAL_NOTICE; NULL hides it).
+  if (!is.null(FINAL_NOTICE)) div(class = "final-notice", role = "status", HTML(FINAL_NOTICE))),
   nav_panel(
     "Scenario Explorer",
     layout_sidebar(border = FALSE, border_radius = FALSE, bg = SURFACE,
@@ -1680,7 +1692,7 @@ server <- function(input, output, session) {
   })
   output$freshness <- renderText({
     p <- d()$polls
-    sprintf(if (IS_BROWSER) "Polls updated %s (refreshed daily)" else "Polls fetched %s",
+    sprintf(if (IS_BROWSER) "Final polls update: %s" else "Polls fetched %s",
             format(as.POSIXct(p$fetched_at[1]), "%b %d, %H:%M"))
   })
 
