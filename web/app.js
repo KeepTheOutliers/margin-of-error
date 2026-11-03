@@ -747,7 +747,7 @@
       if (el && $.fn.selectize) $(el).selectize({});
     });
     // data-dependent text
-    setText('freshness', 'Final polls update: ' + fmtTs(D.fetched_at));
+    setText('freshness', 'Polls updated ' + fmtTs(D.fetched_at) + '.');
     setText('avg_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setText('lp_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setHtml('hm_tiles', D.hm_tiles);

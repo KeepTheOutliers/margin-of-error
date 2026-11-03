@@ -4,7 +4,8 @@
 name: Refresh data and deploy
 
 on:
-  # Scheduled refresh turned off after the final Election Day update (Nov 3, 2026).
+  # Scheduled refresh turned off after the final pre-election update (Nov 3, 2026); the results
+  # update is a one-off manual run (Actions > Run workflow).
   # schedule:
   #   - cron: "0 13 * * *"
   workflow_dispatch:
