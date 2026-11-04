@@ -362,6 +362,10 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .hs-ctl-label { font-size: 14px; fill: var(--ink); dominant-baseline: central; }
 .hs-tally { font-size: 50px; font-weight: 600; text-anchor: middle; font-variant-numeric: lining-nums; }
 .hs-tally-ctl { font-size: 19px; font-weight: 600; text-anchor: middle; }
+.hs-prov { font-size: 13px; font-style: italic; letter-spacing: .06em; text-anchor: middle; fill: #6e6a60; }
+.m-prov { font-size: .82rem; font-style: italic; letter-spacing: .05em; color: var(--ink-muted); margin-top: 2px; }
+.bias-rows.res .bias-row { grid-template-columns: 26px 1fr 46px 28px; }
+.bias-pct { font-size: .68rem; color: var(--ink-muted); text-align: right; font-variant-numeric: tabular-nums; }
 .seat-note { font-size: .88rem; color: var(--ink-2); margin: 6px 0 4px; }
 .view-toggle { margin-left: auto; }
 .view-toggle .shiny-input-container { margin-bottom: 0; }
@@ -761,14 +765,13 @@ result_detail <- function(res, opp_party) {
 uncalled <- function(results) if (is.null(results)) character(0) else sort(results$abb[!results$called])
 # Provisional results: "pending" = not yet called (marked on the horseshoe and map);
 # "counting" = under COUNTING_EEVP% of the expected vote is in (shaded in the bias panel).
-# "early" = under HIDE_EEVP% in: too early to read, so left out of the bias panel.
+# eevp = the share of the expected vote counted (shown in the bias panel).
 COUNTING_EEVP <- 95
-HIDE_EEVP <- 90
 count_status <- function(races, results) {
-  if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE, early = FALSE))
-  st <- transmute(results, abb, pending = !called, counting = eevp < COUNTING_EEVP, early = eevp < HIDE_EEVP)
-  races |> select(-any_of(c("pending", "counting", "early"))) |> left_join(st, by = "abb") |>
-    mutate(across(c(pending, counting, early), function(v) coalesce(v, FALSE)))
+  if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE, eevp = NA_real_))
+  st <- transmute(results, abb, pending = !called, counting = eevp < COUNTING_EEVP, eevp)
+  races |> select(-any_of(c("pending", "counting", "eevp"))) |> left_join(st, by = "abb") |>
+    mutate(across(c(pending, counting), function(v) coalesce(v, FALSE)))
 }
 # The sidebar's one-line data status: when the votes were counted and the polls they're
 # compared with (or, before results, when the polls were last updated). Times are UTC.
@@ -895,7 +898,7 @@ race_order <- function(r, results = NULL) {
     res <- transmute(results, abb, res_margin = margin, eevp, called,
                      res_lead = ifelse(abs(margin) < 0.5, sprintf(", %s ahead by %s votes",
                                        ifelse(opp_votes >= rep_votes, opp_name, rep_name), fmt_votes(abs(opp_votes - rep_votes))), ""))
-    return(r |> left_join(res, by = "abb") |> mutate(tip = ifelse(
+    return(r |> select(-any_of("eevp")) |> left_join(res, by = "abb") |> mutate(tip = ifelse(
       polled,
       sprintf("%s\n%s (%s) v %s (R)\n%s %s, result vs. polls %s\nResult %s (%.0f%% counted%s, %s)",
               state, opp_name, opp_party, rep_name, avg_label, fmt_margin(poll_margin, opp_party), fmt_error(err),
@@ -1045,7 +1048,9 @@ horseshoe_svg <- function(ordered, totals, ind_with_d = FALSE) {
         if (shift > 0) sprintf('<svg x="%.1f" y="%.1f" width="%d" height="24" viewBox="0 0 640 512"><path fill="%s" d="%s"/></svg>',
                                cx + shift - half - icon_w - 6, HS$ymid + 34 - 18, icon_w, CONTROL_COL[[side]], PARTY_ICON_PATH[[side]]),
         sprintf('<text class="hs-tally-ctl" x="%.1f" y="%d" fill="%s">%s</text>', cx + shift, HS$ymid + 34,
-                CONTROL_COL[[side]], lab))
+                CONTROL_COL[[side]], lab),
+        # results scenario while any race is still being counted
+        if (any(ordered$pending | ordered$counting)) sprintf('<text class="hs-prov" x="%d" y="%d">Provisional</text>', cx, HS$ymid + 58) else "")
     },
     "</svg>"
   ))
@@ -1794,9 +1799,9 @@ server <- function(input, output, session) {
   # (assumed miss plus the extra uniform shift), toward D on the left, R on the right.
   output$bias_list <- renderUI({
     cap <- 10
-    early <- races() |> filter(polled, early) |> pull(abb) |> sort()
+    is_res <- !is.null(res_on())
     r <- races() |>
-      filter(polled, !early) |>
+      filter(polled) |>
       mutate(edited = !is.na(custom_move),
              move = ifelse(edited, custom_move, err - shift_d())) |>     # > 0 = moved toward Republicans
       arrange(move)
@@ -1806,11 +1811,10 @@ server <- function(input, output, session) {
     div(class = "bias-tools",
         span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
              else "Drag a state's dot to set its own bias"),
-        if (!is.null(res_on()) && (any(r$counting) || length(early))) span(class = "bias-key",
-          span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% counted", COUNTING_EEVP)),
-          if (length(early)) span(sprintf("Not shown until %d%% counted: %s", HIDE_EEVP, paste(early, collapse = ", ")))),
+        if (is_res) span(class = "bias-key", span("% = share of expected vote counted"),
+          if (any(r$counting)) span(span(class = "bk-sw bk-counting"), sprintf("Under %d%%", COUNTING_EEVP))),
         if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
-    div(class = "bias-rows",
+    div(class = paste("bias-rows", if (is_res) "res"),
         lapply(seq_len(nrow(r)), function(i) {
           v <- r$move[i]
           col <- dot_col(-v)
@@ -1825,7 +1829,8 @@ server <- function(input, output, session) {
                   span(class = "mid"),
                   span(class = "line", style = sprintf("left:%.1f%%;width:%.1f%%;background:%s", lo, hi - lo, col)),
                   span(class = "dot", style = sprintf("left:%.1f%%;background:%s", pos(v), col))),
-              span(class = "bias-v", style = sprintf("color:%s", col), fmt_miss(v)))
+              span(class = "bias-v", style = sprintf("color:%s", col), fmt_miss(v)),
+              if (is_res) span(class = "bias-pct", if (is.na(r$eevp[i])) "" else sprintf("%.0f%%", r$eevp[i])))
         })))
   })
 
@@ -1908,7 +1913,8 @@ server <- function(input, output, session) {
         div(class = "m-nums", span(style = sprintf("color:%s", D_DARK), t[["D"]]), span(class = "m-dash", "–"),
             if (t[["I"]] > 0) tagList(span(style = sprintf("color:%s", I_DARK), t[["I"]]), span(class = "m-dash", "–")),
             span(style = sprintf("color:%s", R_DARK), t[["R"]])),
-        div(class = "m-ctl", style = sprintf("color:%s", CONTROL_COL[[side]]), party_icon_html(side, "1.1em"), CONTROL_LABEL[[side]]))
+        div(class = "m-ctl", style = sprintf("color:%s", CONTROL_COL[[side]]), party_icon_html(side, "1.1em"), CONTROL_LABEL[[side]]),
+        if (any(races()$pending | races()$counting)) div(class = "m-prov", "Provisional"))
   })
 
   spread <- reactive(miss_sd(d()$errors))

@@ -188,7 +188,7 @@
       fmtDayTime(D.fetched_at, false) + '); ' + (out.length ? 'not yet called: ' + out.join(', ') : 'all races called') + '.';
   };
   // Provisional results (app.R: count_status): pending = not yet called; counting = under COUNTING_EEVP% counted.
-  var COUNTING_EEVP = 95, HIDE_EEVP = 90;   // early = under HIDE_EEVP% in: left out of the bias panel
+  var COUNTING_EEVP = 95;
   var pollsByAbb = {};
   var buildRaces = function (err, shift) {
     return D.seats.map(function (s) {
@@ -209,7 +209,7 @@
       var x = isRes() ? resByAbb[s.abb] : null;
       r.pending = !!(x && !x.called);
       r.counting = !!(x && x.eevp < COUNTING_EEVP);
-      r.early = !!(x && x.eevp < HIDE_EEVP);
+      r.eevp = x ? x.eevp : NaN;
       return r;
     });
   };
@@ -355,7 +355,9 @@
     var iconW = 30, halfW = ctl.length * 4.9, sh = D.party_icon[side] ? (iconW + 6) / 2 : 0;
     var ctlSvg = (sh > 0 ? '<svg x="' + f1(cx + sh - halfW - iconW - 6) + '" y="' + f1(HS.ymid + 34 - 18) + '" width="' + iconW +
         '" height="24" viewBox="0 0 640 512"><path fill="' + CONTROL_COL[side] + '" d="' + D.party_icon[side] + '"/></svg>' : '') +
-      '<text class="hs-tally-ctl" x="' + f1(cx + sh) + '" y="' + (HS.ymid + 34) + '" fill="' + CONTROL_COL[side] + '">' + ctl + '</text>';
+      '<text class="hs-tally-ctl" x="' + f1(cx + sh) + '" y="' + (HS.ymid + 34) + '" fill="' + CONTROL_COL[side] + '">' + ctl + '</text>' +
+      // results scenario while any race is still being counted
+      (ordered.some(function (r) { return r.pending || r.counting; }) ? '<text class="hs-prov" x="' + cx + '" y="' + (HS.ymid + 58) + '">Provisional</text>' : '');
     return '<svg class="hs" viewBox="0 0 ' + HS.w + ' ' + HS.h + '" role="img" aria-label="Senate seats: ' + totals.D +
       ' Democratic caucus, ' + totals.I + ' independent, ' + totals.R + ' Republican">' +
       '<defs><pattern id="hs-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
@@ -559,7 +561,8 @@
     setHtml('m_tally', '<div class="m-tally"><div class="m-nums"><span style="color:' + C.D_DARK + '">' + totals.D + '</span><span class="m-dash">–</span>' +
       (totals.I > 0 ? '<span style="color:' + C.I_DARK + '">' + totals.I + '</span><span class="m-dash">–</span>' : '') +
       '<span style="color:' + C.R_DARK + '">' + totals.R + '</span></div><div class="m-ctl" style="color:' + CONTROL_COL[side] + '">' +
-      partyIconSvg(side, '1.1em') + CONTROL_LABEL[side] + '</div></div>');
+      partyIconSvg(side, '1.1em') + CONTROL_LABEL[side] + '</div>' +
+      (races.some(function (r) { return r.pending || r.counting; }) ? '<div class="m-prov">Provisional</div>' : '') + '</div>');
 
     renderYearStrip();
     renderBiasList(races, cyc, sh);
@@ -600,8 +603,8 @@
 
   var renderBiasList = function (races, cyc, sh) {
     var cap = 10, pos = function (v) { return 50 + 50 * Math.max(Math.min(v, cap), -cap) / cap; };
-    var early = races.filter(function (q) { return q.polled && q.early; }).map(function (q) { return q.abb; }).sort();
-    var r = races.filter(function (q) { return q.polled && !q.early; }).map(function (q) {
+    var res = isRes();
+    var r = races.filter(function (q) { return q.polled; }).map(function (q) {
       var edited = isNum(q.custom_move);
       return { q: q, edited: edited, move: edited ? q.custom_move : q.err - sh };
     }).sort(function (a, b) { return a.move - b.move; });
@@ -614,15 +617,15 @@
         '<span class="bias-st">' + x.q.abb + '</span><div class="bias-track"><span class="mid"></span>' +
         '<span class="line" style="left:' + f1(lo) + '%;width:' + f1(hi - lo) + '%;background:' + col + '"></span>' +
         '<span class="dot" style="left:' + f1(pos(v)) + '%;background:' + col + '"></span></div>' +
-        '<span class="bias-v" style="color:' + col + '">' + fmtMiss(v) + '</span></div>';
+        '<span class="bias-v" style="color:' + col + '">' + fmtMiss(v) + '</span>' +
+        (res ? '<span class="bias-pct">' + (isNum(x.q.eevp) ? Math.round(x.q.eevp) + '%' : '') + '</span>' : '') + '</div>';
     }).join('');
     setHtml('bias_list', '<div class="bias-tools"><span class="bias-hint">' +
       (nSet ? nSet + ' state' + (nSet === 1 ? '' : 's') + ' set by you' : "Drag a state's dot to set its own bias") + '</span>' +
-      (isRes() && (early.length || r.some(function (x) { return x.q.counting; })) ? '<span class="bias-key">' +
-        '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '% counted</span>' +
-        (early.length ? '<span>Not shown until ' + HIDE_EEVP + '% counted: ' + early.join(', ') + '</span>' : '') + '</span>' : '') +
+      (res ? '<span class="bias-key"><span>% = share of expected vote counted</span>' +
+        (r.some(function (x) { return x.q.counting; }) ? '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '%</span>' : '') + '</span>' : '') +
       (nSet ? '<span class="bias-all"><a href="#" onclick="Shiny.setInputValue(\'bias_reset\', {abb: \'__all__\', t: Date.now()}); return false;">Reset all</a></span>' : '') +
-      '</div><div class="bias-rows">' + rows + '</div>');
+      '</div><div class="bias-rows' + (res ? ' res' : '') + '">' + rows + '</div>');
   };
 
   // conditionalPanel(...) visibility, evaluated against the current state.
