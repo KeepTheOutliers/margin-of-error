@@ -364,7 +364,9 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .hs-tally-ctl { font-size: 19px; font-weight: 600; text-anchor: middle; }
 .hs-prov { font-size: 13px; font-style: italic; letter-spacing: .06em; text-anchor: middle; fill: #6e6a60; }
 .m-prov { font-size: .82rem; font-style: italic; letter-spacing: .05em; color: var(--ink-muted); margin-top: 2px; }
-.bias-rows.res .bias-row { grid-template-columns: 26px 1fr 46px 28px; }
+.bias-rows.res .bias-row { grid-template-columns: 26px 1fr 46px 48px; }
+.bias-row.bias-head { height: 16px; margin-bottom: 2px; font-size: .72rem; font-style: italic; color: var(--ink-muted); white-space: nowrap; pointer-events: none; }
+.bias-row.bias-head span:nth-child(n+3) { text-align: right; }
 .bias-pct { font-size: .68rem; color: var(--ink-muted); text-align: right; font-variant-numeric: tabular-nums; }
 .seat-note { font-size: .88rem; color: var(--ink-2); margin: 6px 0 4px; }
 .view-toggle { margin-left: auto; }
@@ -1811,10 +1813,12 @@ server <- function(input, output, session) {
     div(class = "bias-tools",
         span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
              else "Drag a state's dot to set its own bias"),
-        if (is_res) span(class = "bias-key", span("% = share of expected vote counted"),
-          if (any(r$counting)) span(span(class = "bk-sw bk-counting"), sprintf("Under %d%%", COUNTING_EEVP))),
+        if (is_res && any(r$counting)) span(class = "bias-key",
+          span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% of expected vote counted", COUNTING_EEVP))),
         if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
     div(class = paste("bias-rows", if (is_res) "res"),
+        if (is_res) div(class = "bias-row bias-head", title = "Share of the expected vote counted so far",
+                        span(), span(), span("Miss"), span("Counted")),
         lapply(seq_len(nrow(r)), function(i) {
           v <- r$move[i]
           col <- dot_col(-v)

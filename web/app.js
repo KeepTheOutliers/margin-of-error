@@ -622,10 +622,12 @@
     }).join('');
     setHtml('bias_list', '<div class="bias-tools"><span class="bias-hint">' +
       (nSet ? nSet + ' state' + (nSet === 1 ? '' : 's') + ' set by you' : "Drag a state's dot to set its own bias") + '</span>' +
-      (res ? '<span class="bias-key"><span>% = share of expected vote counted</span>' +
-        (r.some(function (x) { return x.q.counting; }) ? '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '%</span>' : '') + '</span>' : '') +
+      (res && r.some(function (x) { return x.q.counting; }) ? '<span class="bias-key"><span><span class="bk-sw bk-counting"></span>Under ' +
+        COUNTING_EEVP + '% of expected vote counted</span></span>' : '') +
       (nSet ? '<span class="bias-all"><a href="#" onclick="Shiny.setInputValue(\'bias_reset\', {abb: \'__all__\', t: Date.now()}); return false;">Reset all</a></span>' : '') +
-      '</div><div class="bias-rows' + (res ? ' res' : '') + '">' + rows + '</div>');
+      '</div><div class="bias-rows' + (res ? ' res' : '') + '">' +
+      (res ? '<div class="bias-row bias-head" title="Share of the expected vote counted so far"><span></span><span></span><span>Miss</span><span>Counted</span></div>' : '') +
+      rows + '</div>');
   };
 
   // conditionalPanel(...) visibility, evaluated against the current state.
