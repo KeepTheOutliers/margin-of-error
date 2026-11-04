@@ -175,11 +175,20 @@
       Math.round(x.eevp) + '% of expected vote counted\n' + (x.called ? 'Called for ' + x.winner : 'Not yet called');
   };
   var uncalled = function () { return (D.results || []).filter(function (x) { return !x.called; }).map(function (x) { return x.abb; }).sort(); };
-  var resultsStatus = function () {
-    if (!(D.results || []).length) return '';
-    var out = uncalled();
-    return '2026 results: votes counted as of ' + fmtTs(D.results[0].fetched_at) + ' UTC.' + (out.length ? ' Not yet called: ' + out.join(', ') + '.' : ' All races called.');
+  // The sidebar's one-line data status (app.R: data_status). Times are UTC.
+  var fmtDayTime = function (ts, time) {
+    var m = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}:\d{2})/.exec(ts || '');
+    if (!m) return ts || '';
+    return MONTHS[+m[2] - 1] + ' ' + (+m[3]) + (time === false ? '' : ', ' + m[4] + ' UTC');
   };
+  var dataStatus = function () {
+    if (!(D.results || []).length) return '<b>Final pre-election update:</b> polls updated ' + fmtDayTime(D.fetched_at) + ". Results will be added once they're in.";
+    var out = uncalled();
+    return '<b>Votes counted as of ' + fmtDayTime(D.results[0].fetched_at) + '</b>, compared with the final pre-election polling averages (' +
+      fmtDayTime(D.fetched_at, false) + '); ' + (out.length ? 'not yet called: ' + out.join(', ') : 'all races called') + '.';
+  };
+  // Provisional results (app.R: count_status): pending = not yet called; counting = called, under COUNTING_EEVP% in.
+  var COUNTING_EEVP = 95;
   var pollsByAbb = {};
   var buildRaces = function (err, shift) {
     return D.seats.map(function (s) {
@@ -197,6 +206,9 @@
       r.winner = !r.polled ? s.incumbent_party : (r.proj_margin > 0 ? (r.opp_party === 'I' ? 'I' : 'D') : 'R');
       r.flip = r.winner !== s.incumbent_party;
       r.bin = r.polled ? marginBin(r.proj_margin, r.opp_party) : (s.incumbent_party === 'R' ? 8 : 1);
+      var x = isRes() ? resByAbb[s.abb] : null;
+      r.pending = !!(x && !x.called);
+      r.counting = !!(x && x.called && x.eevp < COUNTING_EEVP);
       return r;
     });
   };
@@ -321,6 +333,7 @@
       if (r.flip) tip += '\nFlips party in this scenario';
       var ring = r.flip ? '<circle class="hs-flip" cx="' + f1(mid[0]) + '" cy="' + f1(mid[1]) + '" r="13" stroke="' + bin.ink + '"/>' : '';
       var hatch = r.bin >= 9 ? '<path d="' + hsBand(s0, s1) + '" fill="url(#hs-ihatch)" pointer-events="none"/>' : '';
+      if (r.pending) hatch += '<path class="hs-pending" d="' + hsBand(s0, s1) + '"/>';   // not yet called
       return '<path class="hs-cell" d="' + hsBand(s0, s1) + '" fill="' + bin.col + '" data-tip="' + esc(tip) + '"/>' + hatch + ring +
         '<text class="hs-cell-label" x="' + f1(mid[0]) + '" y="' + f1(mid[1]) + '" fill="' + bin.ink + '">' + r.abb + '</text>';
     }).join('');
@@ -347,7 +360,9 @@
       '<defs><pattern id="hs-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
       '<line x1="0" y1="0" x2="0" y2="7" stroke="#ffffff" stroke-opacity="0.16" stroke-width="2.5"/></pattern>' +
       '<pattern id="hs-ihatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">' +
-      '<line x1="0" y1="0" x2="0" y2="5" stroke="#1b1a17" stroke-opacity="0.22" stroke-width="1.2"/></pattern></defs>' +
+      '<line x1="0" y1="0" x2="0" y2="5" stroke="#1b1a17" stroke-opacity="0.22" stroke-width="1.2"/></pattern>' +
+      '<pattern id="hs-phatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
+      '<line x1="0" y1="0" x2="0" y2="8" stroke="#ffffff" stroke-opacity="0.55" stroke-width="3.2"/></pattern></defs>' +
       '<path class="hs-key" d="' + hsBand(k0, k1, HS.t + 36) + '"/>' +
       block(0, raceStart(1) - HS.gap / 2, 34, raceStart(1), C.D_DARK, nd + ' Dem-caucus seats not up') +
       cells +
@@ -485,9 +500,13 @@
     };
     var bins = {}; races.forEach(function (r) { (bins[r.bin] = bins[r.bin] || []).push(r); });
     Object.keys(bins).map(Number).sort(function (a, b) { return a - b; }).forEach(function (b) {
-      traces.push({ type: 'choropleth', locationmode: 'USA-states', locations: bins[b].map(function (r) { return r.abb; }),
-        z: bins[b].map(function () { return 1; }), colorscale: [[0, BINS[b].col], [1, BINS[b].col]], showscale: false,
-        marker: { line: { color: C.SURFACE, width: 1 } }, text: bins[b].map(hover), hoverinfo: 'text' });
+      [false, true].forEach(function (pend) {   // not yet called: faded
+        var g = bins[b].filter(function (r) { return r.pending === pend; });
+        if (!g.length) return;
+        traces.push({ type: 'choropleth', locationmode: 'USA-states', locations: g.map(function (r) { return r.abb; }),
+          z: g.map(function () { return 1; }), colorscale: [[0, BINS[b].col], [1, BINS[b].col]], showscale: false,
+          marker: { line: { color: C.SURFACE, width: 1 }, opacity: pend ? 0.45 : 1 }, text: g.map(hover), hoverinfo: 'text' });
+      });
     });
     var offAbbs = OFFSHORE_LABELS.map(function (o) { return o.abb; });
     var centers = D.states.filter(function (s) { return up[s.abb] && offAbbs.indexOf(s.abb) < 0; }).map(function (s) {
@@ -533,6 +552,7 @@
     setHtml('scenario_title', '<span class="t-tag scen-title-tag">' + esc(isCustom() ? 'Custom polling error'
       : scenarioTag(cyc, S.types) + (sh !== 0 ? ', shift ' + fmtShift(sh) : '')) + '</span>');
 
+    setText('bias_title', (isRes() ? 'Observed' : 'Assumed') + ' bias: polling average vs. result');
     setHtml('horseshoe', horseshoeSvg(ordered, totals, S.ind_with_d));
     var side = controlSide(totals, S.ind_with_d);
     setHtml('m_tally', '<div class="m-tally"><div class="m-nums"><span style="color:' + C.D_DARK + '">' + totals.D + '</span><span class="m-dash">–</span>' +
@@ -588,7 +608,7 @@
       var v = x.move, col = dotCol(-v), lo = Math.min(pos(0), pos(v)), hi = Math.max(pos(0), pos(v));
       var title = x.edited ? x.q.state + ': you set this to ' + fmtMiss(v) + '. Double-click to reset.'
         : x.q.state + (isRes() ? ': result landed ' : ': projection moved ') + fmtMiss(v) + ' from the polls\n' + missDetail(x.q.abb, cyc, S.types, x.q.err, sh) + '\nDrag to set your own.';
-      return '<div class="bias-row' + (x.edited ? ' edited' : '') + '" data-abb="' + x.q.abb + '" title="' + esc(title) + '">' +
+      return '<div class="bias-row' + (x.edited ? ' edited' : '') + (x.q.pending ? ' pending' : (x.q.counting ? ' counting' : '')) + '" data-abb="' + x.q.abb + '" title="' + esc(title) + '">' +
         '<span class="bias-st">' + x.q.abb + '</span><div class="bias-track"><span class="mid"></span>' +
         '<span class="line" style="left:' + f1(lo) + '%;width:' + f1(hi - lo) + '%;background:' + col + '"></span>' +
         '<span class="dot" style="left:' + f1(pos(v)) + '%;background:' + col + '"></span></div>' +
@@ -596,6 +616,8 @@
     }).join('');
     setHtml('bias_list', '<div class="bias-tools"><span class="bias-hint">' +
       (nSet ? nSet + ' state' + (nSet === 1 ? '' : 's') + ' set by you' : "Drag a state's dot to set its own bias") + '</span>' +
+      (isRes() && r.some(function (x) { return x.q.pending || x.q.counting; }) ? '<span class="bias-key"><span><span class="bk-sw bk-pending"></span>Not yet called</span>' +
+        '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '% counted</span></span>' : '') +
       (nSet ? '<span class="bias-all"><a href="#" onclick="Shiny.setInputValue(\'bias_reset\', {abb: \'__all__\', t: Date.now()}); return false;">Reset all</a></span>' : '') +
       '</div><div class="bias-rows">' + rows + '</div>');
   };
@@ -607,7 +629,7 @@
     document.querySelectorAll('[data-display-if]').forEach(function (el) {
       var show;
       try { show = !!(new Function('input', 'output', 'return (' + el.getAttribute('data-display-if') + ');'))(input, output); } catch (e) { show = true; }
-      el.style.display = show ? 'block' : 'none';   // Shiny's stylesheet hides these until shown
+      el.style.display = show ? (el.tagName === 'SPAN' ? 'inline-flex' : 'block') : 'none';   // Shiny's stylesheet hides these until shown
     });
   };
 
@@ -804,8 +826,7 @@
       if (el && $.fn.selectize) $(el).selectize({});
     });
     // data-dependent text
-    setText('freshness', 'Polls updated ' + fmtTs(D.fetched_at) + '.');
-    setText('results_status', resultsStatus());
+    setHtml('freshness', dataStatus());
     setText('avg_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setText('lp_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setHtml('hm_tiles', D.hm_tiles);

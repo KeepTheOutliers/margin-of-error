@@ -206,6 +206,17 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .bias-row.edited .bias-st { color: var(--accent); }
 .bias-row.edited .bias-track .dot { box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 3px var(--accent); }
 .bias-row:hover { background: rgba(27, 26, 23, .05); }
+/* 2026 results: rows whose count is still provisional */
+.bias-tools { flex-wrap: wrap; }
+.bias-row.counting, .bk-counting { background: rgba(27, 26, 23, .07); }
+.bias-row.pending, .bk-pending { background: repeating-linear-gradient(45deg, rgba(27, 26, 23, .17) 0 3px, rgba(27, 26, 23, .04) 3px 7px); }
+.bias-row.pending .bias-st { font-style: italic; }
+.bias-key { display: flex; flex-wrap: wrap; gap: 4px 12px; width: 100%; margin-top: 3px; }
+.bias-key > span { display: inline-flex; align-items: center; }
+.bk-sw { display: inline-block; width: 16px; height: 11px; margin-right: 5px; border-radius: 2px; }
+.hs-pending { fill: url(#hs-phatch); stroke: #1b1a17; stroke-width: 1.5; stroke-dasharray: 4 3; pointer-events: none; }
+.legend .sw.sw-pending { background: repeating-linear-gradient(45deg, rgba(255, 255, 255, .6) 0 2px, transparent 2px 5px), #6b90b6;
+  outline: 1.5px dashed #1b1a17; outline-offset: -1.5px; }
 .bias-tools { display: flex; justify-content: space-between; align-items: baseline; font-size: .74rem; color: var(--ink-muted); margin: 2px 0 4px; }
 .bias-all a { margin-left: 10px; color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
 .bias-all a:hover { color: var(--ink); }
@@ -372,8 +383,8 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 /* Sidebar: final pre-election update notice */
 .freshness-final { padding: 9px 12px; background: var(--accent-bg); border: 1px solid var(--accent-line);
   border-left: 4px solid var(--accent); border-radius: 6px; line-height: 1.35; }
-.freshness-final .ff-head { font-weight: 700; color: var(--accent); font-size: .98rem; }
-.freshness-final .ff-body { font-size: .86rem; color: var(--ink-2); margin-top: 2px; }
+.freshness-final { font-size: .86rem; color: var(--ink-2); }
+.freshness-final b { color: var(--accent); }
 /* Early Vote tab */
 .ev-note { max-width: 920px; margin: 2px 0 20px; padding: 10px 14px; background: var(--accent-bg); border-left: 3px solid var(--accent);
   border-radius: 6px; font-size: .9rem; line-height: 1.45; color: var(--ink-2); }
@@ -513,7 +524,6 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .yr-cell:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(27, 26, 23, .15); border-color: var(--ink-2); }
 .yr-cell.active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
 .yr-cell.yr-actual { margin-left: 10px; font-weight: 700; }
-.freshness-final .ff-res { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--accent-line); }
 .yr-y { font-size: .74rem; color: var(--ink-2); font-variant-numeric: lining-nums; }
 .yr-s { font-size: .95rem; font-weight: 600; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
@@ -751,11 +761,30 @@ result_detail <- function(res, opp_party) {
 
 # States still being called, e.g. "AK, MS".
 uncalled <- function(results) if (is.null(results)) character(0) else sort(results$abb[!results$called])
-results_status <- function(results) {
-  if (is.null(results)) return("")
+# Provisional results: "pending" = not yet called; "counting" = called, but under
+# COUNTING_EEVP% of the expected vote is in, so the margin may still move.
+COUNTING_EEVP <- 95
+count_status <- function(races, results) {
+  if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE))
+  st <- transmute(results, abb, pending = !called, counting = called & eevp < COUNTING_EEVP)
+  races |> select(-any_of(c("pending", "counting"))) |> left_join(st, by = "abb") |>
+    mutate(pending = coalesce(pending, FALSE), counting = coalesce(counting, FALSE))
+}
+# The sidebar's one-line data status: when the votes were counted and the polls they're
+# compared with (or, before results, when the polls were last updated). Times are UTC.
+fmt_day_time <- function(x, time = TRUE) {
+  x <- as.POSIXct(x, tz = "UTC")
+  paste0(sub(" 0", " ", format(x, "%b %d", tz = "UTC")), if (time) format(x, ", %H:%M UTC", tz = "UTC"))
+}
+data_status <- function(polls, results) {
+  if (is.null(results)) {
+    return(sprintf("<b>Final pre-election update:</b> polls updated %s. Results will be added once they're in.",
+                   fmt_day_time(polls$fetched_at[1])))
+  }
   out <- uncalled(results)
-  sprintf("2026 results: votes counted as of %s UTC.%s", format(as.POSIXct(results$fetched_at[1], tz = "UTC"), "%b %d, %H:%M"),
-          if (length(out)) sprintf(" Not yet called: %s.", paste(out, collapse = ", ")) else " All races called.")
+  sprintf("<b>Votes counted as of %s</b>, compared with the final pre-election polling averages (%s); %s.",
+          fmt_day_time(results$fetched_at[1]), fmt_day_time(polls$fetched_at[1], time = FALSE),
+          if (length(out)) paste("not yet called:", paste(out, collapse = ", ")) else "all races called")
 }
 
 # Hover text for one state's assumed miss: the past races behind it, so a reader
@@ -960,6 +989,8 @@ horseshoe_svg <- function(ordered, totals, ind_with_d = FALSE) {
       sprintf('<circle class="hs-flip" cx="%.1f" cy="%.1f" r="13" stroke="%s"/>', mid[1], mid[2], BINS$ink[b])
     } else ""
     hatch <- if (b %in% 9:10) sprintf('<path d="%s" fill="url(#hs-ihatch)" pointer-events="none"/>', hs_band(s0, s1)) else ""
+    # not yet called: pale stripes and a dashed outline
+    if (isTRUE(ordered$pending[i])) hatch <- paste0(hatch, sprintf('<path class="hs-pending" d="%s"/>', hs_band(s0, s1)))
     sprintf(paste0('<path class="hs-cell" d="%s" fill="%s" data-tip="%s"/>%s%s',
                    '<text class="hs-cell-label" x="%.1f" y="%.1f" fill="%s">%s</text>'),
             hs_band(s0, s1), BINS$col[b], esc(tip), hatch, ring, mid[1], mid[2], BINS$ink[b], ordered$abb[i])
@@ -982,7 +1013,9 @@ horseshoe_svg <- function(ordered, totals, ind_with_d = FALSE) {
     '<defs><pattern id="hs-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">',
     '<line x1="0" y1="0" x2="0" y2="7" stroke="#ffffff" stroke-opacity="0.16" stroke-width="2.5"/></pattern>',
     '<pattern id="hs-ihatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">',
-    '<line x1="0" y1="0" x2="0" y2="5" stroke="#1b1a17" stroke-opacity="0.22" stroke-width="1.2"/></pattern></defs>',
+    '<line x1="0" y1="0" x2="0" y2="5" stroke="#1b1a17" stroke-opacity="0.22" stroke-width="1.2"/></pattern>',
+    '<pattern id="hs-phatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">',
+    '<line x1="0" y1="0" x2="0" y2="8" stroke="#ffffff" stroke-opacity="0.55" stroke-width="3.2"/></pattern></defs>',
     sprintf('<path class="hs-key" d="%s"/>', hs_band(k0, k1, t = HS$t + 36)),
     block(0, race_start(1) - HS$gap / 2, 34, race_start(1), D_DARK, sprintf("%d Dem-caucus seats not up", nd)),
     paste(cells, collapse = ""),
@@ -1320,12 +1353,8 @@ scenario_sidebar <- sidebar(
   div(class = "how-link", a(href = "#about-errors", onclick = "return goToErrors();", icon("circle-question"),
                             "How are historical polling errors measured?")),
   hr(),
-  # Final pre-election update; results get one more update after Election Day.
-  div(class = "freshness-final", role = "status",
-      div(class = "ff-head", "Final pre-election update"),
-      div(class = "ff-body", textOutput("freshness", inline = TRUE),
-          if (is.null(INIT$results)) " Results will be added once they're in."),
-      if (!is.null(INIT$results)) div(class = "ff-body ff-res", textOutput("results_status", inline = TRUE))),
+  # Data status: the vote count's time and the final polls it is compared with.
+  div(class = "freshness-final", role = "status", uiOutput("freshness")),
   if (!IS_BROWSER && !IS_STATIC) actionButton("refresh", "Refresh polls", icon = icon("rotate"), class = "btn-sm btn-outline-secondary mt-2")
 )
 
@@ -1345,7 +1374,9 @@ legend_html <- div(
   span(title = "An independent who has said they will caucus with neither party leads (Ind+0 to 5, Ind+5 or more)",
        span(class = "sw sw-ind", style = sprintf("background:linear-gradient(90deg,%s 50%%,%s 50%%)", BINS$col[10], BINS$col[9])),
        "Independent ahead"),
-  span(span(class = "flip-ring"), "Flips party")
+  span(span(class = "flip-ring"), "Flips party"),
+  conditionalPanel("input.miss_mode == 'actual'", inline = TRUE, class = "lg-pending",
+                   title = "Race not yet called; the margin is the count so far", span(class = "sw sw-pending"), "Not yet called")
 )
 
 state_choices <- with(arrange(INIT$seats, state), setNames(abb, state))
@@ -1414,7 +1445,7 @@ ui <- page_navbar(
                       div(class = "bias-note",
                         tags$b("No polling error applied."), tags$br(),
                         "Select a year or scenario to apply historical error, or drag a state to set its own."))),
-                div(class = "bias-title", "Assumed bias: polling average vs. result"),
+                div(class = "bias-title", textOutput("bias_title", inline = TRUE)),
                 div(class = "bias-axis", span("← toward Dem"), span("toward Rep →")),
                 uiOutput("bias_list"))
           )
@@ -1739,7 +1770,7 @@ server <- function(input, output, session) {
                                   else assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
   # Slider runs D (left, negative) to R (right, positive); the model counts toward D as positive.
   shift_d <- reactive(-input$shift)
-  races <- reactive(build_races(scen(), err_tbl(), shift_d()))
+  races <- reactive(count_status(build_races(scen(), err_tbl(), shift_d()), res_on()))
   totals <- reactive(seat_totals(races()))
 
   output$scenario_caption <- renderText({
@@ -1756,12 +1787,8 @@ server <- function(input, output, session) {
                               else if (setequal(cy, CYCLES)) "cy_all"
                               else "")
   })
-  output$results_status <- renderText(results_status(d()$results))
-  output$freshness <- renderText({
-    p <- d()$polls
-    sprintf(if (IS_BROWSER) "Polls updated %s." else "Polls fetched %s.",
-            format(as.POSIXct(p$fetched_at[1]), "%b %d, %H:%M"))
-  })
+  output$bias_title <- renderText(if (is.null(res_on())) "Assumed bias: polling average vs. result" else "Observed bias: polling average vs. result")
+  output$freshness <- renderUI(HTML(data_status(d()$polls, d()$results)))
 
   # Beside the map: how far the scenario moves each race from its polls
   # (assumed miss plus the extra uniform shift), toward D on the left, R on the right.
@@ -1778,13 +1805,16 @@ server <- function(input, output, session) {
     div(class = "bias-tools",
         span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
              else "Drag a state's dot to set its own bias"),
+        if (!is.null(res_on()) && any(r$pending | r$counting)) span(class = "bias-key",
+          span(span(class = "bk-sw bk-pending"), "Not yet called"),
+          span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% counted", COUNTING_EEVP))),
         if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
     div(class = "bias-rows",
         lapply(seq_len(nrow(r)), function(i) {
           v <- r$move[i]
           col <- dot_col(-v)
           lo <- min(pos(0), pos(v)); hi <- max(pos(0), pos(v))
-          div(class = paste("bias-row", if (r$edited[i]) "edited"), `data-abb` = r$abb[i],
+          div(class = paste("bias-row", if (r$edited[i]) "edited", if (r$pending[i]) "pending" else if (r$counting[i]) "counting"), `data-abb` = r$abb[i],
               title = if (r$edited[i]) sprintf("%s: you set this to %s. Double-click to reset.", r$state[i], fmt_miss(v)) else
                 sprintf("%s: %s %s from the polls\n%s\nDrag to set your own.", r$state[i],
                         if (is.null(res_on())) "projection moved" else "result landed", fmt_miss(v),
@@ -2022,12 +2052,13 @@ server <- function(input, output, session) {
                 marker = list(line = list(color = SURFACE, width = 1)),
                 text = paste0("<b>", state.name[match(not_up, state.abb)], "</b><br>No Senate race in 2026"),
                 hoverinfo = "text")
-    for (b in sort(unique(r$bin))) {
-      rb <- r$bin == b
+    for (b in sort(unique(r$bin))) for (pend in c(FALSE, TRUE)) {   # not yet called: faded
+      rb <- r$bin == b & r$pending == pend
+      if (!any(rb)) next
       p <- p |> add_trace(
         type = "choropleth", locations = r$abb[rb], z = rep(1, sum(rb)),
         colorscale = list(c(0, BINS$col[b]), c(1, BINS$col[b])), showscale = FALSE,
-        marker = list(line = list(color = SURFACE, width = 1)),
+        marker = list(line = list(color = SURFACE, width = 1), opacity = if (pend) 0.45 else 1),
         text = hover[rb], hoverinfo = "text"
       )
     }
