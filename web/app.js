@@ -187,7 +187,7 @@
     return '<b>Votes counted as of ' + fmtDayTime(D.results[0].fetched_at) + '</b>, compared with the final pre-election polling averages (' +
       fmtDayTime(D.fetched_at, false) + '); ' + (out.length ? 'not yet called: ' + out.join(', ') : 'all races called') + '.';
   };
-  // Provisional results (app.R: count_status): pending = not yet called; counting = called, under COUNTING_EEVP% in.
+  // Provisional results (app.R: count_status): pending = not yet called; counting = under COUNTING_EEVP% counted.
   var COUNTING_EEVP = 95;
   var pollsByAbb = {};
   var buildRaces = function (err, shift) {
@@ -208,7 +208,7 @@
       r.bin = r.polled ? marginBin(r.proj_margin, r.opp_party) : (s.incumbent_party === 'R' ? 8 : 1);
       var x = isRes() ? resByAbb[s.abb] : null;
       r.pending = !!(x && !x.called);
-      r.counting = !!(x && x.called && x.eevp < COUNTING_EEVP);
+      r.counting = !!(x && x.eevp < COUNTING_EEVP);
       return r;
     });
   };
@@ -608,7 +608,7 @@
       var v = x.move, col = dotCol(-v), lo = Math.min(pos(0), pos(v)), hi = Math.max(pos(0), pos(v));
       var title = x.edited ? x.q.state + ': you set this to ' + fmtMiss(v) + '. Double-click to reset.'
         : x.q.state + (isRes() ? ': result landed ' : ': projection moved ') + fmtMiss(v) + ' from the polls\n' + missDetail(x.q.abb, cyc, S.types, x.q.err, sh) + '\nDrag to set your own.';
-      return '<div class="bias-row' + (x.edited ? ' edited' : '') + (x.q.pending ? ' pending' : (x.q.counting ? ' counting' : '')) + '" data-abb="' + x.q.abb + '" title="' + esc(title) + '">' +
+      return '<div class="bias-row' + (x.edited ? ' edited' : '') + (x.q.counting ? ' counting' : '') + '" data-abb="' + x.q.abb + '" title="' + esc(title) + '">' +
         '<span class="bias-st">' + x.q.abb + '</span><div class="bias-track"><span class="mid"></span>' +
         '<span class="line" style="left:' + f1(lo) + '%;width:' + f1(hi - lo) + '%;background:' + col + '"></span>' +
         '<span class="dot" style="left:' + f1(pos(v)) + '%;background:' + col + '"></span></div>' +
@@ -616,7 +616,7 @@
     }).join('');
     setHtml('bias_list', '<div class="bias-tools"><span class="bias-hint">' +
       (nSet ? nSet + ' state' + (nSet === 1 ? '' : 's') + ' set by you' : "Drag a state's dot to set its own bias") + '</span>' +
-      (isRes() && r.some(function (x) { return x.q.pending || x.q.counting; }) ? '<span class="bias-key"><span><span class="bk-sw bk-pending"></span>Not yet called</span>' +
+      (isRes() && r.some(function (x) { return x.q.counting; }) ? '<span class="bias-key">' +
         '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '% counted</span></span>' : '') +
       (nSet ? '<span class="bias-all"><a href="#" onclick="Shiny.setInputValue(\'bias_reset\', {abb: \'__all__\', t: Date.now()}); return false;">Reset all</a></span>' : '') +
       '</div><div class="bias-rows">' + rows + '</div>');

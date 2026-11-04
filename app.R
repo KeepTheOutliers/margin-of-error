@@ -209,8 +209,6 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 /* 2026 results: rows whose count is still provisional */
 .bias-tools { flex-wrap: wrap; }
 .bias-row.counting, .bk-counting { background: rgba(27, 26, 23, .07); }
-.bias-row.pending, .bk-pending { background: repeating-linear-gradient(45deg, rgba(27, 26, 23, .17) 0 3px, rgba(27, 26, 23, .04) 3px 7px); }
-.bias-row.pending .bias-st { font-style: italic; }
 .bias-key { display: flex; flex-wrap: wrap; gap: 4px 12px; width: 100%; margin-top: 3px; }
 .bias-key > span { display: inline-flex; align-items: center; }
 .bk-sw { display: inline-block; width: 16px; height: 11px; margin-right: 5px; border-radius: 2px; }
@@ -761,12 +759,12 @@ result_detail <- function(res, opp_party) {
 
 # States still being called, e.g. "AK, MS".
 uncalled <- function(results) if (is.null(results)) character(0) else sort(results$abb[!results$called])
-# Provisional results: "pending" = not yet called; "counting" = called, but under
-# COUNTING_EEVP% of the expected vote is in, so the margin may still move.
+# Provisional results: "pending" = not yet called (marked on the horseshoe and map);
+# "counting" = under COUNTING_EEVP% of the expected vote is in (shaded in the bias panel).
 COUNTING_EEVP <- 95
 count_status <- function(races, results) {
   if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE))
-  st <- transmute(results, abb, pending = !called, counting = called & eevp < COUNTING_EEVP)
+  st <- transmute(results, abb, pending = !called, counting = eevp < COUNTING_EEVP)
   races |> select(-any_of(c("pending", "counting"))) |> left_join(st, by = "abb") |>
     mutate(pending = coalesce(pending, FALSE), counting = coalesce(counting, FALSE))
 }
@@ -1805,8 +1803,7 @@ server <- function(input, output, session) {
     div(class = "bias-tools",
         span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
              else "Drag a state's dot to set its own bias"),
-        if (!is.null(res_on()) && any(r$pending | r$counting)) span(class = "bias-key",
-          span(span(class = "bk-sw bk-pending"), "Not yet called"),
+        if (!is.null(res_on()) && any(r$counting)) span(class = "bias-key",
           span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% counted", COUNTING_EEVP))),
         if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
     div(class = "bias-rows",
@@ -1814,7 +1811,7 @@ server <- function(input, output, session) {
           v <- r$move[i]
           col <- dot_col(-v)
           lo <- min(pos(0), pos(v)); hi <- max(pos(0), pos(v))
-          div(class = paste("bias-row", if (r$edited[i]) "edited", if (r$pending[i]) "pending" else if (r$counting[i]) "counting"), `data-abb` = r$abb[i],
+          div(class = paste("bias-row", if (r$edited[i]) "edited", if (r$counting[i]) "counting"), `data-abb` = r$abb[i],
               title = if (r$edited[i]) sprintf("%s: you set this to %s. Double-click to reset.", r$state[i], fmt_miss(v)) else
                 sprintf("%s: %s %s from the polls\n%s\nDrag to set your own.", r$state[i],
                         if (is.null(res_on())) "projection moved" else "result landed", fmt_miss(v),
