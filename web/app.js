@@ -481,6 +481,48 @@
   };
 
   // ---- Map (app.R: output$map) ----------------------------------------------------------
+  // State labels for the bubble chart, placed so they don't overlap each other or the dots:
+  // each label takes the first free spot from a ring of candidates around its dot, moving
+  // further out (with a thin leader line) when the close spots are taken. Pixel geometry.
+  var bubbleLabels = function (pts, lim, W, H) {
+    var R = 6.5, LH = 13, px = function (v) { return (v + lim) / (2 * lim) * W; }, py = function (v) { return (lim - v) / (2 * lim) * H; };
+    var dots = pts.map(function (p) { return { x: px(p.x), y: py(p.y) }; });
+    var boxes = [];
+    var hit = function (b) {
+      if (b.x0 < 0 || b.x1 > W || b.y0 < 0 || b.y1 > H) return true;
+      for (var i = 0; i < boxes.length; i++) { var o = boxes[i]; if (b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0) return true; }
+      for (var j = 0; j < dots.length; j++) {
+        var d = dots[j], cx = Math.max(b.x0, Math.min(d.x, b.x1)), cy = Math.max(b.y0, Math.min(d.y, b.y1));
+        if ((d.x - cx) * (d.x - cx) + (d.y - cy) * (d.y - cy) < R * R) return true;
+      }
+      return false;
+    };
+    // crowded dots first, so they get the close spots
+    var order = pts.map(function (_, i) { return i; }).sort(function (a, b) {
+      var n = function (i) { return dots.filter(function (d) { return Math.abs(d.x - dots[i].x) < 40 && Math.abs(d.y - dots[i].y) < 30; }).length; };
+      return n(b) - n(a);
+    });
+    var out = [];
+    order.forEach(function (i) {
+      var p = pts[i], d = dots[i], w = 7.2 * p.abb.length + 4, best = null;
+      var dirs = [[1, 0], [-1, 0], [0, -1], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
+      for (var k = 0; k < 4 && !best; k++) {
+        var gap = [3, 14, 28, 44][k];
+        for (var j = 0; j < dirs.length && !best; j++) {
+          var dx = dirs[j][0], dy = dirs[j][1];
+          var cx = d.x + dx * (R + gap + w / 2), cy = d.y + dy * (R + gap + LH / 2);
+          var b = { x0: cx - w / 2, x1: cx + w / 2, y0: cy - LH / 2, y1: cy + LH / 2 };
+          if (!hit(b)) best = { cx: cx, cy: cy, b: b, far: k > 0 };
+        }
+      }
+      if (!best) best = { cx: d.x + R + 3 + w / 2, cy: d.y, b: null, far: false };
+      if (best.b) boxes.push(best.b);
+      out.push({ x: p.x, y: p.y, ax: best.cx - d.x, ay: best.cy - d.y, text: p.abb, showarrow: true, arrowhead: 0, arrowwidth: 0.8,
+        arrowcolor: best.far ? C.INK_MUTED : 'rgba(0,0,0,0)', standoff: R, font: { size: 11, family: FONT, color: p.pending ? C.INK_MUTED : C.INK } });
+    });
+    return out;
+  };
+
   // ---- Polls vs. outcome (app.R: output$bubble) --------------------------------------
   // One bubble per polled race: its polling average as published (x) against where the
   // current scenario puts it (y), or the result so far in the 2026 results scenario. On the
@@ -503,22 +545,23 @@
     [false, true].forEach(function (pend) {   // not yet called: faded
       var g = r.filter(function (q) { return q.pending === pend; });
       if (!g.length) return;
-      traces.push({ type: 'scatter', mode: 'markers+text', x: g.map(function (q) { return clip(q.poll_margin); }), y: g.map(function (q) { return clip(q.proj_margin); }),
-        text: g.map(function (q) { return q.abb; }), textfont: { size: 10, family: FONT, color: g.map(function (q) { return BINS[q.bin].ink; }) },
+      traces.push({ type: 'scatter', mode: 'markers', x: g.map(function (q) { return clip(q.poll_margin); }), y: g.map(function (q) { return clip(q.proj_margin); }),
         hovertext: g.map(hover), hoverinfo: 'text', opacity: pend ? 0.5 : 1,
-        marker: { size: 23, color: g.map(function (q) { return BINS[q.bin].col; }), line: { color: C.SURFACE, width: 1.5 } } });
+        // a flip gets a dark outline
+        marker: { size: 13, color: g.map(function (q) { return BINS[q.bin].col; }),
+          line: { color: g.map(function (q) { return q.flip ? C.INK : C.SURFACE; }), width: g.map(function (q) { return q.flip ? 2.2 : 1; }) } } });
     });
-    var flips = r.filter(function (q) { return q.flip; });
-    if (flips.length) traces.push({ type: 'scatter', mode: 'markers', hoverinfo: 'skip', x: flips.map(function (q) { return clip(q.poll_margin); }),
-      y: flips.map(function (q) { return clip(q.proj_margin); }), marker: { symbol: 'circle-open', size: 31, color: C.INK, line: { width: 1.3 } } });
     var step = lim > 20 ? 10 : 5, ticks = []; for (var t = -Math.floor(lim / step) * step; t <= lim; t += step) ticks.push(t);
     var axis = function (title) {
       return { range: [-lim, lim], tickvals: ticks, ticktext: marginAxisLabels(ticks), zeroline: true, zerolinecolor: C.INK_MUTED, zerolinewidth: 1,
         gridcolor: C.GRID, color: C.INK_MUTED, fixedrange: true, title: { text: title, font: { size: 13, color: C.INK_2 } } };
     };
     var xa = axis('Polling average (as published)'), ya = axis(res ? 'Result so far' : 'Projected in this scenario');
+    var M = { t: 10, l: 64, r: 14, b: 52 };
+    var labels = bubbleLabels(r.map(function (q) { return { abb: q.abb, x: clip(q.poll_margin), y: clip(q.proj_margin), pending: q.pending }; }),
+      lim, (el.clientWidth || 900) - M.l - M.r, 520 - M.t - M.b);
     Plotly.react(el, traces, plotLayout({
-      showlegend: false, margin: { t: 10, l: 64, r: 14, b: 52 }, xaxis: xa, yaxis: ya,
+      showlegend: false, margin: M, xaxis: xa, yaxis: ya,
       shapes: [
         { type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: 0, y1: lim, fillcolor: C.D_TINT, opacity: 0.6, line: { width: 0 }, layer: 'below' },
         { type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: -lim, y1: 0, fillcolor: C.R_TINT, opacity: 0.6, line: { width: 0 }, layer: 'below' },
@@ -526,7 +569,7 @@
       annotations: [
         { x: -lim, y: -lim, xanchor: 'left', yanchor: 'bottom', showarrow: false, text: '<i>Dotted line: polls exactly right</i>', font: { size: 12, color: C.INK_2 } },
         { x: -lim, y: lim, xanchor: 'left', yanchor: 'top', showarrow: false, text: 'More Democratic than the polls ↑', font: { size: 12, color: C.D_MID } },
-        { x: lim, y: -lim, xanchor: 'right', yanchor: 'bottom', showarrow: false, text: '↓ More Republican than the polls', font: { size: 12, color: C.R_MID } }]
+        { x: lim, y: -lim, xanchor: 'right', yanchor: 'bottom', showarrow: false, text: '↓ More Republican than the polls', font: { size: 12, color: C.R_MID } }].concat(labels)
     }), PLOT_CONFIG);
   };
 
@@ -692,19 +735,24 @@
   };
 
   // ---- Historical Polling Misses (app.R: hm_err, hm_states, hm_rows, hm_grid) ------------
+  // Historical errors plus the provisional 2026 misses (app.R: errors_hm); history tab only.
+  var errorsHm = function () { return D.errors.concat(D.errors_2026 || []); };
+  var HM_EXTRA = function () { return (D.errors_2026 || []).length ? [2026] : []; };
   var raceTip = function (g) {
     return g.cycle + ' ' + (g.race_type === 'Senate' ? 'Senate' : 'president') + ': polls ' + fmtMargin(g.poll_margin) + ', result ' +
       fmtMargin(g.actual_margin) + ' (' + (Math.abs(g.error) < 0.05 ? 'polls exact'
-        : (g.error > 0 ? 'Republican' : 'Democrat') + ' beat the polls by ' + f1(Math.abs(g.error))) + ')';
+        : (g.error > 0 ? 'Republican' : 'Democrat') + ' beat the polls by ' + f1(Math.abs(g.error))) +
+      (isNum(g.eevp) ? '; provisional, ' + Math.round(g.eevp) + '% counted' : '') + ')';
   };
   var renderHistory = function () {
     var up = {}; D.seats.forEach(function (s) { up[s.abb] = 1; });
     var name = {}; D.states.forEach(function (s) { name[s.abb] = s.name; });
-    var e = D.errors.filter(function (x) {
+    var e = errorsHm().filter(function (x) {
       return S.hm_years.indexOf(x.cycle) >= 0 && (S.hm_type === 'Both' || x.race_type === S.hm_type) && (!S.hm_2026_only || up[x.abb]);
     });
-    var hid = setEq(S.hm_years, CYCLES) ? 'hm_all' : setEq(S.hm_years, MIDTERMS) ? 'hm_mid' : setEq(S.hm_years, PRES_YEARS) ? 'hm_pres'
-      : setEq(S.hm_years, TRUMP_ERA) ? 'hm_trump' : setEq(S.hm_years, TRUMP_MID) ? 'hm_tmid' : '';
+    var ex = HM_EXTRA();
+    var hid = setEq(S.hm_years, CYCLES.concat(ex)) ? 'hm_all' : setEq(S.hm_years, MIDTERMS.concat(ex)) ? 'hm_mid' : setEq(S.hm_years, PRES_YEARS) ? 'hm_pres'
+      : setEq(S.hm_years, TRUMP_ERA.concat(ex)) ? 'hm_trump' : setEq(S.hm_years, TRUMP_MID.concat(ex)) ? 'hm_tmid' : '';
     $('.hm-preset').removeClass('active'); if (hid) $('#' + hid).addClass('active');
     updateConditionals();
     if (!e.length) {
@@ -746,7 +794,7 @@
     var twoRows = Object.keys(types).length > 1;
     var yrs = []; cols.forEach(function (c) { if (yrs.indexOf(c.cycle) < 0) yrs.push(c.cycle); });
     var head1 = '<tr><th class="st"></th>' + yrs.map(function (y) {
-      return '<th class="yr" colspan="' + cols.filter(function (c) { return c.cycle === y; }).length + '">' + y + '</th>';
+      return '<th class="yr" colspan="' + cols.filter(function (c) { return c.cycle === y; }).length + '">' + y + (y === 2026 ? '*' : '') + '</th>';
     }).join('') + '<th class="av">Average</th></tr>';
     var head2 = twoRows ? '<tr><th></th>' + cols.map(function (c) { return '<th class="ty">' + (c.race_type === 'Senate' ? 'Sen' : 'Pres') + '</th>'; }).join('') + '<th></th></tr>' : '';
     var body = st.map(function (s) {
@@ -760,7 +808,8 @@
       return '<tr><td class="st">' + esc(s.state) + '</td>' + cells + '<td class="av" style="color:' + dotCol(-s.avg) + '">' + fmtMiss(s.avg) + '</td></tr>';
     }).join('');
     setHtml('hm_grid', '<div class="hm-legend"><span>' + fmtMiss(-12) + '</span><span class="ramp"></span><span>' + fmtMiss(12) +
-      '</span><span class="hm-legend-note">Numbers are the miss in points; the color says who beat the polls.</span></div>' +
+      '</span><span class="hm-legend-note">Numbers are the miss in points; the color says who beat the polls.' +
+      (yrs.indexOf(2026) >= 0 ? ' *2026 is provisional: votes still being counted.' : '') + '</span></div>' +
       '<div class="hm-grid-wrap"><table class="hm-table"><thead>' + head1 + head2 + '</thead><tbody>' + body + '</tbody></table></div>');
   };
   var natlDrawn = false;
@@ -852,7 +901,8 @@
     });
     // history tab
     $(document).on('change', 'input[name=hm_view], input[name=hm_type], input[name=hm_years], #hm_2026_only', function () { readInputs(); renderHistory(); });
-    var hmPresets = { hm_all: CYCLES, hm_mid: MIDTERMS, hm_pres: PRES_YEARS, hm_trump: TRUMP_ERA, hm_tmid: TRUMP_MID };
+    var ex = HM_EXTRA();
+    var hmPresets = { hm_all: CYCLES.concat(ex), hm_mid: MIDTERMS.concat(ex), hm_pres: PRES_YEARS, hm_trump: TRUMP_ERA.concat(ex), hm_tmid: TRUMP_MID.concat(ex) };
     Object.keys(hmPresets).forEach(function (id) {
       $('#' + id).on('click', function () { setChecks('hm_years', hmPresets[id]); readInputs(); renderHistory(); });
     });

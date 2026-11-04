@@ -457,6 +457,11 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .av-bar .mid { position: absolute; top: -5px; bottom: -5px; left: 50%; width: 1.5px; margin-left: -.75px; background: var(--ink); }
 .av-bar .fill { position: absolute; top: 11px; bottom: 11px; opacity: .3; border-radius: 2px; }
 .av-bar .avg { position: absolute; top: 4px; bottom: 4px; width: 3px; margin-left: -1.5px; border-radius: 2px; }
+/* 2026 result so far: a ring on the bar, and a line under the headline */
+.av-bar .res { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%;
+  border: 2.5px solid; background: #fff; z-index: 2; }
+.av-res { display: block; font-size: .8rem; }
+.av-res-n { font-weight: 400; color: var(--ink-muted); }
 .av-bar .dot { position: absolute; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; }
 .av-bar .dot.in { background: var(--c); opacity: .8; }
 .av-bar .dot.old { border: 1px solid var(--c); opacity: .35; }
@@ -693,6 +698,18 @@ $(document).on('mouseleave', '[data-tip]', function() {
 "
 
 # ---- Data ---------------------------------------------------------------------
+# The 2026 polling misses so far: final average minus the result counted so far, one per
+# polled race, shaped like the historical errors. Shown in the history tab (marked
+# provisional) but never used by the Historical error scenarios.
+result_misses <- function(polls, results) {
+  if (is.null(results)) return(NULL)
+  polls |>
+    filter(!is.na(poll_margin)) |>
+    inner_join(select(results, abb, margin, eevp, called), by = "abb") |>
+    transmute(cycle = 2026, abb, race_type = "Senate", poll_margin, actual_margin = margin,
+              error = poll_margin - margin, eevp, called)
+}
+
 load_data <- function() {
   needed <- file.path("data", c("race_polls.csv", "poll_errors.csv", "pollster_ratings.csv"))
   if (!all(file.exists(needed)) && !IS_BROWSER) refresh_all(history = FALSE)
@@ -709,8 +726,10 @@ load_data <- function() {
     errors = read_csv("data/poll_errors.csv", show_col_types = FALSE),
     early = if (file.exists("data/early_vote.csv")) read_csv("data/early_vote.csv", show_col_types = FALSE),
     results = if (file.exists("data/results_2026.csv")) read_csv("data/results_2026.csv", show_col_types = FALSE)
-  )
+  ) |> (\(d) { d$errors_2026 <- result_misses(d$polls, d$results); d })()
 }
+# Historical errors plus the provisional 2026 misses, for the history tab only.
+errors_hm <- function(d) bind_rows(d$errors, d$errors_2026)
 INIT <- load_data()
 
 CYCLES <- c(2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024)
@@ -718,6 +737,9 @@ MIDTERMS <- CYCLES[CYCLES %% 4 == 2]
 PRES_YEARS <- CYCLES[CYCLES %% 4 == 0]
 TRUMP_ERA <- CYCLES[CYCLES >= 2016]
 TRUMP_MID <- c(2018, 2022)
+# The history tab adds 2026 (provisional) once results are in.
+HM_EXTRA <- if (!is.null(INIT$errors_2026)) 2026 else numeric(0)
+HM_CYCLES <- c(CYCLES, HM_EXTRA)
 # Races Democrats must win for 51 seats; at 50-50 VP Vance breaks ties for R.
 NEED_FOR_CONTROL <- 51 - SEATS_NOT_UP[["D"]]
 
@@ -1176,7 +1198,9 @@ avg_header <- function() {
 
 # x: one row of seats + polls; polls: that race's individual polls,
 # drawn as dots on the same scale (filled = counted in the average, hollow = older).
-avg_row <- function(x, polls) {
+# res: the race's 2026 result so far (a row of results_2026), drawn as a ring on the bar.
+avg_row <- function(x, polls, res = NULL) {
+  has_res <- !is.null(res) && nrow(res) == 1
   m <- x$poll_margin
   w <- 50 * min(abs(m), AV_CAP) / AV_CAP
   pos <- function(v) 50 - 50 * pmax(pmin(v, AV_CAP), -AV_CAP) / AV_CAP
@@ -1194,14 +1218,23 @@ avg_row <- function(x, polls) {
       div(class = "av-state", title = "Show this state's polls",
           span(class = "av-name", x$state),
           span(class = "lp-held", paste0(x$incumbent_party, "-held", if (nzchar(note)) paste0(", ", note)))),
-      span(class = "lp-head-txt", style = sprintf("color:%s", party_col(m)), headline(m, x$opp_name, x$rep_name)),
+      span(class = "lp-head-txt", style = sprintf("color:%s", party_col(m)), headline(m, x$opp_name, x$rep_name),
+           if (has_res) span(class = "av-res", style = sprintf("color:%s", party_col(res$margin)),
+                             title = sprintf("Result so far, %.0f%% of expected vote counted%s", res$eevp, if (isTRUE(res$called)) "" else "; not yet called"),
+                             "Result: ", if (abs(res$margin) < 0.05) {   # a near-tie: say who leads, by votes
+                               sprintf("%s by %s votes", if (res$opp_votes >= res$rep_votes) x$opp_name else x$rep_name,
+                                       fmt_votes(abs(res$opp_votes - res$rep_votes)))
+                             } else headline(res$margin, x$opp_name, x$rep_name),
+                             span(class = "av-res-n", sprintf(" · %.0f%%", res$eevp)))),
       div(class = "av-bar", title = "Show this state's polls",
           span(class = "tick", style = "left:25%"), span(class = "tick", style = "left:75%"),
           span(class = "fill", style = sprintf("%s:%.1f%%;width:%.1f%%;background:%s",
                                                if (m > 0) "right" else "left", 50, w, party_col(m))),
           span(class = "mid"),
           dots,
-          span(class = "avg", style = sprintf("left:%.1f%%;background:%s", pos(m), party_col(m)))),
+          span(class = "avg", style = sprintf("left:%.1f%%;background:%s", pos(m), party_col(m))),
+          if (has_res) span(class = "res", style = sprintf("left:%.1f%%;border-color:%s", pos(res$margin), party_col(res$margin)),
+                            title = sprintf("Result so far: %s (%.0f%% counted)", fmt_margin(res$margin, x$opp_party), res$eevp))),
       div(class = "av-match", title = sprintf("%.1f%% %s (%s), %.1f%% %s (R)", x$opp_pct, x$opp_name, x$opp_party,
                                               x$rep_pct, x$rep_name),
           sprintf("%s (%s) %.1f  –  %.1f %s (R)", x$opp_name, x$opp_party, x$opp_pct, x$rep_pct, x$rep_name)),
@@ -1474,7 +1507,7 @@ ui <- page_navbar(
         h1(class = "lp-title", "Historical Polling Misses"),
         p(class = "lp-dek",
           "How far each state's final polling average landed from the actual result, Senate and presidential races ",
-          "2010-2024. ", span(class = "hm-r", "Red"), " means the Republican did better than the polls; ",
+          if (length(HM_EXTRA)) "2010-2026 (2026 provisional: votes still being counted). " else "2010-2024. ", span(class = "hm-r", "Red"), " means the Republican did better than the polls; ",
           span(class = "hm-d", "blue"), " means the Democrat (or a Democratic-aligned independent) did."),
         div(class = "lp-updated",
             "Polling average = all polls in the final 21 days. Source: Silver Bulletin raw polls, the continuation of 538's archive.")),
@@ -1497,7 +1530,9 @@ ui <- page_navbar(
             actionButton("hm_pres", "Presidential years", class = "hm-preset"),
             actionButton("hm_trump", "Trump-era years", class = "hm-preset"),
             actionButton("hm_tmid", "Trump-era midterms", class = "hm-preset"),
-            div(class = "chips", checkboxGroupInput("hm_years", NULL, choices = CYCLES, selected = CYCLES, inline = TRUE))),
+            div(class = "chips", checkboxGroupInput("hm_years", NULL, inline = TRUE, selected = HM_CYCLES,
+                                                    choiceNames = paste0(HM_CYCLES, ifelse(HM_CYCLES == 2026, "*", "")),
+                                                    choiceValues = HM_CYCLES))),
         input_switch("hm_2026_only", "Only states with a 2026 Senate race", TRUE)),
     conditionalPanel(
       "input.hm_view == 'rows'",
@@ -1519,7 +1554,8 @@ ui <- page_navbar(
     "Polling Averages",
     div(class = "lp-head",
         h1(class = "lp-title", "State Polling Averages"),
-        p(class = "lp-dek", "Silver Bulletin's polling average for every 2026 Senate race, closest first, with each poll behind it."),
+        p(class = "lp-dek", "Silver Bulletin's final polling average for every 2026 Senate race, closest first, with each poll behind it",
+          if (!is.null(INIT$results)) " and the result so far (the ring; votes still being counted, with the share counted shown)", "."),
         div(class = "lp-updated", textOutput("avg_updated", inline = TRUE))),
     div(class = "lp-filters",
         div(span(class = "lp-lab", "State"),
@@ -2060,12 +2096,12 @@ server <- function(input, output, session) {
       g <- r$pending == pend
       if (!any(g)) next
       p <- p |> add_trace(type = "scatter", mode = "markers+text", x = clip(r$poll_margin[g]), y = clip(r$proj_margin[g]), text = r$abb[g],
-                          textfont = list(size = 10, family = "Newsreader, Georgia, serif", color = BINS$ink[r$bin[g]]),
+                          textposition = "middle right", textfont = list(size = 11, family = "Newsreader, Georgia, serif", color = INK),
                           hovertext = hover[g], hoverinfo = "text", opacity = if (pend) 0.5 else 1,
-                          marker = list(size = 23, color = BINS$col[r$bin[g]], line = list(color = SURFACE, width = 1.5)))
+                          # a flip gets a dark outline (the browser build also places labels to avoid overlaps)
+                          marker = list(size = 13, color = BINS$col[r$bin[g]],
+                                        line = list(color = ifelse(r$flip[g], INK, SURFACE), width = ifelse(r$flip[g], 2.2, 1))))
     }
-    if (any(r$flip)) p <- p |> add_trace(type = "scatter", mode = "markers", hoverinfo = "skip", x = clip(r$poll_margin[r$flip]),
-                                         y = clip(r$proj_margin[r$flip]), marker = list(symbol = "circle-open", size = 31, color = INK, line = list(width = 1.3)))
     p |> layout(
       showlegend = FALSE, paper_bgcolor = "rgba(0,0,0,0)", plot_bgcolor = "rgba(0,0,0,0)",
       font = list(family = "Newsreader, Georgia, serif", color = INK_2, size = 13),
@@ -2175,7 +2211,7 @@ server <- function(input, output, session) {
 
   # Key numbers across all state-level races in the history.
   output$hm_tiles <- renderUI({
-    e <- d()$errors
+    e <- errors_hm(d())
     by_cycle <- e |> group_by(cycle) |> summarise(err = mean(error), .groups = "drop")
     by_ct <- e |> group_by(cycle, race_type) |> summarise(err = mean(error), .groups = "drop")
     worst <- by_ct[which.max(abs(by_ct$err)), ]
@@ -2191,7 +2227,7 @@ server <- function(input, output, session) {
   })
 
   output$natl_bias <- renderPlotly({
-    nb <- d()$errors |>
+    nb <- errors_hm(d()) |>
       group_by(cycle, race_type) |>
       summarise(err = mean(error), states = n(), .groups = "drop")
     lim <- 2 * ceiling((max(abs(nb$err)) + 1.5) / 2)
@@ -2199,11 +2235,14 @@ server <- function(input, output, session) {
       x <- filter(nb, race_type == t)
       plot_ly(
         x = factor(x$cycle), y = x$err, type = "bar",
-        marker = list(color = ifelse(x$err > 0, R_MID, D_MID)),
+        marker = list(color = ifelse(x$err > 0, R_MID, D_MID),
+                      # 2026: provisional, hatched
+                      pattern = list(shape = ifelse(x$cycle == 2026, "/", ""), fgcolor = "#ffffff", fgopacity = 0.55, size = 6)),
         text = fmt_miss(x$err), textposition = "outside", cliponaxis = FALSE,
         textfont = list(size = 11, color = INK_2),
-        customdata = sprintf("%s beat their polls by %.1f on average (%d states)",
-                             ifelse(x$err > 0, "Republicans", "Democrats"), abs(x$err), x$states),
+        customdata = sprintf("%s beat their polls by %.1f on average (%d states)%s",
+                             ifelse(x$err > 0, "Republicans", "Democrats"), abs(x$err), x$states,
+                             ifelse(x$cycle == 2026, "<br><i>Provisional: votes still being counted</i>", "")),
         hovertemplate = paste0("<b>%{x} ", t, "</b><br>%{customdata}<extra></extra>")
       ) |>
         layout(annotations = list(list(
@@ -2222,22 +2261,22 @@ server <- function(input, output, session) {
   })
 
   # State by state: the selected races, and each state's average (most R-favoring first).
-  observeEvent(input$hm_all, updateCheckboxGroupInput(session, "hm_years", selected = CYCLES))
-  observeEvent(input$hm_mid, updateCheckboxGroupInput(session, "hm_years", selected = MIDTERMS))
+  observeEvent(input$hm_all, updateCheckboxGroupInput(session, "hm_years", selected = HM_CYCLES))
+  observeEvent(input$hm_mid, updateCheckboxGroupInput(session, "hm_years", selected = c(MIDTERMS, HM_EXTRA)))
   observeEvent(input$hm_pres, updateCheckboxGroupInput(session, "hm_years", selected = PRES_YEARS))
-  observeEvent(input$hm_trump, updateCheckboxGroupInput(session, "hm_years", selected = TRUMP_ERA))
-  observeEvent(input$hm_tmid, updateCheckboxGroupInput(session, "hm_years", selected = TRUMP_MID))
+  observeEvent(input$hm_trump, updateCheckboxGroupInput(session, "hm_years", selected = c(TRUMP_ERA, HM_EXTRA)))
+  observeEvent(input$hm_tmid, updateCheckboxGroupInput(session, "hm_years", selected = c(TRUMP_MID, HM_EXTRA)))
   observe({
     yrs <- as.numeric(input$hm_years %||% character(0))
-    session$sendCustomMessage("hm-preset-active", if (setequal(yrs, CYCLES)) "hm_all"
-                              else if (setequal(yrs, MIDTERMS)) "hm_mid"
+    session$sendCustomMessage("hm-preset-active", if (setequal(yrs, HM_CYCLES)) "hm_all"
+                              else if (setequal(yrs, c(MIDTERMS, HM_EXTRA))) "hm_mid"
                               else if (setequal(yrs, PRES_YEARS)) "hm_pres"
-                              else if (setequal(yrs, TRUMP_ERA)) "hm_trump"
-                              else if (setequal(yrs, TRUMP_MID)) "hm_tmid"
+                              else if (setequal(yrs, c(TRUMP_ERA, HM_EXTRA))) "hm_trump"
+                              else if (setequal(yrs, c(TRUMP_MID, HM_EXTRA))) "hm_tmid"
                               else "")
   })
   hm_err <- reactive({
-    e <- d()$errors |> filter(cycle %in% as.numeric(input$hm_years %||% character(0)))
+    e <- errors_hm(d()) |> filter(cycle %in% as.numeric(input$hm_years %||% character(0)))
     if (input$hm_type != "Both") e <- filter(e, race_type == input$hm_type)
     if (isTRUE(input$hm_2026_only)) e <- filter(e, abb %in% d()$seats$abb)
     e
@@ -2250,7 +2289,8 @@ server <- function(input, output, session) {
     sprintf("%d %s: polls %s, result %s (%s)", g$cycle, ifelse(g$race_type == "Senate", "Senate", "president"),
             fmt_margin(g$poll_margin), fmt_margin(g$actual_margin),
             ifelse(abs(g$error) < 0.05, "polls exact",
-                   sprintf("%s beat the polls by %.1f", ifelse(g$error > 0, "Republican", "Democrat"), abs(g$error))))
+                   sprintf("%s beat the polls by %.1f", ifelse(g$error > 0, "Republican", "Democrat"), abs(g$error)))) |>
+      paste0(if ("eevp" %in% names(g)) ifelse(is.na(g$eevp), "", sprintf("; provisional, %.0f%% counted", g$eevp)) else "")
   }
 
   output$hm_rows <- renderUI({
@@ -2302,7 +2342,7 @@ server <- function(input, output, session) {
     two_rows <- length(unique(cols$race_type)) > 1
     yrs <- unique(cols$cycle)
     head1 <- tags$tr(tags$th(class = "st", ""),
-                     lapply(yrs, function(y) tags$th(class = "yr", colspan = sum(cols$cycle == y), y)),
+                     lapply(yrs, function(y) tags$th(class = "yr", colspan = sum(cols$cycle == y), if (y == 2026) "2026*" else y)),
                      tags$th(class = "av", "Average"))
     head2 <- if (two_rows) {
       tags$tr(tags$th(""), lapply(cols$race_type, function(t) tags$th(class = "ty", if (t == "Senate") "Sen" else "Pres")),
@@ -2323,7 +2363,8 @@ server <- function(input, output, session) {
     tagList(
       div(class = "hm-legend",
           span(fmt_miss(-12)), span(class = "ramp"), span(fmt_miss(12)),
-          span(class = "hm-legend-note", "Numbers are the miss in points; the color says who beat the polls.")),
+          span(class = "hm-legend-note", "Numbers are the miss in points; the color says who beat the polls.",
+               if (2026 %in% yrs) " *2026 is provisional: votes still being counted.")),
       div(class = "hm-grid-wrap", tags$table(class = "hm-table", tags$thead(head1, head2), tags$tbody(body)))
     )
   })
@@ -2354,7 +2395,8 @@ server <- function(input, output, session) {
     tagList(
       if (nrow(polled)) {
         tagList(avg_header(), lapply(seq_len(nrow(polled)), function(i) {
-          avg_row(polled[i, ], d()$race_polls[d()$race_polls$abb == polled$abb[i], ])
+          avg_row(polled[i, ], d()$race_polls[d()$race_polls$abb == polled$abb[i], ],
+                  if (!is.null(d()$results)) d()$results[d()$results$abb == polled$abb[i], ])
         }))
       },
       if (nrow(unpolled)) {

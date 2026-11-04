@@ -69,7 +69,8 @@ races <- d$seats |> dplyr::left_join(d$polls, by = "abb")
 polled <- races |> dplyr::filter(!is.na(poll_margin)) |> dplyr::arrange(abs(poll_margin))
 avg_rows <- lapply(seq_len(nrow(polled)), function(i) {
   list(abb = polled$abb[i],
-       html = as.character(env$avg_row(polled[i, ], d$race_polls[d$race_polls$abb == polled$abb[i], ])))
+       html = as.character(env$avg_row(polled[i, ], d$race_polls[d$race_polls$abb == polled$abb[i], ],
+                                        if (!is.null(d$results)) d$results[d$results$abb == polled$abb[i], ])))
 })
 
 # All Latest Polls: one pre-rendered row per poll, newest first.
@@ -89,7 +90,7 @@ pre <- list()
 shiny::testServer(app, {
   session$setInputs(miss_mode = "none", cycles = character(0), types = c("Senate", "President"), shift = 0,
                     seat_view = "horseshoe", ind_with_d = FALSE, hm_view = "rows", hm_type = "Both",
-                    hm_years = as.character(env$CYCLES), hm_2026_only = TRUE)
+                    hm_years = as.character(env$HM_CYCLES), hm_2026_only = TRUE)
   pre$hm_tiles <<- output$hm_tiles$html
   pre$natl_bias <<- output$natl_bias
   pre$about_unpolled <<- output$about_unpolled
@@ -106,6 +107,8 @@ out <- list(
   polls = d$polls |> dplyr::mutate(latest_poll = format(latest_poll)) |>
     dplyr::select(abb, poll_margin, opp_name, opp_party, opp_pct, rep_name, rep_pct, n_polls_in_avg, latest_poll),
   errors = d$errors[, c("cycle", "abb", "race_type", "poll_margin", "actual_margin", "error")],
+  # 2026 misses so far (history tab only, provisional)
+  errors_2026 = if (is.null(d$errors_2026)) list() else d$errors_2026,
   # 2026 vote counts so far (the "2026 results" scenario); absent before Election Day
   results = if (is.null(d$results)) list() else d$results |> dplyr::mutate(fetched_at = fmt_ts(fetched_at)) |>
     dplyr::select(abb, opp_name, opp_votes, rep_name, rep_votes, margin, eevp, called, winner, fetched_at),
