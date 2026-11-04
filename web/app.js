@@ -151,6 +151,35 @@
     D.seats.forEach(function (s) { out[s.abb] = byState[s.abb] ? mean(byState[s.abb]) : natl; });
     return out;
   };
+  // The 2026 results scenario (app.R: result_errors, result_detail, uncalled, results_status):
+  // each polled race's assumed error is its actual 2026 miss, so it lands on its result.
+  var resByAbb = {};
+  var isRes = function () { return S.miss_mode === 'actual' && (D.results || []).length > 0; };
+  var resultErrors = function () {
+    var out = {};
+    D.seats.forEach(function (s) {
+      var p = pollsByAbb[s.abb], x = resByAbb[s.abb];
+      out[s.abb] = p && isNum(p.poll_margin) && x ? p.poll_margin - x.margin : 0;
+    });
+    return out;
+  };
+  var scenErrors = function (cyc, types) { return isRes() ? resultErrors() : assumedErrors(cyc, types); };
+  var fmtVotes = function (n) { return Math.round(n).toLocaleString('en-US'); };
+  var resLead = function (x) {
+    return Math.abs(x.margin) < 0.5 ? (x.opp_votes >= x.rep_votes ? x.opp_name : x.rep_name) + ' ahead by ' + fmtVotes(Math.abs(x.opp_votes - x.rep_votes)) + ' votes' : '';
+  };
+  var resultDetail = function (x, party) {
+    if (!x) return 'No results yet';
+    var lead = resLead(x);
+    return 'Result so far: ' + fmtMargin(x.margin, party) + (lead ? ' (' + lead.replace(' ahead by ', ' leads by ') + ')' : '') + ', ' +
+      Math.round(x.eevp) + '% of expected vote counted\n' + (x.called ? 'Called for ' + x.winner : 'Not yet called');
+  };
+  var uncalled = function () { return (D.results || []).filter(function (x) { return !x.called; }).map(function (x) { return x.abb; }).sort(); };
+  var resultsStatus = function () {
+    if (!(D.results || []).length) return '';
+    var out = uncalled();
+    return '2026 results: votes counted as of ' + fmtTs(D.results[0].fetched_at) + ' UTC.' + (out.length ? ' Not yet called: ' + out.join(', ') + '.' : ' All races called.');
+  };
   var pollsByAbb = {};
   var buildRaces = function (err, shift) {
     return D.seats.map(function (s) {
@@ -188,6 +217,16 @@
       if (ka !== kb) return kb > ka ? 1 : -1;
       return a.abb < b.abb ? -1 : 1;
     });
+    if (isRes()) {   // the results scenario: the count so far in place of the projection
+      o.forEach(function (r) {
+        var x = resByAbb[r.abb], st = x ? Math.round(x.eevp) + '% counted' + (resLead(x) ? ', ' + resLead(x) : '') + ', ' + (x.called ? 'called' : 'not yet called') : 'no results yet';
+        r.tip = r.polled
+          ? r.state + '\n' + r.opp_name + ' (' + r.opp_party + ') v ' + r.rep_name + ' (R)\nPoll avg ' + fmtMargin(r.poll_margin, r.opp_party) +
+            ', result vs. polls ' + fmtError(r.err) + '\nResult ' + fmtMargin(r.proj_margin, r.opp_party) + ' (' + st + ')'
+          : r.state + '\nNo general-election polls\nResult ' + (x ? fmtMargin(x.margin) : 'n/a') + ' (' + (x ? Math.round(x.eevp) + '% counted, ' + (x.called ? 'called' : 'not yet called') : 'no results yet') + ')';
+      });
+      return o;
+    }
     o.forEach(function (r) {
       r.tip = r.polled
         ? r.state + '\n' + r.opp_name + ' (' + r.opp_party + ') v ' + r.rep_name + ' (R)\nPoll avg ' + fmtMargin(r.poll_margin, r.opp_party) +
@@ -198,6 +237,7 @@
   };
   var missDetail = function (abb, cycles, types, err, shift) {
     var shiftTxt = Math.abs(shift) >= 0.05 ? '\nPlus uniform shift: ' + fmtShift(shift) : '';
+    if (isRes()) return resultDetail(resByAbb[abb], (pollsByAbb[abb] || {}).opp_party || 'D') + shiftTxt;
     if (!cycles.length || !types.length) return 'Polls taken at face value' + shiftTxt;
     var g = D.errors.filter(function (e) { return e.abb === abb && cycles.indexOf(e.cycle) >= 0 && types.indexOf(e.race_type) >= 0; })
       .sort(function (a, b) { return a.cycle - b.cycle || (a.race_type < b.race_type ? -1 : 1); });
@@ -209,6 +249,7 @@
     return lines.join('\n') + (g.length > 1 ? '\nAverage: ' + fmtMiss(err) : '') + shiftTxt;
   };
   var scenarioTag = function (cycles, types) {
+    if (isRes()) return uncalled().length ? '2026 results (count ongoing)' : '2026 results';
     if (!cycles.length || !types.length) return 'Polls as published';
     var yrs = cycles.slice().sort();
     if (yrs.length === 1) return yrs[0] + ' polling error';
@@ -219,6 +260,11 @@
     return 'Mean polling error, ' + yrs.join(', ');
   };
   var scenarioCaption = function (cycles, types) {
+    if (isRes()) {
+      var out = uncalled();
+      return 'Each race is placed at its actual 2026 margin in the votes counted so far (AP, via The New York Times), ' +
+        "so the bias panel shows how far each state's final polling average missed." + (out.length ? ' Not yet called: ' + out.join(', ') + '.' : '');
+    }
     if (!cycles.length || !types.length) return 'Each race is projected at its current polling average as published, with no polling-error adjustment.';
     var kinds = ['Senate', 'President'].filter(function (t) { return types.indexOf(t) >= 0; })
       .map(function (t) { return t === 'Senate' ? 'Senate' : 'presidential'; }).join(' and ');
@@ -428,12 +474,14 @@
       colorscale: [[0, C.NOT_UP], [1, C.NOT_UP]], showscale: false, marker: { line: { color: C.SURFACE, width: 1 } },
       text: notUp.map(function (a) { return '<b>' + stateName[a] + '</b><br>No Senate race in 2026'; }), hoverinfo: 'text' }];
     var hover = function (r) {
-      if (!r.polled) return '<b>' + r.state + '</b><br>No general-election polling<br>Assumed safe ' + r.incumbent_party + ' hold';
+      var res = isRes();
+      if (!r.polled) return '<b>' + r.state + '</b><br>No general-election polling<br>' +
+        (res ? resultDetail(resByAbb[r.abb], 'D').replace(/\n/g, '<br>') : 'Assumed safe ' + r.incumbent_party + ' hold');
       var detail = missDetail(r.abb, cyc, S.types, r.err, 0).replace(/\n/g, '<br>');
       return '<b>' + r.state + '</b>' + (r.flip ? ' (flip)' : '') + '<br>' + r.opp_name + ' (' + r.opp_party + ') vs ' + r.rep_name +
         ' (R)<br>Poll avg: ' + fmtMargin(r.poll_margin, r.opp_party) + '  (' + r.n_polls_in_avg + ' poll' + (r.n_polls_in_avg === 1 ? '' : 's') +
-        ', latest ' + fmtShortDate(r.latest_poll) + ')<br>Assumed miss: ' + fmtError(r.err) + '<br><i>' + detail +
-        '</i><br><b>Projected: ' + fmtMargin(r.proj_margin, r.opp_party) + '</b>';
+        ', latest ' + fmtShortDate(r.latest_poll) + ')<br>' + (res ? 'Result vs. polls' : 'Assumed miss') + ': ' + fmtError(r.err) + '<br><i>' + detail +
+        '</i><br><b>' + (res ? 'Result' : 'Projected') + ': ' + fmtMargin(r.proj_margin, r.opp_party) + '</b>';
     };
     var bins = {}; races.forEach(function (r) { (bins[r.bin] = bins[r.bin] || []).push(r); });
     Object.keys(bins).map(Number).sort(function (a, b) { return a - b; }).forEach(function (b) {
@@ -477,7 +525,7 @@
 
   var renderScenario = function () {
     var cyc = selCycles(), sh = shiftD();
-    var races = buildRaces(assumedErrors(cyc, S.types), sh);
+    var races = buildRaces(scenErrors(cyc, S.types), sh);
     var totals = seatTotals(races), ordered = raceOrder(races);
 
     setText('scenario_caption', S.miss_mode === 'past' && !S.cycles.length ? 'Select at least one election year.'
@@ -517,6 +565,14 @@
         ', {priority: \'event\'})"><span class="yr-y">' + y + '</span><span class="yr-s">' +
         (t.I > 0 ? t.D + '–' + t.I + '–' + t.R : t.D + '–' + t.R) + '</span></button>';
     }).join('');
+    // Last cell: the actual 2026 miss, i.e. the seats as counted so far.
+    if ((D.results || []).length) {
+      var t = seatTotals(buildRaces(resultErrors(), shiftD())), side = controlSide(t, S.ind_with_d), out = uncalled();
+      cells += '<button type="button" class="yr-cell yr-actual ' + side + (isRes() ? ' active' : '') + '" title="2026 as counted so far: ' + t.D + ' Dem, ' +
+        t.I + ' Ind, ' + t.R + ' Rep. ' + CONTROL_LABEL[side] + '.' + (out.length ? ' Not yet called: ' + out.join(', ') + '.' : '') +
+        '" onclick="Shiny.setInputValue(\'yr_pick\', 2026, {priority: \'event\'})"><span class="yr-y">2026 result</span><span class="yr-s">' +
+        (t.I > 0 ? t.D + '–' + t.I + '–' + t.R : t.D + '–' + t.R) + '</span></button>';
+    }
     setHtml('year_strip', '<div class="yr-wrap"><div class="yr-title">Projected 2026 seats assuming each single year\'s polling error</div>' +
       '<div class="yr-strip">' + cells + '</div></div>');
   };
@@ -531,7 +587,7 @@
     var rows = r.map(function (x) {
       var v = x.move, col = dotCol(-v), lo = Math.min(pos(0), pos(v)), hi = Math.max(pos(0), pos(v));
       var title = x.edited ? x.q.state + ': you set this to ' + fmtMiss(v) + '. Double-click to reset.'
-        : x.q.state + ': projection moved ' + fmtMiss(v) + ' from the polls\n' + missDetail(x.q.abb, cyc, S.types, x.q.err, sh) + '\nDrag to set your own.';
+        : x.q.state + (isRes() ? ': result landed ' : ': projection moved ') + fmtMiss(v) + ' from the polls\n' + missDetail(x.q.abb, cyc, S.types, x.q.err, sh) + '\nDrag to set your own.';
       return '<div class="bias-row' + (x.edited ? ' edited' : '') + '" data-abb="' + x.q.abb + '" title="' + esc(title) + '">' +
         '<span class="bias-st">' + x.q.abb + '</span><div class="bias-track"><span class="mid"></span>' +
         '<span class="line" style="left:' + f1(lo) + '%;width:' + f1(hi - lo) + '%;background:' + col + '"></span>' +
@@ -693,7 +749,8 @@
         if (v.abb === '__all__') S.custom = {}; else delete S.custom[v.abb];
         renderScenario();
       } else if (name === 'yr_pick') {
-        setChecks('miss_mode', ['past']); setChecks('cycles', [v]); readInputs(); renderScenario();
+        if (v === 2026) setChecks('miss_mode', ['actual']); else { setChecks('miss_mode', ['past']); setChecks('cycles', [v]); }
+        readInputs(); renderScenario();
       } else if (name === 'drill_state') {
         setSelect('lp_state', v); setSelect('lp_pollster', 'all'); S.poll_n = 60;
         var tab = $('.navbar .nav-link').filter(function () { return $(this).text().trim() === 'All Latest Polls'; });
@@ -748,6 +805,7 @@
     });
     // data-dependent text
     setText('freshness', 'Polls updated ' + fmtTs(D.fetched_at) + '.');
+    setText('results_status', resultsStatus());
     setText('avg_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setText('lp_updated', 'Updated ' + fmtTs(D.fetched_at, true));
     setHtml('hm_tiles', D.hm_tiles);
@@ -762,6 +820,7 @@
 
   var start = function () {
     D.polls.forEach(function (p) { pollsByAbb[p.abb] = p; });
+    (D.results || []).forEach(function (x) { resByAbb[x.abb] = x; });
     initControls();
     // Shiny's tab code adds Bootstrap's nav classes and marks the first tab active; do it here.
     document.querySelectorAll('.navbar a[data-bs-toggle="tab"]').forEach(function (a) {

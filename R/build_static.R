@@ -106,6 +106,9 @@ out <- list(
   polls = d$polls |> dplyr::mutate(latest_poll = format(latest_poll)) |>
     dplyr::select(abb, poll_margin, opp_name, opp_party, opp_pct, rep_name, rep_pct, n_polls_in_avg, latest_poll),
   errors = d$errors[, c("cycle", "abb", "race_type", "poll_margin", "actual_margin", "error")],
+  # 2026 vote counts so far (the "2026 results" scenario); absent before Election Day
+  results = if (is.null(d$results)) list() else d$results |> dplyr::mutate(fetched_at = fmt_ts(fetched_at)) |>
+    dplyr::select(abb, opp_name, opp_votes, rep_name, rep_votes, margin, eevp, called, winner, fetched_at),
   states = data.frame(abb = state.abb, name = state.name, lon = state.center$x, lat = state.center$y),
   party_icon = as.list(env$PARTY_ICON_PATH),
   avg_header = as.character(env$avg_header()),

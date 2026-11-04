@@ -242,6 +242,52 @@ fetch_early_vote <- function() {
     filter(abb %in% seats_2026$abb)
 }
 
+# ---- 2026 results: The New York Times (AP vote counts) ------------------------
+# One row per race from the JSON behind the Times's Senate results page. margin is in
+# the app's convention: the leading non-Republican's share minus the leading
+# Republican's, in points of all votes counted so far. eevp = the share of the
+# expected vote counted; called = the race has been called.
+RESULTS_URL <- "https://static01.nyt.com/elections-assets/pages/data/2026-11-03/results-senate.json"
+RESULTS_PAGE <- "https://www.nytimes.com/interactive/2026/11/03/us/elections/results-senate.html"
+
+fetch_results <- function() {
+  res <- httr::GET(RESULTS_URL, httr::user_agent(UA), httr::timeout(60))
+  httr::stop_for_status(res)
+  j <- jsonlite::fromJSON(httr::content(res, as = "text", encoding = "UTF-8"), simplifyVector = FALSE)
+  if (!length(j$races)) stop("The Times's results file has changed shape; keeping cached data.")
+  rows <- lapply(j$races, function(r) {
+    ru <- r$top_reporting_unit
+    meta <- setNames(r$candidate_metadata, vapply(r$candidate_metadata, `[[`, "", "nyt_id"))
+    ids <- vapply(ru$candidates, `[[`, "", "nyt_id")
+    votes <- vapply(ru$candidates, function(c) as.numeric(c$votes$total %||% 0), 0)
+    party <- vapply(ids, function(id) meta[[id]]$party$abbreviation %||% "", "")
+    name <- vapply(ids, function(id) meta[[id]]$last_name %||% "", "")
+    share <- if (sum(votes) > 0) 100 * votes / sum(votes) else votes
+    # candidates come sorted by votes, so the first of each side leads it
+    i_r <- which(party == "Rep.")[1]; i_o <- which(party != "Rep.")[1]
+    won <- unlist(r$outcome$won)
+    tibble(abb = ru$state_postal,
+           opp_name = name[i_o], opp_votes = votes[i_o], opp_pct = share[i_o],
+           rep_name = if (is.na(i_r)) NA_character_ else name[i_r], rep_votes = if (is.na(i_r)) 0 else votes[i_r],
+           rep_pct = if (is.na(i_r)) 0 else share[i_r],
+           margin = opp_pct - rep_pct,
+           votes = sum(votes), eevp = as.numeric(ru$eevp %||% NA),
+           called = identical(r$race_call_status, "called"),
+           winner = if (length(won)) name[match(won[1], ids)] else NA_character_,
+           updated = r$updated_at %||% NA_character_)
+  })
+  bind_rows(rows) |>
+    filter(abb %in% seats_2026$abb) |>
+    mutate(across(c(opp_pct, rep_pct), \(x) round(x, 2)), margin = round(margin, 4),   # keeps tiny leads (MS: 43 votes)
+           fetched_at = format(Sys.time(), "%Y-%m-%d %H:%M", tz = "UTC"), source_url = RESULTS_PAGE)
+}
+
+# Results only (the polls stay frozen at the final pre-election update).
+refresh_results <- function(data_dir = DATA_DIR) {
+  write_csv(fetch_results(), file.path(data_dir, "results_2026.csv"))
+  invisible(TRUE)
+}
+
 # ---- Pollster ratings: Silver Bulletin --------------------------------------
 # House effect / bias: positive = leans Democratic, negative = leans Republican.
 fetch_pollster_ratings <- function() {

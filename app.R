@@ -261,7 +261,10 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .scen-title-tag { font-size: .95rem; padding: 3px 10px; margin-top: 0; }
 .t-tag { display: inline-block; margin-top: 2px; padding: 1px 8px; border-radius: 4px; font-size: .82rem; font-weight: 600;
   background: var(--accent-soft); color: var(--accent); }
-.seg.seg-full .shiny-options-group { display: flex; flex-wrap: nowrap; width: 100%; }
+.seg.seg-full .shiny-options-group { display: flex; flex-wrap: wrap; width: 100%; }
+/* A third option (2026 results) takes its own full-width row */
+.seg.seg-full .shiny-options-group label.radio-inline:nth-child(3) { flex-basis: 100%; }
+.scen-box .seg.seg-full label.radio-inline:nth-child(3) span { border-left: none; border-top: 1.5px solid var(--accent); }
 .seg.seg-full .shiny-options-group label.radio-inline { flex: 1 1 0; display: flex; }
 .seg.seg-full input + span { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px 4px; font-size: .86rem; white-space: nowrap; }
 .scen-box .scenario-caption { margin-top: 10px; }
@@ -509,6 +512,8 @@ APP_CSS <- paste0(sprintf(":root { --ink: %s; --ink-2: %s; --ink-muted: %s; --li
 .yr-cell { transition: transform .12s ease, box-shadow .12s ease; }
 .yr-cell:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(27, 26, 23, .15); border-color: var(--ink-2); }
 .yr-cell.active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
+.yr-cell.yr-actual { margin-left: 10px; font-weight: 700; }
+.freshness-final .ff-res { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--accent-line); }
 .yr-y { font-size: .74rem; color: var(--ink-2); font-variant-numeric: lining-nums; }
 .yr-s { font-size: .95rem; font-weight: 600; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
@@ -688,7 +693,8 @@ load_data <- function() {
     polls = read_csv("data/current_polls.csv", show_col_types = FALSE),
     race_polls = race_polls,
     errors = read_csv("data/poll_errors.csv", show_col_types = FALSE),
-    early = if (file.exists("data/early_vote.csv")) read_csv("data/early_vote.csv", show_col_types = FALSE)
+    early = if (file.exists("data/early_vote.csv")) read_csv("data/early_vote.csv", show_col_types = FALSE),
+    results = if (file.exists("data/results_2026.csv")) read_csv("data/results_2026.csv", show_col_types = FALSE)
   )
 }
 INIT <- load_data()
@@ -722,10 +728,41 @@ assumed_errors <- function(errors, abbs, cycles, types) {
     select(abb, err, err_src)
 }
 
+# The 2026 results as a scenario: each polled race's assumed error is its actual 2026
+# polling miss (final average minus the margin counted so far), so it lands on its result.
+result_errors <- function(polls, results, abbs) {
+  tibble(abb = abbs) |>
+    left_join(select(polls, abb, poll_margin), by = "abb") |>
+    left_join(select(results, abb, result_margin = margin), by = "abb") |>
+    mutate(err = coalesce(poll_margin - result_margin, 0), err_src = "2026 result") |>
+    select(abb, err, err_src)
+}
+
+# One race's count so far, for hover text.
+fmt_votes <- function(n) formatC(n, format = "d", big.mark = ",")
+result_detail <- function(res, opp_party) {
+  if (is.null(res) || !nrow(res)) return("No results yet")
+  lead <- abs(res$opp_votes - res$rep_votes)
+  leader <- if (res$opp_votes >= res$rep_votes) res$opp_name else res$rep_name
+  sprintf("Result so far: %s%s, %.0f%% of expected vote counted\n%s",
+          fmt_margin(res$margin, opp_party), if (abs(res$margin) < 0.5) sprintf(" (%s leads by %s votes)", leader, fmt_votes(lead)) else "",
+          res$eevp, if (isTRUE(res$called)) sprintf("Called for %s", res$winner) else "Not yet called")
+}
+
+# States still being called, e.g. "AK, MS".
+uncalled <- function(results) if (is.null(results)) character(0) else sort(results$abb[!results$called])
+results_status <- function(results) {
+  if (is.null(results)) return("")
+  out <- uncalled(results)
+  sprintf("2026 results: votes counted as of %s UTC.%s", format(as.POSIXct(results$fetched_at[1], tz = "UTC"), "%b %d, %H:%M"),
+          if (length(out)) sprintf(" Not yet called: %s.", paste(out, collapse = ", ")) else " All races called.")
+}
+
 # Hover text for one state's assumed miss: the past races behind it, so a reader
-# can tell a lasting pattern from one unusual race.
-miss_detail <- function(errors, abb, cycles, types, err, shift) {
+# can tell a lasting pattern from one unusual race. In the results scenario, the count instead.
+miss_detail <- function(errors, abb, cycles, types, err, shift, result = NULL, opp_party = "D") {
   shift_txt <- if (abs(shift) >= 0.05) sprintf("\nPlus uniform shift: %s", fmt_shift(shift)) else ""
+  if (!is.null(result)) return(paste0(result_detail(result, opp_party), shift_txt))
   if (length(cycles) == 0 || length(types) == 0) return(paste0("Polls taken at face value", shift_txt))
   g <- errors |> filter(abb == !!abb, cycle %in% cycles, race_type %in% types) |> arrange(cycle, race_type)
   if (!nrow(g)) {
@@ -738,7 +775,13 @@ miss_detail <- function(errors, abb, cycles, types, err, shift) {
          if (nrow(g) > 1) sprintf("\nAverage: %s", fmt_miss(err)) else "", shift_txt)
 }
 
-scenario_caption <- function(cycles, types) {
+scenario_caption <- function(cycles, types, results = NULL) {
+  if (!is.null(results)) {
+    out <- uncalled(results)
+    return(paste0("Each race is placed at its actual 2026 margin in the votes counted so far (AP, via The New York Times), ",
+                  "so the bias panel shows how far each state's final polling average missed.",
+                  if (length(out)) sprintf(" Not yet called: %s.", paste(out, collapse = ", ")) else ""))
+  }
   adj <- ""
   if (length(cycles) == 0 || length(types) == 0) {
     return(paste0("Each race is projected at its current polling average as published, with no polling-error adjustment.", adj))
@@ -755,7 +798,8 @@ scenario_caption <- function(cycles, types) {
 }
 
 # Short name of the active assumption, for the seat strip.
-scenario_tag <- function(cycles, types) {
+scenario_tag <- function(cycles, types, results = NULL) {
+  if (!is.null(results)) return(if (length(uncalled(results))) "2026 results (count ongoing)" else "2026 results")
   if (length(cycles) == 0 || length(types) == 0) return("Polls as published")
   yrs <- sort(cycles)
   if (length(yrs) == 1) return(sprintf("%s polling error", yrs))
@@ -814,10 +858,24 @@ party_icon_html <- function(side, size = "1em") {
 
 # Races in seat order: unpolled D holds, polled races from most Democratic to
 # most Republican, then unpolled R holds. Race NEED_FOR_CONTROL is the 51st seat.
-race_order <- function(r) {
-  r |>
+race_order <- function(r, results = NULL) {
+  r <- r |>
     mutate(key = case_when(polled ~ proj_margin, incumbent_party == "D" ~ Inf, TRUE ~ -Inf)) |>
-    arrange(desc(key), abb) |>
+    arrange(desc(key), abb)
+  if (!is.null(results)) {   # the results scenario: the count so far in place of the projection
+    res <- transmute(results, abb, res_margin = margin, eevp, called,
+                     res_lead = ifelse(abs(margin) < 0.5, sprintf(", %s ahead by %s votes",
+                                       ifelse(opp_votes >= rep_votes, opp_name, rep_name), fmt_votes(abs(opp_votes - rep_votes))), ""))
+    return(r |> left_join(res, by = "abb") |> mutate(tip = ifelse(
+      polled,
+      sprintf("%s\n%s (%s) v %s (R)\n%s %s, result vs. polls %s\nResult %s (%.0f%% counted%s, %s)",
+              state, opp_name, opp_party, rep_name, avg_label, fmt_margin(poll_margin, opp_party), fmt_error(err),
+              fmt_margin(proj_margin, opp_party), eevp, res_lead, ifelse(called, "called", "not yet called")),
+      sprintf("%s\nNo general-election polls\nResult %s (%.0f%% counted, %s)", state,
+              fmt_margin(res_margin), eevp, ifelse(called, "called", "not yet called"))
+    )) |> select(-res_margin, -eevp, -called, -res_lead))
+  }
+  r |>
     mutate(tip = ifelse(
       polled,
       sprintf("%s\n%s (%s) v %s (R)\n%s %s, assumed miss %s\nProjected %s",
@@ -1233,7 +1291,8 @@ scenario_sidebar <- sidebar(
       div(class = "scen-kicker", "Polling-error assumption"),
       div(class = "seg seg-full",
           radioButtons("miss_mode", NULL, inline = TRUE,
-                       choices = c("Polls as published" = "none", "Historical error" = "past"))),
+                       choices = c("Polls as published" = "none", "Historical error" = "past",
+                                   if (!is.null(INIT$results)) c("2026 results" = "actual")))),
       conditionalPanel(
         "input.miss_mode == 'past'",
         div(class = "scen-sub", "Shift each state's polling average by its polling error in"),
@@ -1264,7 +1323,9 @@ scenario_sidebar <- sidebar(
   # Final pre-election update; results get one more update after Election Day.
   div(class = "freshness-final", role = "status",
       div(class = "ff-head", "Final pre-election update"),
-      div(class = "ff-body", textOutput("freshness", inline = TRUE), " Results will be added once they're in.")),
+      div(class = "ff-body", textOutput("freshness", inline = TRUE),
+          if (is.null(INIT$results)) " Results will be added once they're in."),
+      if (!is.null(INIT$results)) div(class = "ff-body ff-res", textOutput("results_status", inline = TRUE))),
   if (!IS_BROWSER && !IS_STATIC) actionButton("refresh", "Refresh polls", icon = icon("rotate"), class = "btn-sm btn-outline-secondary mt-2")
 )
 
@@ -1348,7 +1409,7 @@ ui <- page_navbar(
                 div(class = "map-key", span(class = "sw", style = sprintf("background:%s", COL_NOT_UP)), "Not up in 2026"),
                 plotlyOutput("map", height = "420px")),
             div(class = "bias-panel",
-                conditionalPanel("input.miss_mode != 'past' && input.shift == 0 && !output.bias_is_custom",
+                conditionalPanel("input.miss_mode == 'none' && input.shift == 0 && !output.bias_is_custom",
                   div(class = "bias-overlay",
                       div(class = "bias-note",
                         tags$b("No polling error applied."), tags$br(),
@@ -1572,6 +1633,8 @@ ui <- page_navbar(
                   ": pollster grades and house effects, and the raw-polls archive behind the historical misses."),
           tags$li(a("The New York Times poll database", href = "https://www.nytimes.com/interactive/polls/senate-polls-2026.html", target = "_blank", .noWS = "after"),
                   ": the original source of most of the 2026 polls in Silver Bulletin's averages."),
+          tags$li(a("The New York Times 2026 Senate results", href = "https://www.nytimes.com/interactive/2026/11/03/us/elections/results-senate.html", target = "_blank", .noWS = "after"),
+                  ": the 2026 vote counts behind the 2026 results scenario (Associated Press data). Margins are of the votes counted so far."),
           if (SHOW_EARLY_VOTE) tags$li(a("UF Election Lab, 2026 early vote", href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", .noWS = "after"),
                   ": early votes cast by state, early voters' party registration, and 2022 turnout (the Early Vote tab).")
         )
@@ -1587,6 +1650,9 @@ ui <- page_navbar(
           a(class = "sb-link", href = "https://www.natesilver.net/p/nate-silver-2026-midterm-election-senate-model", target = "_blank", rel = "noopener",
             img(class = "sb-icon", src = "silver-bulletin.png", alt = ""), span("Silver Bulletin"))),
       div(class = "cr-sub", "Polling averages and poll weights, pollster ratings, historical polls"),
+      if (!is.null(INIT$results)) div(class = "cr-line cr-res", span(class = "ds-k", "2026 results"),
+          a(href = "https://www.nytimes.com/interactive/2026/11/03/us/elections/results-senate.html", target = "_blank", rel = "noopener",
+            "The New York Times / AP")),
       if (SHOW_EARLY_VOTE) div(class = "cr-line cr-ev", span(class = "ds-k", "Early vote"),
           a(href = "https://election.lab.ufl.edu/early-vote/2026-early-voting/", target = "_blank", rel = "noopener", "UF Election Lab"))),
     div(class = "credit-code",
@@ -1666,7 +1732,11 @@ server <- function(input, output, session) {
   custom <- reactive(length(bias_custom()) > 0)
   output$bias_is_custom <- reactive(custom())
   outputOptions(output, "bias_is_custom", suspendWhenHidden = FALSE)
-  err_tbl <- reactive(with_custom(assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
+  # The 2026 results scenario ("2026 results"): the actual count in place of a historical miss.
+  res_on <- reactive(if (identical(input$miss_mode, "actual") && !is.null(d()$results)) d()$results)
+  res_row <- function(abb) { r <- res_on(); if (is.null(r)) NULL else r[r$abb == abb, ] }
+  err_tbl <- reactive(with_custom(if (!is.null(res_on())) result_errors(d()$polls, res_on(), d()$seats$abb)
+                                  else assumed_errors(d()$errors, d()$seats$abb, sel_cycles(), sel_types())))
   # Slider runs D (left, negative) to R (right, positive); the model counts toward D as positive.
   shift_d <- reactive(-input$shift)
   races <- reactive(build_races(scen(), err_tbl(), shift_d()))
@@ -1675,7 +1745,7 @@ server <- function(input, output, session) {
   output$scenario_caption <- renderText({
     if (identical(input$miss_mode, "past") && !length(sel_cycles())) return("Select at least one election year.")
     if (identical(input$miss_mode, "past") && !length(sel_types())) return("Select Senate, presidential, or both.")
-    scenario_caption(sel_cycles(), sel_types())
+    scenario_caption(sel_cycles(), sel_types(), res_on())
   })
   observe({
     cy <- as.numeric(input$cycles %||% character(0))
@@ -1686,6 +1756,7 @@ server <- function(input, output, session) {
                               else if (setequal(cy, CYCLES)) "cy_all"
                               else "")
   })
+  output$results_status <- renderText(results_status(d()$results))
   output$freshness <- renderText({
     p <- d()$polls
     sprintf(if (IS_BROWSER) "Polls updated %s." else "Polls fetched %s.",
@@ -1715,8 +1786,9 @@ server <- function(input, output, session) {
           lo <- min(pos(0), pos(v)); hi <- max(pos(0), pos(v))
           div(class = paste("bias-row", if (r$edited[i]) "edited"), `data-abb` = r$abb[i],
               title = if (r$edited[i]) sprintf("%s: you set this to %s. Double-click to reset.", r$state[i], fmt_miss(v)) else
-                sprintf("%s: projection moved %s from the polls\n%s\nDrag to set your own.", r$state[i], fmt_miss(v),
-                        miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], shift_d())),
+                sprintf("%s: %s %s from the polls\n%s\nDrag to set your own.", r$state[i],
+                        if (is.null(res_on())) "projection moved" else "result landed", fmt_miss(v),
+                        miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], shift_d(), res_row(r$abb[i]), r$opp_party[i])),
               span(class = "bias-st", r$abb[i]),
               div(class = "bias-track",
                   span(class = "mid"),
@@ -1747,12 +1819,27 @@ server <- function(input, output, session) {
         span(class = "yr-s",
              if (t[["I"]] > 0) sprintf("%d–%d–%d", t[["D"]], t[["I"]], rep) else sprintf("%d–%d", t[["D"]], rep)))
     })
+    # Last cell: the actual 2026 miss, i.e. the seats as counted so far.
+    if (!is.null(d()$results)) {
+      t <- seat_totals(build_races(scen(), with_custom(result_errors(d()$polls, d()$results, d()$seats$abb)), shift_d()))
+      side <- control_side(t, input$ind_with_d)
+      out <- uncalled(d()$results)
+      cells <- c(cells, list(tags$button(
+        type = "button", class = paste("yr-cell yr-actual", side, if (!is.null(res_on())) "active"),
+        title = sprintf("2026 as counted so far: %d Dem, %d Ind, %d Rep. %s.%s", t[["D"]], t[["I"]], t[["R"]], CONTROL_LABEL[[side]],
+                        if (length(out)) sprintf(" Not yet called: %s.", paste(out, collapse = ", ")) else ""),
+        onclick = "Shiny.setInputValue('yr_pick', 2026, {priority: 'event'})",
+        span(class = "yr-y", "2026 result"),
+        span(class = "yr-s",
+             if (t[["I"]] > 0) sprintf("%d–%d–%d", t[["D"]], t[["I"]], t[["R"]]) else sprintf("%d–%d", t[["D"]], t[["R"]])))))
+    }
     div(class = "yr-wrap",
         div(class = "yr-title", "Projected 2026 seats assuming each single year's polling error"),
         div(class = "yr-strip", cells))
   })
 
   observeEvent(input$yr_pick, {
+    if (input$yr_pick == 2026) return(updateRadioButtons(session, "miss_mode", selected = "actual"))
     updateRadioButtons(session, "miss_mode", selected = "past")
     updateCheckboxGroupInput(session, "cycles", selected = as.character(input$yr_pick))
   })
@@ -1778,8 +1865,8 @@ server <- function(input, output, session) {
   })
 
   # ---- Seat views (horseshoe / ranked margins) ----
-  ordered <- reactive(race_order(races()))
-  output$scenario_title <- renderUI(span(class = "t-tag scen-title-tag", if (custom()) "Custom polling error" else paste0(scenario_tag(sel_cycles(), sel_types()),
+  ordered <- reactive(race_order(races(), res_on()))
+  output$scenario_title <- renderUI(span(class = "t-tag scen-title-tag", if (custom()) "Custom polling error" else paste0(scenario_tag(sel_cycles(), sel_types(), res_on()),
     if (shift_d() != 0) paste0(", shift ", fmt_shift(shift_d())))))
   output$horseshoe <- renderUI(horseshoe_svg(ordered(), totals(), isTRUE(input$ind_with_d)))
   # Phones only (hidden by CSS on wider screens): the horseshoe's tally, shown above the swipeable chart.
@@ -1911,15 +1998,21 @@ server <- function(input, output, session) {
     # the past races behind each state's assumed miss
     detail <- vapply(seq_len(nrow(r)), function(i) {
       if (!r$polled[i]) return("")
-      gsub("\n", "<br>", miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], 0), fixed = TRUE)
+      gsub("\n", "<br>", miss_detail(d()$errors, r$abb[i], sel_cycles(), sel_types(), r$err[i], 0, res_row(r$abb[i]), r$opp_party[i]), fixed = TRUE)
+    }, "")
+    is_res <- !is.null(res_on())
+    unpolled_txt <- vapply(seq_len(nrow(r)), function(i) {
+      if (is_res) gsub("\n", "<br>", result_detail(res_row(r$abb[i]), "D"), fixed = TRUE)
+      else sprintf("Assumed safe %s hold", r$incumbent_party[i])
     }, "")
     hover <- with(r, ifelse(
       polled,
-      sprintf("<b>%s</b>%s<br>%s (%s) vs %s (R)<br>%s: %s  (%d poll%s, latest %s)<br>Assumed miss: %s<br><i>%s</i><br><b>Projected: %s</b>",
+      sprintf("<b>%s</b>%s<br>%s (%s) vs %s (R)<br>%s: %s  (%d poll%s, latest %s)<br>%s: %s<br><i>%s</i><br><b>%s: %s</b>",
               state, ifelse(flip, " (flip)", ""), opp_name, opp_party, rep_name,
               avg_label, fmt_margin(poll_margin, opp_party), n_polls_in_avg, ifelse(n_polls_in_avg == 1, "", "s"), format(latest_poll, "%b %d"),
-              fmt_error(err), detail, fmt_margin(proj_margin, opp_party)),
-      sprintf("<b>%s</b><br>No general-election polling<br>Assumed safe %s hold", state, incumbent_party)
+              if (is_res) "Result vs. polls" else "Assumed miss", fmt_error(err), detail,
+              if (is_res) "Result" else "Projected", fmt_margin(proj_margin, opp_party)),
+      sprintf("<b>%s</b><br>No general-election polling<br>%s", state, unpolled_txt)
     ))
 
     not_up <- setdiff(state.abb, r$abb)

@@ -1,13 +1,14 @@
-# Refreshes the polling data from Silver Bulletin each day, rebuilds the static site (plain
-# HTML + JavaScript, no R in the browser, so it loads fast and traffic cannot overload it),
-# and publishes it to GitHub Pages. Also runs on every push to main and on demand.
+# Rebuilds the static site (plain HTML + JavaScript, no R in the browser, so it loads fast
+# and traffic cannot overload it) and publishes it to GitHub Pages. Also runs on every push
+# to main and on demand.
+#
+# The polls are frozen at the final pre-election update (Nov 3, 2026). After Election Day
+# the schedule refreshes only the 2026 vote counts (AP, via The New York Times).
 name: Refresh data and deploy
 
 on:
-  # Scheduled refresh turned off after the final pre-election update (Nov 3, 2026); the results
-  # update is a one-off manual run (Actions > Run workflow).
-  # schedule:
-  #   - cron: "0 13 * * *"
+  schedule:
+    - cron: "0 */3 * * *"   # every 3 hours while votes are being counted
   workflow_dispatch:
   push:
     branches: [main]
@@ -46,12 +47,13 @@ jobs:
             any::jsonlite
             any::htmltools
 
-      # Current averages and polls daily; pollster ratings and historical polls on Sundays.
-      # If Silver Bulletin is unreachable or its files change shape, keep the cached data.
-      - name: Refresh data from Silver Bulletin
+      # Polls frozen since the final pre-election update. To refresh them again, restore:
+      #   Rscript -e 'source("R/fetch_data.R"); refresh_all(history = format(Sys.Date(), "%u") == "7")'
+      # If the results file is unreachable or changes shape, keep the cached data.
+      - name: Refresh 2026 results
         if: github.event_name != 'push'
         continue-on-error: true
-        run: Rscript -e 'source("R/fetch_data.R"); refresh_all(history = format(Sys.Date(), "%u") == "7")'
+        run: Rscript -e 'source("R/fetch_data.R"); refresh_results()'
 
       - name: Commit refreshed data
         if: github.event_name != 'push'
@@ -59,7 +61,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --cached --quiet || (git commit -m "Refresh polling data" && git push)
+          git diff --cached --quiet || (git commit -m "Refresh 2026 results" && git push)
 
       - name: Build the static site
         run: Rscript R/build_static.R
