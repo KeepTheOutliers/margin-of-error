@@ -761,12 +761,14 @@ result_detail <- function(res, opp_party) {
 uncalled <- function(results) if (is.null(results)) character(0) else sort(results$abb[!results$called])
 # Provisional results: "pending" = not yet called (marked on the horseshoe and map);
 # "counting" = under COUNTING_EEVP% of the expected vote is in (shaded in the bias panel).
+# "early" = under HIDE_EEVP% in: too early to read, so left out of the bias panel.
 COUNTING_EEVP <- 95
+HIDE_EEVP <- 90
 count_status <- function(races, results) {
-  if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE))
-  st <- transmute(results, abb, pending = !called, counting = eevp < COUNTING_EEVP)
-  races |> select(-any_of(c("pending", "counting"))) |> left_join(st, by = "abb") |>
-    mutate(pending = coalesce(pending, FALSE), counting = coalesce(counting, FALSE))
+  if (is.null(results)) return(mutate(races, pending = FALSE, counting = FALSE, early = FALSE))
+  st <- transmute(results, abb, pending = !called, counting = eevp < COUNTING_EEVP, early = eevp < HIDE_EEVP)
+  races |> select(-any_of(c("pending", "counting", "early"))) |> left_join(st, by = "abb") |>
+    mutate(across(c(pending, counting, early), function(v) coalesce(v, FALSE)))
 }
 # The sidebar's one-line data status: when the votes were counted and the polls they're
 # compared with (or, before results, when the polls were last updated). Times are UTC.
@@ -1792,8 +1794,9 @@ server <- function(input, output, session) {
   # (assumed miss plus the extra uniform shift), toward D on the left, R on the right.
   output$bias_list <- renderUI({
     cap <- 10
+    early <- races() |> filter(polled, early) |> pull(abb) |> sort()
     r <- races() |>
-      filter(polled) |>
+      filter(polled, !early) |>
       mutate(edited = !is.na(custom_move),
              move = ifelse(edited, custom_move, err - shift_d())) |>     # > 0 = moved toward Republicans
       arrange(move)
@@ -1803,8 +1806,9 @@ server <- function(input, output, session) {
     div(class = "bias-tools",
         span(class = "bias-hint", if (n_set) sprintf("%d state%s set by you", n_set, if (n_set == 1) "" else "s")
              else "Drag a state's dot to set its own bias"),
-        if (!is.null(res_on()) && any(r$counting)) span(class = "bias-key",
-          span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% counted", COUNTING_EEVP))),
+        if (!is.null(res_on()) && (any(r$counting) || length(early))) span(class = "bias-key",
+          span(span(class = "bk-sw bk-counting"), sprintf("Under %d%% counted", COUNTING_EEVP)),
+          if (length(early)) span(sprintf("Not shown until %d%% counted: %s", HIDE_EEVP, paste(early, collapse = ", ")))),
         if (n_set) span(class = "bias-all", tags$a(href = "#", onclick = "Shiny.setInputValue('bias_reset', {abb: '__all__', t: Date.now()}); return false;", "Reset all"))),
     div(class = "bias-rows",
         lapply(seq_len(nrow(r)), function(i) {

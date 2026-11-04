@@ -188,7 +188,7 @@
       fmtDayTime(D.fetched_at, false) + '); ' + (out.length ? 'not yet called: ' + out.join(', ') : 'all races called') + '.';
   };
   // Provisional results (app.R: count_status): pending = not yet called; counting = under COUNTING_EEVP% counted.
-  var COUNTING_EEVP = 95;
+  var COUNTING_EEVP = 95, HIDE_EEVP = 90;   // early = under HIDE_EEVP% in: left out of the bias panel
   var pollsByAbb = {};
   var buildRaces = function (err, shift) {
     return D.seats.map(function (s) {
@@ -209,6 +209,7 @@
       var x = isRes() ? resByAbb[s.abb] : null;
       r.pending = !!(x && !x.called);
       r.counting = !!(x && x.eevp < COUNTING_EEVP);
+      r.early = !!(x && x.eevp < HIDE_EEVP);
       return r;
     });
   };
@@ -599,7 +600,8 @@
 
   var renderBiasList = function (races, cyc, sh) {
     var cap = 10, pos = function (v) { return 50 + 50 * Math.max(Math.min(v, cap), -cap) / cap; };
-    var r = races.filter(function (q) { return q.polled; }).map(function (q) {
+    var early = races.filter(function (q) { return q.polled && q.early; }).map(function (q) { return q.abb; }).sort();
+    var r = races.filter(function (q) { return q.polled && !q.early; }).map(function (q) {
       var edited = isNum(q.custom_move);
       return { q: q, edited: edited, move: edited ? q.custom_move : q.err - sh };
     }).sort(function (a, b) { return a.move - b.move; });
@@ -616,8 +618,9 @@
     }).join('');
     setHtml('bias_list', '<div class="bias-tools"><span class="bias-hint">' +
       (nSet ? nSet + ' state' + (nSet === 1 ? '' : 's') + ' set by you' : "Drag a state's dot to set its own bias") + '</span>' +
-      (isRes() && r.some(function (x) { return x.q.counting; }) ? '<span class="bias-key">' +
-        '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '% counted</span></span>' : '') +
+      (isRes() && (early.length || r.some(function (x) { return x.q.counting; })) ? '<span class="bias-key">' +
+        '<span><span class="bk-sw bk-counting"></span>Under ' + COUNTING_EEVP + '% counted</span>' +
+        (early.length ? '<span>Not shown until ' + HIDE_EEVP + '% counted: ' + early.join(', ') + '</span>' : '') + '</span>' : '') +
       (nSet ? '<span class="bias-all"><a href="#" onclick="Shiny.setInputValue(\'bias_reset\', {abb: \'__all__\', t: Date.now()}); return false;">Reset all</a></span>' : '') +
       '</div><div class="bias-rows">' + rows + '</div>');
   };
