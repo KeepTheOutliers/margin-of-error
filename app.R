@@ -1419,9 +1419,10 @@ ui <- page_navbar(
         card_header(
           div(class = "d-flex justify-content-between align-items-center flex-wrap gap-2",
               uiOutput("scenario_title", inline = TRUE),
-              div(class = "chips view-toggle", style = if (!SHOW_RANKED) "display: none;",
+              div(class = "chips view-toggle",
                   radioButtons("seat_view", NULL, inline = TRUE,
-                               choices = c("Horseshoe" = "horseshoe", "Ranked margins" = "ranked"))))
+                               choices = c("Horseshoe" = "horseshoe", "Polls vs. outcome" = "bubble",
+                                           if (SHOW_RANKED) c("Ranked margins" = "ranked")))))
         ),
         card_body(
           fillable = FALSE,
@@ -1431,6 +1432,13 @@ ui <- page_navbar(
             uiOutput("m_tally"),
             div(class = "seat-scroll", uiOutput("horseshoe")),
             div(class = "swipe-hint", "← Swipe the chart to see every seat")
+          ),
+          conditionalPanel(
+            "input.seat_view == 'bubble'",
+            div(class = "bubble-wrap", plotlyOutput("bubble", height = "520px")),
+            p(class = "seat-note", "Each polled race: its polling average as published (across) against where this scenario puts it ",
+              "(up). On the dotted line the polls were exactly right; above it the outcome is more Democratic than the polls, ",
+              "below it more Republican. Shading shows who wins. Races past 30 points sit at the edge; unpolled races aren't shown.")
           ),
           conditionalPanel(
             "input.seat_view == 'ranked'",
@@ -2028,6 +2036,50 @@ server <- function(input, output, session) {
   # Draw the ranked view even while it is hidden, so switching to it is instant.
   # (Not in the browser build: there it can run before the charting library has loaded.)
   if (!IS_BROWSER) outputOptions(output, "ranked", suspendWhenHidden = FALSE)
+  # Polls vs. outcome: each polled race's polling average (x) against the scenario (y).
+  output$bubble <- renderPlotly({
+    req(identical(input$seat_view, "bubble"))
+    is_res <- !is.null(res_on())
+    r <- races() |> filter(polled)
+    clip <- function(v) pmax(pmin(v, 30), -30)   # races past 30 sit at the edge (hover shows the real margin)
+    lim <- 5 * ceiling((max(15, abs(clip(r$poll_margin)), abs(clip(r$proj_margin))) + 2) / 5)
+    step <- if (lim > 20) 10 else 5; ticks <- seq(-floor(lim / step) * step, lim, by = step)
+    out_lab <- if (is_res) "Result so far" else "This scenario"
+    hover <- sprintf("<b>%s</b>%s<br>%s (%s) v %s (R)<br>Polling average: %s<br><b>%s: %s</b><br>%s%s%s",
+                     r$state, ifelse(r$flip, " (flip)", ""), r$opp_name, r$opp_party, r$rep_name,
+                     fmt_margin(r$poll_margin, r$opp_party), out_lab, fmt_margin(r$proj_margin, r$opp_party),
+                     if (is_res) "Result vs. polls: " else "Moved from the polls: ", fmt_error(r$poll_margin - r$proj_margin),
+                     if (is_res) ifelse(is.na(r$eevp), "", sprintf("<br>%.0f%% of expected vote counted%s", r$eevp,
+                                                                   ifelse(r$pending, ", not yet called", ""))) else "")
+    axis <- function(title) list(range = c(-lim, lim), tickvals = ticks, ticktext = margin_axis_labels(ticks), zeroline = TRUE,
+                                 zerolinecolor = INK_MUTED, zerolinewidth = 1, gridcolor = GRID, color = INK_MUTED, fixedrange = TRUE,
+                                 title = list(text = title, font = list(size = 13, color = INK_2)))
+    ya <- axis(if (is_res) "Result so far" else "Projected in this scenario")
+    p <- plot_ly()
+    for (pend in c(FALSE, TRUE)) {   # not yet called: faded
+      g <- r$pending == pend
+      if (!any(g)) next
+      p <- p |> add_trace(type = "scatter", mode = "markers+text", x = clip(r$poll_margin[g]), y = clip(r$proj_margin[g]), text = r$abb[g],
+                          textfont = list(size = 10, family = "Newsreader, Georgia, serif", color = BINS$ink[r$bin[g]]),
+                          hovertext = hover[g], hoverinfo = "text", opacity = if (pend) 0.5 else 1,
+                          marker = list(size = 23, color = BINS$col[r$bin[g]], line = list(color = SURFACE, width = 1.5)))
+    }
+    if (any(r$flip)) p <- p |> add_trace(type = "scatter", mode = "markers", hoverinfo = "skip", x = clip(r$poll_margin[r$flip]),
+                                         y = clip(r$proj_margin[r$flip]), marker = list(symbol = "circle-open", size = 31, color = INK, line = list(width = 1.3)))
+    p |> layout(
+      showlegend = FALSE, paper_bgcolor = "rgba(0,0,0,0)", plot_bgcolor = "rgba(0,0,0,0)",
+      font = list(family = "Newsreader, Georgia, serif", color = INK_2, size = 13),
+      margin = list(t = 10, l = 64, r = 14, b = 52), xaxis = axis("Polling average (as published)"), yaxis = ya,
+      shapes = list(
+        list(type = "rect", xref = "paper", x0 = 0, x1 = 1, y0 = 0, y1 = lim, fillcolor = D_TINT, opacity = 0.6, line = list(width = 0), layer = "below"),
+        list(type = "rect", xref = "paper", x0 = 0, x1 = 1, y0 = -lim, y1 = 0, fillcolor = R_TINT, opacity = 0.6, line = list(width = 0), layer = "below"),
+        list(type = "line", x0 = -lim, y0 = -lim, x1 = lim, y1 = lim, line = list(color = INK, width = 1.2, dash = "dot"), layer = "below")),
+      annotations = list(
+        list(x = -lim, y = -lim, xanchor = "left", yanchor = "bottom", showarrow = FALSE, text = "<i>Dotted line: polls exactly right</i>", font = list(size = 12, color = INK_2)),
+        list(x = -lim, y = lim, xanchor = "left", yanchor = "top", showarrow = FALSE, text = "More Democratic than the polls ↑", font = list(size = 12, color = D_MID)),
+        list(x = lim, y = -lim, xanchor = "right", yanchor = "bottom", showarrow = FALSE, text = "↓ More Republican than the polls", font = list(size = 12, color = R_MID)))
+    ) |> config(displayModeBar = FALSE)
+  })
   output$ranked_wrap <- renderUI({
     req(identical(input$seat_view, "ranked"))
     div(class = "seat-scroll seat-scroll-rk", plotlyOutput("ranked", height = "440px"))

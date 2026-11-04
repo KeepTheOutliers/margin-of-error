@@ -481,6 +481,55 @@
   };
 
   // ---- Map (app.R: output$map) ----------------------------------------------------------
+  // ---- Polls vs. outcome (app.R: output$bubble) --------------------------------------
+  // One bubble per polled race: its polling average as published (x) against where the
+  // current scenario puts it (y), or the result so far in the 2026 results scenario. On the
+  // diagonal the polls were exactly right; above it the outcome is more Democratic.
+  var drawBubble = function (races) {
+    var el = byId('bubble');
+    if (!visible(el)) return;
+    var res = isRes(), r = races.filter(function (q) { return q.polled; });
+    var BUB_CAP = 30;   // races past this sit at the edge (hover shows the real margin)
+    var clip = function (v) { return Math.max(Math.min(v, BUB_CAP), -BUB_CAP); };
+    var lim = 5 * Math.ceil((Math.max(15, Math.max.apply(null, r.map(function (q) { return Math.max(Math.abs(clip(q.poll_margin)), Math.abs(clip(q.proj_margin))); }))) + 2) / 5);
+    var outLab = res ? 'Result so far' : 'This scenario';
+    var hover = function (q) {
+      return '<b>' + q.state + '</b>' + (q.flip ? ' (flip)' : '') + '<br>' + q.opp_name + ' (' + q.opp_party + ') v ' + q.rep_name + ' (R)<br>' +
+        'Polling average: ' + fmtMargin(q.poll_margin, q.opp_party) + '<br><b>' + outLab + ': ' + fmtMargin(q.proj_margin, q.opp_party) + '</b><br>' +
+        (res ? 'Result vs. polls: ' : 'Moved from the polls: ') + fmtError(q.poll_margin - q.proj_margin) +
+        (res && isNum(q.eevp) ? '<br>' + Math.round(q.eevp) + '% of expected vote counted' + (q.pending ? ', not yet called' : '') : '');
+    };
+    var traces = [];
+    [false, true].forEach(function (pend) {   // not yet called: faded
+      var g = r.filter(function (q) { return q.pending === pend; });
+      if (!g.length) return;
+      traces.push({ type: 'scatter', mode: 'markers+text', x: g.map(function (q) { return clip(q.poll_margin); }), y: g.map(function (q) { return clip(q.proj_margin); }),
+        text: g.map(function (q) { return q.abb; }), textfont: { size: 10, family: FONT, color: g.map(function (q) { return BINS[q.bin].ink; }) },
+        hovertext: g.map(hover), hoverinfo: 'text', opacity: pend ? 0.5 : 1,
+        marker: { size: 23, color: g.map(function (q) { return BINS[q.bin].col; }), line: { color: C.SURFACE, width: 1.5 } } });
+    });
+    var flips = r.filter(function (q) { return q.flip; });
+    if (flips.length) traces.push({ type: 'scatter', mode: 'markers', hoverinfo: 'skip', x: flips.map(function (q) { return clip(q.poll_margin); }),
+      y: flips.map(function (q) { return clip(q.proj_margin); }), marker: { symbol: 'circle-open', size: 31, color: C.INK, line: { width: 1.3 } } });
+    var step = lim > 20 ? 10 : 5, ticks = []; for (var t = -Math.floor(lim / step) * step; t <= lim; t += step) ticks.push(t);
+    var axis = function (title) {
+      return { range: [-lim, lim], tickvals: ticks, ticktext: marginAxisLabels(ticks), zeroline: true, zerolinecolor: C.INK_MUTED, zerolinewidth: 1,
+        gridcolor: C.GRID, color: C.INK_MUTED, fixedrange: true, title: { text: title, font: { size: 13, color: C.INK_2 } } };
+    };
+    var xa = axis('Polling average (as published)'), ya = axis(res ? 'Result so far' : 'Projected in this scenario');
+    Plotly.react(el, traces, plotLayout({
+      showlegend: false, margin: { t: 10, l: 64, r: 14, b: 52 }, xaxis: xa, yaxis: ya,
+      shapes: [
+        { type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: 0, y1: lim, fillcolor: C.D_TINT, opacity: 0.6, line: { width: 0 }, layer: 'below' },
+        { type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: -lim, y1: 0, fillcolor: C.R_TINT, opacity: 0.6, line: { width: 0 }, layer: 'below' },
+        { type: 'line', x0: -lim, y0: -lim, x1: lim, y1: lim, line: { color: C.INK, width: 1.2, dash: 'dot' }, layer: 'below' }],
+      annotations: [
+        { x: -lim, y: -lim, xanchor: 'left', yanchor: 'bottom', showarrow: false, text: '<i>Dotted line: polls exactly right</i>', font: { size: 12, color: C.INK_2 } },
+        { x: -lim, y: lim, xanchor: 'left', yanchor: 'top', showarrow: false, text: 'More Democratic than the polls ↑', font: { size: 12, color: C.D_MID } },
+        { x: lim, y: -lim, xanchor: 'right', yanchor: 'bottom', showarrow: false, text: '↓ More Republican than the polls', font: { size: 12, color: C.R_MID } }]
+    }), PLOT_CONFIG);
+  };
+
   var drawMap = function (races) {
     var el = byId('map');
     if (!visible(el)) return;
@@ -572,6 +621,7 @@
     if (!S.scrolled && sc && visible(sc) && sc.scrollWidth > sc.clientWidth) { sc.scrollLeft = sc.scrollWidth; S.scrolled = true; }
     drawMap(races);
     drawRanked(ordered);
+    drawBubble(races);
     // quick-pick button matching the selected years
     var cy = S.cycles, id = setEq(cy, MIDTERMS) ? 'cy_mid' : setEq(cy, PRES_YEARS) ? 'cy_pres' : setEq(cy, TRUMP_ERA) ? 'cy_trump'
       : setEq(cy, TRUMP_MID) ? 'cy_tmid' : setEq(cy, CYCLES) ? 'cy_all' : '';
